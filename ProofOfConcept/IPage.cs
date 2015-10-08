@@ -8,5 +8,6 @@ namespace ProofOfConcept
 {
     public interface IPage : IContainer
     {
+        
     }
 }
