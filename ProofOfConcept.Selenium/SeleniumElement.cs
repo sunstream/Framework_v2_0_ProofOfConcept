@@ -5,7 +5,7 @@ using OpenQA.Selenium;
 
 namespace ProofOfConcept.Selenium
 {
-    class SeleniumElement : IElement
+    public class SeleniumElement : IElement
     {
         public IWebElement WebElement { get; private set; }
 
@@ -46,21 +46,11 @@ namespace ProofOfConcept.Selenium
             throw new NotImplementedException();
         }
 
-        public IElement FindElement(ILocators locators, params SearchFilter[] filters)
-        {
-            throw new NotImplementedException();
-        }
-
         public IList<IElement> FindElements(ILocator locator, params SearchFilter[] filters)
         {
             throw new NotImplementedException();
         }
-
-        public IList<IElement> FindElements(ILocators locators, params SearchFilter[] filters)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public bool Displayed
         {
             get { return WebElement.Displayed; }

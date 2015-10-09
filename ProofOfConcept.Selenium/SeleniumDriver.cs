@@ -6,15 +6,20 @@ namespace ProofOfConcept.Selenium
 {
     public class SeleniumDriver : IDriverDecorator
     {
-        private IWebDriver _driver;
+        private readonly IWebDriver _driver;
+
+        public SeleniumDriver(IWebDriver driver)
+        {
+            _driver = driver;
+        }
         
-        public IElement FindElement(ILocator locator, params ISearchFilter[] filters)
+        public IElement FindElement(ILocator locator, params SearchFilter[] filters)
         {
             IList<IElement> allElements = FindElements(locator, filters);
             return allElements.FirstOrDefault();
         }
 
-        public IList<IElement> FindElements(ILocator locator, params ISearchFilter[] filters)
+        public IList<IElement> FindElements(ILocator locator, params SearchFilter[] filters)
         {
             IList<IWebElement> webElements = FindElementsBySingleLocator(locator);
             IList<IElement> elements = WrapWebElements(webElements);
@@ -22,7 +27,7 @@ namespace ProofOfConcept.Selenium
             return filteredElements;
         }
         
-        private IList<IElement> FilterElements(IList<IElement> elements, params ISearchFilter[] filters)
+        private IList<IElement> FilterElements(IList<IElement> elements, params SearchFilter[] filters)
         {
             IList<IElement> filteredElements = new List<IElement>();
             foreach (IElement element in elements)

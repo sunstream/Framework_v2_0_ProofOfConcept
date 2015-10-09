@@ -1,18 +1,20 @@
 ﻿namespace ProofOfConcept
 {
 
-    public static class Filter
-    {
-        public static SearchFilter IsDisplayed(bool includeMatchingElements = true)
-        {
-            return new IsDisplayed(includeMatchingElements);
-        }
+    //public static class FilterType
+    //{
+    //    //public static SearchFilter ProperFilter { get; set; }
+    //    public static IsDisplayed IsDisplayed(bool includeMatchingElements = true)
+    //    {
+    //        return new IsDisplayed(includeMatchingElements);
+    //    }
 
-        public static SearchFilter HasAttribute(string attributeName, string attributeValue, bool includeMatchingElements = true)
-        {
-            return new HasAttribute(includeMatchingElements, attributeName, attributeValue);
-        }
-    }
+    //    public static HasAttribute HasAttribute(string attributeName, string attributeValue, bool includeMatchingElements = true)
+    //    {
+    //        return new HasAttribute(includeMatchingElements, attributeName, attributeValue);
+    //    }
+        
+    //}
 
     public abstract class SearchFilter
     {

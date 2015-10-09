@@ -2,8 +2,8 @@
 
 namespace ProofOfConcept
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
-    public class FindBy
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+    public class FindBy : Attribute
     {
         public FindBy(LocatorType how, String value)
         {
