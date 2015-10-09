@@ -10,23 +10,27 @@ namespace ProofOfConcept.Selenium
         
         public IElement FindElement(ILocator locator, params SearchFilter[] filters)
         {
-            
-            
+            IList<IElement> allElements = FindElements(locator, filters);
+            return allElements.FirstOrDefault();
         }
 
         public IElement FindElement(ILocators locators, params SearchFilter[] filters)
         {
-            foreach (ILocator locator in locators)
+            IList<IWebElement> webElements = FindElementsBySingleLocator(locators.First());
+            if (locators.Count > 1)
             {
-                
+                for (int i = 1; i < locators.Count; i++)
+                {
+                    IList<IWebElement> additionalWebElements = FindElementsBySingleLocator(locators[i]);
+
+                }
             }
             //locators
         }
         
         public IList<IElement> FindElements(ILocator locator, params SearchFilter[] filters)
         {
-            By seleniumLocator = SeleniumLocatorTransformer.GetNativeLocator(locator);
-            IList<IWebElement> webElements = FindElementsBySingleLocator(seleniumLocator);
+            IList<IWebElement> webElements = FindElementsBySingleLocator(locator);
             IList<IElement> elements = webElements.Select(webElement => new SeleniumElement(webElement)).Cast<IElement>().ToList();
             IList<IElement> filteredElements = FilterElements(elements);
             return filteredElements;
@@ -37,8 +41,9 @@ namespace ProofOfConcept.Selenium
             throw new System.NotImplementedException();
         }
 
-        private IList<IWebElement> FindElementsBySingleLocator(By seleniumLocator)
+        private IList<IWebElement> FindElementsBySingleLocator(ILocator locator)
         {
+            By seleniumLocator = SeleniumLocatorTransformer.GetNativeLocator(locator);
             return _driver.FindElements(seleniumLocator);
         }
 
