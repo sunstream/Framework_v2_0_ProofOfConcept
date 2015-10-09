@@ -1,6 +1,6 @@
 ﻿namespace ProofOfConcept
 {
-    public enum LocatorType
+    public class LocatorType
     {
         
     }

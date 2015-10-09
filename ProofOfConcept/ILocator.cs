@@ -7,8 +7,4 @@ namespace ProofOfConcept
          
     }
 
-    public interface ILocators : IList<ILocator>
-    {
-        
-    }
 }

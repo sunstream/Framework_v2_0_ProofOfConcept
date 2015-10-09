@@ -40,8 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElementFinder.cs" />
+    <Compile Include="IDescribable.cs" />
     <Compile Include="IElementFinder.cs" />
-    <Compile Include="Locator.cs" />
+    <Compile Include="FindBy.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="IDriverDecorator.cs" />
     <Compile Include="IContainer.cs" />
@@ -51,7 +52,7 @@
     <Compile Include="LocatorType.cs" />
     <Compile Include="PageFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchFilter.cs" />
+    <Compile Include="ISearchFilter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
