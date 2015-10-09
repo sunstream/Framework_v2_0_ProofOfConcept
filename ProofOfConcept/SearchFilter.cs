@@ -33,7 +33,7 @@
 
         public override bool Check(IElement element)
         {
-            return element.Displayed;
+            return element.Displayed ^ IncludeMatchingElements;
         }
     }
 
@@ -48,7 +48,7 @@
         }
         public override bool Check(IElement element)
         {
-            return element.GetAttribute(_attributeName) == _attributeValue;
+            return (element.GetAttribute(_attributeName) == _attributeValue) ^ IncludeMatchingElements;
         }
     }
     

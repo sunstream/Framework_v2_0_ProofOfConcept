@@ -12,9 +12,9 @@ namespace ProofOfConcept
 
         bool Equals(IElement element);
 
-        bool MatchesFilter(ISearchFilter filter);
+        bool MatchesFilter(SearchFilter filter);
 
-        bool MatchesAllFilters(params ISearchFilter[] filters);
+        bool MatchesAllFilters(params SearchFilter[] filters);
 
         string GetAttribute(string attributeName);
 
