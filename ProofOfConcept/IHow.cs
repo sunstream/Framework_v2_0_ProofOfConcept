@@ -1,6 +1,6 @@
 ﻿namespace ProofOfConcept
 {
-    public class LocatorType
+    public interface IHow
     {
         
     }

@@ -13,13 +13,13 @@ namespace ProofOfConcept.Selenium
             _driver = driver;
         }
         
-        public IElement FindElement(ILocator locator, params SearchFilter[] filters)
+        public IElement FindElement(ILocator locator, params FilterBy[] filtersBy)
         {
-            IList<IElement> allElements = FindElements(locator, filters);
+            IList<IElement> allElements = FindElements(locator, filtersBy);
             return allElements.FirstOrDefault();
         }
 
-        public IList<IElement> FindElements(ILocator locator, params SearchFilter[] filters)
+        public IList<IElement> FindElements(ILocator locator, params FilterBy[] filtersBy)
         {
             IList<IWebElement> webElements = FindElementsBySingleLocator(locator);
             IList<IElement> elements = WrapWebElements(webElements);
@@ -27,12 +27,12 @@ namespace ProofOfConcept.Selenium
             return filteredElements;
         }
         
-        private IList<IElement> FilterElements(IList<IElement> elements, params SearchFilter[] filters)
+        private IList<IElement> FilterElements(IList<IElement> elements, params FilterBy[] filtersBy)
         {
             IList<IElement> filteredElements = new List<IElement>();
             foreach (IElement element in elements)
             {
-                if (element.MatchesAllFilters(filters))
+                if (element.MatchesAllFilters(filtersBy))
                 {
                     filteredElements.Add(element);
                 }

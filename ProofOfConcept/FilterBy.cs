@@ -1,41 +1,56 @@
-﻿using System;
-
-namespace ProofOfConcept
+﻿namespace ProofOfConcept
 {
-    //[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
-    //public class FilterBy : Attribute
-    //{
-    //    private SearchFilter _filter;
-    //    public FilterBy(SearchFilter filter)
-    //    {
-    //        _filter = filter;
-    //    }
-    //}
-    //
-    //[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
-    //public class FilterByVisibility : Attribute
-    //{
-    //    public SearchFilter Filter { get; private set; }
-    //    public FilterByVisibility(bool includeMatchingElements = true)
-    //    {
-    //        Filter = new IsDisplayed(includeMatchingElements);
-    //    }
-    //}
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
-    public class FilterBy : Attribute
-    {
-        public SearchFilter filter;
-        //public FilterType FilterType { get; set; }
-        //public AttributeName 
-        //public FilterBy()
-        //{
 
-        //}
+    public abstract class FilterBy
+    {
+        protected bool IncludeMatchingElements;
+
+        protected FilterBy(bool includeMatchingElements)
+        {
+            IncludeMatchingElements = includeMatchingElements;
+        }
+        public abstract bool Check(IElement element);
     }
 
-    public enum FilterType
+    public sealed class IsDisplayed : FilterBy
     {
-        IsVisible,
-        HasAttribute
+        public IsDisplayed(bool includeMatchingElements = true) : base(includeMatchingElements)
+        {
+        }
+
+        public override bool Check(IElement element)
+        {
+            return element.Displayed ^ IncludeMatchingElements;
+        }
     }
+
+    public sealed class HasAttribute : FilterBy
+    {
+        private readonly string _attributeName;
+        private readonly string _attributeValue;
+        public HasAttribute(string attributeName, string attributeValue, bool includeMatchingElements = true)
+            : base(includeMatchingElements)
+        {
+            _attributeName = attributeName;
+            _attributeValue = attributeValue;
+        }
+        public override bool Check(IElement element)
+        {
+            return (element.GetAttribute(_attributeName) == _attributeValue) ^ IncludeMatchingElements;
+        }
+    }
+
+    //public class NoCaching : FilterBy
+    //{
+
+    //    public NoCaching() : base(true)
+    //    {
+    //    }
+    //    public override bool Check(IElement element)
+    //    {
+    //        return true;
+    //    }
+    //}
+
+    
 }

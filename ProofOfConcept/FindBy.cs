@@ -2,15 +2,15 @@
 
 namespace ProofOfConcept
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
-    public class FindBy : Attribute
+    public class FindBy : IFindBy
     {
-        public FindBy(LocatorType how, String value)
+        public string How { get; set; }
+        public string Value { get; set; }
+
+        public FindBy(string how, String value)
         {
             this.How = how;
             this.Value = value;
         }
-        public LocatorType How { get; private set; }
-        public string Value { get; private set; }
     }
 }

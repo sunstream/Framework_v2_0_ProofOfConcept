@@ -10,15 +10,15 @@ namespace ProofOfConcept
 
         bool Equals(IElement element);
 
-        bool MatchesFilter(SearchFilter filter);
+        bool MatchesFilter(FilterBy filterBy);
 
-        bool MatchesAllFilters(params SearchFilter[] filters);
+        bool MatchesAllFilters(params FilterBy[] filtersBy);
 
         string GetAttribute(string attributeName);
 
         IEnumerable<IElement> GetChildren();
 
-        
+        void Click();
 
     }
 }

@@ -41,12 +41,12 @@ namespace ProofOfConcept.Selenium
             return false;
         }
 
-        public IElement FindElement(ILocator locator, params SearchFilter[] filters)
+        public IElement FindElement(ILocator locator, params FilterBy[] filtersBy)
         {
             throw new NotImplementedException();
         }
 
-        public IList<IElement> FindElements(ILocator locator, params SearchFilter[] filters)
+        public IList<IElement> FindElements(ILocator locator, params FilterBy[] filtersBy)
         {
             throw new NotImplementedException();
         }
@@ -56,14 +56,14 @@ namespace ProofOfConcept.Selenium
             get { return WebElement.Displayed; }
         }
 
-        public bool MatchesFilter(SearchFilter filter)
+        public bool MatchesFilter(FilterBy filterBy)
         {
-            return filter.Check(this);
+            return filterBy.Check(this);
         }
 
-        public bool MatchesAllFilters(params SearchFilter[] filters)
+        public bool MatchesAllFilters(params FilterBy[] filtersBy)
         {
-            return filters.All(searchFilter => searchFilter.Check(this));
+            return filtersBy.All(searchFilter => searchFilter.Check(this));
         }
 
         public string GetAttribute(string attributeName)
@@ -72,6 +72,21 @@ namespace ProofOfConcept.Selenium
         }
 
         public IEnumerable<IElement> GetChildren()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Click()
+        {
+            WebElement.Click();
+        }
+
+        public IElement FindElement(FindBy locator, params FilterBy[] filters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<IElement> FindElements(FindBy locator, params FilterBy[] filters)
         {
             throw new NotImplementedException();
         }
