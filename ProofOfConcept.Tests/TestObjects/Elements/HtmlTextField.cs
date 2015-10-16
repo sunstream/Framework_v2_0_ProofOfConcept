@@ -3,7 +3,7 @@ using ProofOfConcept.Behaviors;
 using ProofOfConcept.Selenium;
 using ProofOfConcept.Selenium.Behaviors;
 
-namespace ProofOfConcept.Tests.TestObjects
+namespace ProofOfConcept.Tests.TestObjects.Elements
 
 {
     public class HtmlTextField : SeleniumElement, ITextEditable, ITextReadable

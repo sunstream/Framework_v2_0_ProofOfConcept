@@ -32,7 +32,7 @@ namespace ProofOfConcept
                 if (IsAnElement(pageMember))
                 {
 
-                   //3.2. Get attributes: locator (mandatory), filters/SearchConfiguration's (optional)
+                   //3.2. Get attributes: findBy (mandatory), filters/SearchConfiguration's (optional)
 	               //3.3. Specify a parent element if a page has one.
 	               //3.4. Setup a lazy proxy to the page element using attributes data. (see SeleniumHQ / PageFactory for examples; InvocationHandler in Java).
 	               //3.5. Cast the resulting object to requested type.

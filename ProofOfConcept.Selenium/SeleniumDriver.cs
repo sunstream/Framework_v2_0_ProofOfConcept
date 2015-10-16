@@ -6,6 +6,7 @@ namespace ProofOfConcept.Selenium
 {
     public class SeleniumDriver : IDriverDecorator
     {
+        private ILocatorTransformer<By> locatorTransformer = new SeleniumLocatorTransformer(); 
         private readonly IWebDriver _driver;
 
         public SeleniumDriver(IWebDriver driver)
@@ -13,15 +14,15 @@ namespace ProofOfConcept.Selenium
             _driver = driver;
         }
         
-        public IElement FindElement(ILocator locator, params FilterBy[] filtersBy)
+        public IElement FindElement(IFindBy findBy, params FilterBy[] filtersBy)
         {
-            IList<IElement> allElements = FindElements(locator, filtersBy);
+            IList<IElement> allElements = FindElements(findBy, filtersBy);
             return allElements.FirstOrDefault();
         }
 
-        public IList<IElement> FindElements(ILocator locator, params FilterBy[] filtersBy)
+        public IList<IElement> FindElements(IFindBy findBy, params FilterBy[] filtersBy)
         {
-            IList<IWebElement> webElements = FindElementsBySingleLocator(locator);
+            IList<IWebElement> webElements = FindElementsBySingleLocator(findBy);
             IList<IElement> elements = WrapWebElements(webElements);
             IList<IElement> filteredElements = FilterElements(elements);
             return filteredElements;
@@ -51,11 +52,21 @@ namespace ProofOfConcept.Selenium
             return elements;
         }
 
-        private IList<IWebElement> FindElementsBySingleLocator(ILocator locator)
+        private IList<IWebElement> FindElementsBySingleLocator(IFindBy findBy)
         {
-            By seleniumLocator = SeleniumLocatorTransformer.GetNativeLocator(locator);
+            By seleniumLocator = locatorTransformer.GetNativeLocator(findBy);
             return _driver.FindElements(seleniumLocator);
         }
         #endregion
+
+        public IElement FindElement(FindBy findBy, params FilterBy[] filters)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IList<IElement> FindElements(FindBy findBy, params FilterBy[] filters)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

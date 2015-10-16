@@ -48,7 +48,8 @@
     <Compile Include="IElement.cs" />
     <Compile Include="IDriverDecorator.cs" />
     <Compile Include="IContainer.cs" />
-    <Compile Include="ILocator.cs" />
+    <Compile Include="IFindBy.cs" />
+    <Compile Include="ILocatorTransformer.cs" />
     <Compile Include="IPage.cs" />
     <Compile Include="IPageFactory.cs" />
     <Compile Include="IHow.cs" />

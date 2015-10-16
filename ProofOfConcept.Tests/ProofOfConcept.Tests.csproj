@@ -44,12 +44,10 @@
   <ItemGroup>
     <Compile Include="PageFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestObjects\HtmlTextField.cs" />
-    <Compile Include="TestObjects\LoginPage.cs" />
+    <Compile Include="TestObjects\Elements\HtmlTextField.cs" />
+    <Compile Include="TestObjects\Pages\LoginPage.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tests\TestObjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ProofOfConcept.Selenium\ProofOfConcept.Selenium.csproj">
       <Project>{e241d265-27a0-4d3d-aef7-b6b5dd639164}</Project>

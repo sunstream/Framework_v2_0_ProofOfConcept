@@ -41,12 +41,12 @@ namespace ProofOfConcept.Selenium
             return false;
         }
 
-        public IElement FindElement(ILocator locator, params FilterBy[] filtersBy)
+        public IElement FindElement(IFindBy findBy, params FilterBy[] filtersBy)
         {
             throw new NotImplementedException();
         }
 
-        public IList<IElement> FindElements(ILocator locator, params FilterBy[] filtersBy)
+        public IList<IElement> FindElements(IFindBy findBy, params FilterBy[] filtersBy)
         {
             throw new NotImplementedException();
         }
@@ -81,12 +81,12 @@ namespace ProofOfConcept.Selenium
             WebElement.Click();
         }
 
-        public IElement FindElement(FindBy locator, params FilterBy[] filters)
+        public IElement FindElement(FindBy findBy, params FilterBy[] filters)
         {
             throw new NotImplementedException();
         }
 
-        public IList<IElement> FindElements(FindBy locator, params FilterBy[] filters)
+        public IList<IElement> FindElements(FindBy findBy, params FilterBy[] filters)
         {
             throw new NotImplementedException();
         }

@@ -14,10 +14,6 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
         [FindBy(How.Id, "loginForm")]
         public LoginForm LoginForm;
 
-        public void Login()
-        {
-            
-        }
     }
 
     public class LoginForm : IContainer
