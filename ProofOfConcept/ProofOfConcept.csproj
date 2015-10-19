@@ -51,7 +51,6 @@
     <Compile Include="ILocatorTransformer.cs" />
     <Compile Include="IPage.cs" />
     <Compile Include="IHow.cs" />
-    <Compile Include="IRelativeElementFinder.cs" />
     <Compile Include="PageFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FilterBy.cs" />

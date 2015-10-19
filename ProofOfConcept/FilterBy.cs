@@ -17,10 +17,13 @@ namespace ProofOfConcept
             IncludeMatchingElements = includeMatchingElements;
         }
         public abstract bool Check(IElement element);
-        public string Describe()
+
+        public string DescribeIncludeRule()
         {
-            return String.Empty;
+            return (IncludeMatchingElements ? "Include" : "Exclude");
         }
+
+        public abstract string Describe();
     }
 
     public sealed class IsDisplayed : FilterBy
@@ -32,6 +35,11 @@ namespace ProofOfConcept
         public override bool Check(IElement element)
         {
             return element.Displayed ^ IncludeMatchingElements;
+        }
+
+        public override string Describe()
+        {
+            return string.Format("{0} only visible", DescribeIncludeRule());
         }
     }
 
@@ -49,29 +57,41 @@ namespace ProofOfConcept
         {
             return (element.GetAttribute(_attributeName) == _attributeValue) ^ IncludeMatchingElements;
         }
+        public override string Describe()
+        {
+            return string.Format("{0} elements with attribute {1} = {2}", DescribeIncludeRule(), _attributeName, _attributeValue);
+        }
     }
 
     public sealed class WithTimeout : FilterBy
     {
         public TimeSpan Timeout;
+        public WithTimeout(TimeSpan timeout)
+        {
+            Timeout = timeout;
+        }
         public override bool Check(IElement element)
         {
             return true;
         }
+        public override string Describe()
+        {
+            return string.Format("Element should be found within {0} seconds, or considered absent.", Timeout.TotalSeconds);
+        }
         
     }
 
-    //public class NoCaching : FilterBy
-    //{
-
-    //    public NoCaching() : base(true)
-    //    {
-    //    }
-    //    public override bool Check(IElement element)
-    //    {
-    //        return true;
-    //    }
-    //}
+    public class NoCaching : FilterBy
+    {
+        public override bool Check(IElement element)
+        {
+            return true;
+        }
+        public override string Describe()
+        {
+            return string.Format("Element should always be looked up from scratch (no caching allowed).");
+        }
+    }
 
     
 }

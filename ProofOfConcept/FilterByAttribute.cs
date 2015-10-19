@@ -25,5 +25,21 @@ namespace ProofOfConcept
         }
     }
 
+    public sealed class WithTimeoutAttribute : FilterByAttribute
+    {
+        public WithTimeoutAttribute(TimeSpan timeSpan)
+        {
+            FilterBy = new WithTimeout(timeSpan);
+        }
+    }
+
+    public sealed class NoCachingAttribute : FilterByAttribute
+    {
+        public NoCachingAttribute()
+        {
+            FilterBy = new NoCaching();
+        }
+    }
+
     
 }

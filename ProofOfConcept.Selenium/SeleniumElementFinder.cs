@@ -8,17 +8,20 @@ using OpenQA.Selenium;
 
 namespace ProofOfConcept.Selenium
 {
-    public class SeleniumElementFinder : IDescribable, IElementFinder<IWebElement>
+    public class SeleniumElementFinder : IElementFinder<IWebElement>, IDescribable
     {
-        //TODO: get default time span from configuration file
-        private readonly TimeSpan DefaultTimeSpan = TimeSpan.FromSeconds(5);
-        private readonly ILocatorTransformer<By> _locatorTransformer = new SeleniumLocatorTransformer();
         public FindBy FindBy { get; set; }
         public IElement ParentElement { get; set; }
         public FilterBy[] Filters { get; set; }
-        public bool ReturnAllFound { get; set; }
+
         public IWebDriver Driver;
+
+        //TODO: get default time span from configuration file
+        //TODO: use default value from ElementService
         private TimeSpan? _timeout;
+
+        private readonly TimeSpan DefaultTimeSpan = TimeSpan.FromSeconds(5);
+        private readonly ILocatorTransformer<By> _locatorTransformer = new SeleniumLocatorTransformer();
 
         public SeleniumElementFinder(FindBy findBy, IElement parentElement = null, params FilterBy[] filters)
         {
@@ -33,7 +36,7 @@ namespace ProofOfConcept.Selenium
             string description = string.Format("Looking up elements by the following parameters:{0}1) locator = '{1}{0}; 2) filters: {2}", 
                 Environment.NewLine, 
                 nativeLocator, 
-                String.Join(";" + Environment.NewLine, Filters.Select(s => s.Describe())));
+                String.Join(string.Format("{0}\\t", Environment.NewLine), Filters.Select(s => s.Describe())));
             return description;
         }
 
@@ -57,19 +60,7 @@ namespace ProofOfConcept.Selenium
         {
             SetTimeout();
             IList<IElement> elements;
-            IWebElement container = null;
-            if (ParentElement != null)
-            {
-                if (ParentElement.Exists)
-                {
-                    container = ((SeleniumElement) ParentElement).WebElement;
-                }
-                else
-                {
-                    throw new ArgumentException("Parent element does not match any real element on the page.");
-                }
-            }
-
+            IWebElement container = GetParentIfExists();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             do
@@ -96,7 +87,24 @@ namespace ProofOfConcept.Selenium
             {
                 _timeout = DefaultTimeSpan;
             }
-        } 
+        }
+
+        public IWebElement GetParentIfExists()
+        {
+            IWebElement container = null;
+            if (ParentElement != null)
+            {
+                if (ParentElement.Exists)
+                {
+                    container = ((SeleniumElement)ParentElement).WebElement;
+                }
+                else
+                {
+                    throw new ArgumentException("Parent element does not match any real element on the page.");
+                }
+            }
+            return container;
+        }
 
         public IList<IWebElement> Find(IWebElement container = null)
         {
@@ -105,22 +113,7 @@ namespace ProofOfConcept.Selenium
             return nativeElements;
         }
 
-        IList<IElement> IElementFinder<IWebElement>.Wrap(IList<IWebElement> nativeElements)
-        {
-            return Wrap(nativeElements);
-        }
-
-        IElement IElementFinder<IWebElement>.Wrap(IWebElement nativeElement)
-        {
-            return Wrap(nativeElement);
-        }
-
-        IList<IElement> IElementFinder<IWebElement>.Filter(IList<IElement> elements)
-        {
-            return Filter(elements);
-        }
-
-        private IList<IElement> Wrap(IList<IWebElement> nativeElements)
+        public IList<IElement> Wrap(IList<IWebElement> nativeElements)
         {
             IList<IElement> elements = new List<IElement>();
             foreach (var nativeElement in nativeElements)
@@ -130,14 +123,14 @@ namespace ProofOfConcept.Selenium
             return elements;
         }
 
-        private IElement Wrap(IWebElement nativeElement)
+        public IElement Wrap(IWebElement nativeElement)
         {
             SeleniumElement wrappedElement = new SeleniumElement(this);
             wrappedElement.WebElement = nativeElement;
             return wrappedElement;
         }
 
-        private IList<IElement> Filter(IList<IElement> elements)
+        public IList<IElement> Filter(IList<IElement> elements)
         {
             IList<IElement> filteredElements = new List<IElement>();
             foreach (var element in elements)
@@ -149,5 +142,6 @@ namespace ProofOfConcept.Selenium
             }
             return filteredElements;
         }
+
     }
 }

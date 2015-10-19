@@ -5,11 +5,13 @@ namespace ProofOfConcept
 {
     public interface IElementFinder<TNativeElementType>
     {
-        TNativeElementType GetNativeElement();
-
         IElement FindFirst();
 
         IList<IElement> FindAll();
+
+        TNativeElementType GetNativeElement();
+
+        TNativeElementType GetParentIfExists();
 
         IList<TNativeElementType> Find(TNativeElementType container);
 
