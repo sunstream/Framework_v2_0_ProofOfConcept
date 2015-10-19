@@ -6,10 +6,10 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
     class LoginPage : IPage
     {
 
-        //URL: https://roadshowaccess.qx.ipreo.com/
+        public static string Url = "https://roadshowaccess.qx.ipreo.com/";
 
-        public string Login = "qainvestor@ipreo.com";
-        public string Password = "Password1";
+        public string LoginValue = "qainvestor@ipreo.com";
+        public string PasswordValue = "Password1";
 
         [FindBy(How.Id, "loginForm")]
         public LoginForm LoginForm;

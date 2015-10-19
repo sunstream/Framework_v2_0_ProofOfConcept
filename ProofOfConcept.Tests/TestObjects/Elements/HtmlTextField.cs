@@ -9,7 +9,7 @@ namespace ProofOfConcept.Tests.TestObjects.Elements
     public class HtmlTextField : SeleniumElement, ITextEditable, ITextReadable
     {
         private readonly TextFieldBehavior _textFieldBehavior;
-        public HtmlTextField(IWebElement webElement) : base(webElement)
+        public HtmlTextField(IElementFinder<IWebElement> searchConfiguration) : base(searchConfiguration)
         {
             _textFieldBehavior = new TextFieldBehavior(this);
         }

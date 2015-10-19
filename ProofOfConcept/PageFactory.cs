@@ -5,12 +5,12 @@ using System.Reflection;
 
 namespace ProofOfConcept
 {
-    public class ElementFactory : IPageFactory
+    public class PageFactory
     {
-        public IDriverDecorator DriverDecorator { get; set; }
+        private IDriverDecorator DriverDecorator { get; set; }
         //private Type _requestedPageType;
 
-        public T GetPage<T>(IElement containerElement = null) where T : IContainer, new()
+        public static T GetPage<T>(IElement containerElement = null) where T : IContainer, new()
         {
             T result = new T();
 
@@ -41,30 +41,30 @@ namespace ProofOfConcept
             return result;
         }
 
-        public T GetContainer<T>(IElement containerElement) where T : IContainer, new()
+        public static T GetContainer<T>(IElement containerElement) where T : IContainer, new()
         {
             return GetPage<T>(containerElement);
         }
         
         #region Private Methods
 
-        private IContainer InitializeComplexControl(MemberInfo pageMember)
+        private static IContainer InitializeComplexControl(MemberInfo pageMember)
         {
             IElement containerElementForComplexControl = GetContainerElementFromAttributes(pageMember);
             Type complexControlType = pageMember.DeclaringType;
-            MethodInfo getPageMethod = GetType().GetMethod("GetPage").MakeGenericMethod(complexControlType);
+            MethodInfo getPageMethod = (typeof(PageFactory)).GetMethod("GetPage").MakeGenericMethod(complexControlType);
             object[] getPageMethodArguments = { containerElementForComplexControl };
-            IContainer complexControlInstance = (IContainer)getPageMethod.Invoke(this, getPageMethodArguments);
+            IContainer complexControlInstance = (IContainer)getPageMethod.Invoke(null, getPageMethodArguments);
 
             return complexControlInstance;
         }
 
-        private IElement GetContainerElementFromAttributes(MemberInfo pageMember)
+        private static IElement GetContainerElementFromAttributes(MemberInfo pageMember)
         {
             return null;
         }
 
-        private IEnumerable<MemberInfo> ExtractPageMembers(Type requestedPageType)
+        private static IEnumerable<MemberInfo> ExtractPageMembers(Type requestedPageType)
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
             IEnumerable<MemberInfo> pageMembers =
@@ -73,18 +73,18 @@ namespace ProofOfConcept
                 select pageMember;
             return pageMembers;
         }
-        
-        private bool IsAnElement(MemberInfo pageMember)
+
+        private static bool IsAnElement(MemberInfo pageMember)
         {
             return IsOfType(pageMember, typeof (IElement));
         }
 
-        private bool IsAComplexControl(MemberInfo pageMember)
+        private static bool IsAComplexControl(MemberInfo pageMember)
         {
             return IsOfType(pageMember, typeof (IContainer));
         }
 
-        private bool IsOfType(MemberInfo pageMember, Type expectedType)
+        private static bool IsOfType(MemberInfo pageMember, Type expectedType)
         {
             try
             {

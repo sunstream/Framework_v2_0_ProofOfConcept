@@ -2,8 +2,10 @@
 
 namespace ProofOfConcept
 {
-    public interface IDriverDecorator : IElementFinder
+    public interface IDriverDecorator
     {
-        
+        void NavigateTo(string url);
+
+        string GetCurrentUrl();
     }
 }

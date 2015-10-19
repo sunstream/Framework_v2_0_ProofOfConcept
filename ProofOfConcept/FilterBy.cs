@@ -1,15 +1,26 @@
-﻿namespace ProofOfConcept
+﻿using System;
+
+namespace ProofOfConcept
 {
 
-    public abstract class FilterBy
+    public abstract class FilterBy : IDescribable
     {
         protected bool IncludeMatchingElements;
+
+        protected FilterBy()
+        {
+            IncludeMatchingElements = true;
+        }
 
         protected FilterBy(bool includeMatchingElements)
         {
             IncludeMatchingElements = includeMatchingElements;
         }
         public abstract bool Check(IElement element);
+        public string Describe()
+        {
+            return String.Empty;
+        }
     }
 
     public sealed class IsDisplayed : FilterBy
@@ -38,6 +49,16 @@
         {
             return (element.GetAttribute(_attributeName) == _attributeValue) ^ IncludeMatchingElements;
         }
+    }
+
+    public sealed class WithTimeout : FilterBy
+    {
+        public TimeSpan Timeout;
+        public override bool Check(IElement element)
+        {
+            return true;
+        }
+        
     }
 
     //public class NoCaching : FilterBy

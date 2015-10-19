@@ -3,11 +3,20 @@ using System.Collections.Generic;
 
 namespace ProofOfConcept
 {
-    public interface IElementFinder
+    public interface IElementFinder<TNativeElementType>
     {
-        IElement FindElement(FindBy findBy, params FilterBy[] filters);
+        TNativeElementType GetNativeElement();
 
-        IList<IElement> FindElements(FindBy findBy, params FilterBy[] filters);
-        
+        IElement FindFirst();
+
+        IList<IElement> FindAll();
+
+        IList<TNativeElementType> Find(TNativeElementType container);
+
+        IList<IElement> Wrap(IList<TNativeElementType> nativeElements);
+
+        IElement Wrap(TNativeElementType nativeElement);
+
+        IList<IElement> Filter(IList<IElement> elements);
     }
 }

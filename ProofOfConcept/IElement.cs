@@ -2,7 +2,7 @@
 
 namespace ProofOfConcept
 {
-    public interface IElement : IElementFinder
+    public interface IElement
     {
         bool Displayed { get; }
 

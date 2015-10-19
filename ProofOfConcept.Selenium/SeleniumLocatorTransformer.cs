@@ -6,7 +6,7 @@ namespace ProofOfConcept.Selenium
 {
     public class SeleniumLocatorTransformer : ILocatorTransformer<By>
     {
-        public By GetNativeLocator(IFindBy findBy)
+        public By GetNativeLocator(FindBy findBy)
         {
             string value = findBy.Value;
             By result;

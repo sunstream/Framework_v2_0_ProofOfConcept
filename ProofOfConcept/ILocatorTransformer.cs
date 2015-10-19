@@ -1,7 +1,7 @@
 ﻿namespace ProofOfConcept
 {
-    public interface ILocatorTransformer<T>
+    public interface ILocatorTransformer<TNativeLocatorType>
     {
-        T GetNativeLocator(IFindBy findBy);
+        TNativeLocatorType GetNativeLocator(FindBy findBy);
     }
 }

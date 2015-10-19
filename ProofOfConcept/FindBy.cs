@@ -2,7 +2,7 @@
 
 namespace ProofOfConcept
 {
-    public class FindBy : IFindBy
+    public class FindBy
     {
         public string How { get; set; }
         public string Value { get; set; }

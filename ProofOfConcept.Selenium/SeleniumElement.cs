@@ -7,13 +7,32 @@ namespace ProofOfConcept.Selenium
 {
     public class SeleniumElement : IElement
     {
-        public IWebElement WebElement { get; private set; }
-
-        public SeleniumElement(IWebElement webElement)
+        public IWebElement WebElement
         {
-            WebElement = webElement;
+            get
+            {
+                if (_webElement == null || !Exists )
+                {
+                    if (SearchConfiguration == null)
+                    {
+                        throw new Exception("No element, no search criteria");
+                    }
+                    _webElement = SearchConfiguration.GetNativeElement();
+                }
+                return _webElement;
+            }
+            set { _webElement = value; }
         }
-        
+
+        public IElementFinder<IWebElement> SearchConfiguration { get; set; }
+
+        private IWebElement _webElement;
+       
+        public SeleniumElement(IElementFinder<IWebElement> searchCofiguration)
+        {
+            this.SearchConfiguration = searchCofiguration;
+        }
+
         public bool Exists
         {
             get
@@ -41,16 +60,6 @@ namespace ProofOfConcept.Selenium
             return false;
         }
 
-        public IElement FindElement(IFindBy findBy, params FilterBy[] filtersBy)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<IElement> FindElements(IFindBy findBy, params FilterBy[] filtersBy)
-        {
-            throw new NotImplementedException();
-        }
-        
         public bool Displayed
         {
             get { return WebElement.Displayed; }
@@ -80,6 +89,11 @@ namespace ProofOfConcept.Selenium
         {
             WebElement.Click();
         }
+
+        //public void Validate()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public IElement FindElement(FindBy findBy, params FilterBy[] filters)
         {
