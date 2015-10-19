@@ -8,9 +8,9 @@ namespace ProofOfConcept.Selenium
 {
     public class SeleniumElementFinder : IElementFinder<IWebElement>, IDescribable
     {
-        public FindBy FindBy { get; set; }
-        public IElement ParentElement { get; set; }
-        public FilterBy[] Filters { get; set; }
+        public FindBy FindBy { get; private set; }
+        public FilterBy[] Filters { get; private set; }
+        public IElement ParentElement { get; private set; }
 
         private bool? _isCachingAllowed;
         public bool IsCachingAllowed
