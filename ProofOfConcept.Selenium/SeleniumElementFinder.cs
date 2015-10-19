@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Linq;
 using OpenQA.Selenium;
 
@@ -14,12 +12,33 @@ namespace ProofOfConcept.Selenium
         public IElement ParentElement { get; set; }
         public FilterBy[] Filters { get; set; }
 
+        private bool? _isCachingAllowed;
+        public bool IsCachingAllowed
+        {
+            get
+            {
+                if (_isCachingAllowed == null)
+                {
+                    foreach (var filterBy in Filters)
+                    {
+                        if (filterBy is NoCaching)
+                        {
+                            _isCachingAllowed = false;
+                            break;
+                        }
+                    }
+                }
+                return _isCachingAllowed.GetValueOrDefault(true);
+            }
+            set { _isCachingAllowed = value; }
+        }
+
         public IWebDriver Driver;
 
         //TODO: get default time span from configuration file
         //TODO: use default value from ElementService
         private TimeSpan? _timeout;
-
+        
         private readonly TimeSpan DefaultTimeSpan = TimeSpan.FromSeconds(5);
         private readonly ILocatorTransformer<By> _locatorTransformer = new SeleniumLocatorTransformer();
 

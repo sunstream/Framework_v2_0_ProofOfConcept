@@ -5,6 +5,8 @@ namespace ProofOfConcept
 {
     public interface IElementFinder<TNativeElementType>
     {
+        bool IsCachingAllowed { get; set; }
+
         IElement FindFirst();
 
         IList<IElement> FindAll();

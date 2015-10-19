@@ -11,7 +11,7 @@ namespace ProofOfConcept.Selenium
         {
             get
             {
-                if (_webElement == null || !Exists )
+                if (_webElement == null || !Exists || IsNewLookupAlwaysRequired )
                 {
                     if (SearchConfiguration == null)
                     {
@@ -27,7 +27,15 @@ namespace ProofOfConcept.Selenium
         public IElementFinder<IWebElement> SearchConfiguration { get; set; }
 
         private IWebElement _webElement;
-       
+
+        private bool IsNewLookupAlwaysRequired
+        {
+            get
+            {
+                return SearchConfiguration != null && !SearchConfiguration.IsCachingAllowed;
+            }
+        }
+        
         public SeleniumElement(IElementFinder<IWebElement> searchCofiguration)
         {
             this.SearchConfiguration = searchCofiguration;
@@ -90,20 +98,6 @@ namespace ProofOfConcept.Selenium
             WebElement.Click();
         }
 
-        //public void Validate()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public IElement FindElement(FindBy findBy, params FilterBy[] filters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<IElement> FindElements(FindBy findBy, params FilterBy[] filters)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public static class WebElementExtension
