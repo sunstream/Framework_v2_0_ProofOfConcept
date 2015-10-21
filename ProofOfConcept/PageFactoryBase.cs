@@ -41,7 +41,7 @@ namespace ProofOfConcept
                         commonContainerElement);
                     Type expectedElementType = pageMember.GetUnderlyingType();
                     var expectedElementInstance = Activator.CreateInstance(expectedElementType);
-                    ((IElement) expectedElementInstance).SearchConfiguration = searchConfiguration;
+                    ((IElement)expectedElementInstance).SearchConfiguration = searchConfiguration;
 
                     switch (pageMember.MemberType)
                     {
@@ -80,9 +80,26 @@ namespace ProofOfConcept
                     //    }
 
                     #endregion
+                }
+                if (IsAnElementsCollection(pageMember))
+                {
+                    IElementSearchConfiguration searchConfiguration = GetSearchConfigurationByAttributes(pageMember, commonContainerElement);
+                    Type expectedElementType = pageMember.GetUnderlyingType().GetGenericTypeDefinition();
+                    Type[] typeArguments = pageMember.GetUnderlyingType().GenericTypeArguments;
+                    var constructedType = expectedElementType.MakeGenericType(typeArguments);
+                    object expectedElementInstance = Activator.CreateInstance(constructedType, searchConfiguration);
 
+                    switch (pageMember.MemberType)
+                    {
+                        case MemberTypes.Field:
+                            ((FieldInfo)pageMember).SetValue(requestedPage, expectedElementInstance);
+                            break;
+                        case MemberTypes.Property:
+                            ((PropertyInfo)pageMember).SetValue(requestedPage, expectedElementInstance);
+                            break;
+                    }
                 }
-                }
+            }
             return requestedPage;
         }
 
@@ -111,10 +128,10 @@ namespace ProofOfConcept
         }
 
         private FilterBy[] GetFilters(object[] pageMemberAttributes)
-        { 
+        {
             IList<FilterByAttribute> filterAttributes =
                             pageMemberAttributes.Where(item => item.GetType().IsSubclassOf(typeof(FilterByAttribute))).Cast<FilterByAttribute>().ToList();
-            
+
 
             FilterBy[] filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToArray();
             return filters;
@@ -136,7 +153,7 @@ namespace ProofOfConcept
             return complexControlInstance;
         }
 
-       
+
         private IEnumerable<MemberInfo> ExtractPageMembers(Type requestedPageType)
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
@@ -149,12 +166,17 @@ namespace ProofOfConcept
 
         private bool IsAnElement(MemberInfo pageMember)
         {
-            return IsOfType(pageMember, typeof (IElement));
+            return IsOfType(pageMember, typeof(IElement));
         }
 
         private bool IsAComplexControl(MemberInfo pageMember)
         {
-            return IsOfType(pageMember, typeof (IContainer));
+            return IsOfType(pageMember, typeof(IContainer));
+        }
+
+        private bool IsAnElementsCollection(MemberInfo pageMember)
+        {
+            return pageMember.GetUnderlyingType().GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IElementsCollection<>));
         }
 
         private bool IsOfType(MemberInfo pageMember, Type expectedType)

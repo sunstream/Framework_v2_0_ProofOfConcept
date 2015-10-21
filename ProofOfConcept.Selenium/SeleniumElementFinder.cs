@@ -51,8 +51,12 @@ namespace ProofOfConcept.Selenium
 
         public override IElement Wrap(IWebElement nativeElement)
         {
-            ElementBase wrappedElement = new ElementBase {NativeElement = nativeElement, SearchConfiguration = this};
-            return wrappedElement;
+            var x = Activator.CreateInstance(this.GetType());
+            ((ElementBase)x).NativeElement = nativeElement;
+            ((ElementBase)x).SearchConfiguration = this;
+            return (IElement)x;
+            //ElementBase wrappedElement = new ElementBase {NativeElement = nativeElement, SearchConfiguration = this};
+            //return wrappedElement;
         }
     }
 }

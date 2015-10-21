@@ -5,18 +5,18 @@ using System.Linq;
 
 namespace ProofOfConcept
 {
-    public abstract class ElementFinderBase<TNativeElement, TNativeLocator> : 
-        IElementSearchConfiguration, 
-        IElementFinder<TNativeElement>, 
-        IDescribable 
-        where TNativeElement : class 
+    public abstract class ElementFinderBase<TNativeElement, TNativeLocator> :
+        IElementSearchConfiguration,
+        IElementFinder<TNativeElement>,
+        IDescribable
+        where TNativeElement : class
         where TNativeLocator : class
     {
         //protected ElementFinderBase(FindBy locator)
         //{
         //    Locator = locator;
         //}
-        
+
         protected FindBy Locator;
         protected FilterBy[] Filters;
         protected IElement ContainerElement;
@@ -62,6 +62,9 @@ namespace ProofOfConcept
             return this;
         }
 
+        private int _index = 0;
+        public int Index { get { return _index; } set { _index = value; } }
+
         public bool IsCachingAllowed
         {
             get
@@ -89,10 +92,10 @@ namespace ProofOfConcept
 
         public IElement FindFirst()
         {
-            return FindAll().FirstOrDefault();
+            return FindAll()[Index];
         }
 
-        public IList<IElement> FindAll()
+        public IElementsCollection<IElement> FindAll()
         {
             IList<IElement> elements;
             dynamic container = GetParentIfExists();
@@ -104,9 +107,9 @@ namespace ProofOfConcept
                 var nativeElements = Find(container);
                 elements = Wrap(nativeElements);
                 elements = Filter(elements);
-            } while (elements.Count == 0 && stopwatch.Elapsed < Timeout);
+            } while (elements.Count() == 0 && stopwatch.Elapsed < Timeout);
 
-            return elements;
+            return new ElementsCollection<IElement>(elements) { SearchConfiguration = this };
         }
 
         public IList<IElement> Wrap(IList<TNativeElement> nativeElements)
@@ -128,5 +131,14 @@ namespace ProofOfConcept
                 String.Join(string.Format("{0}\\t", Environment.NewLine), Filters.Select(s => s.Describe())));
             return description;
         }
+
+        public object Clone()
+        {
+            var clone = (IElementSearchConfiguration)Activator.CreateInstance(this.GetType());
+            clone.Index = Index;
+            clone.IsCachingAllowed = IsCachingAllowed;
+            return clone.FindBy(Locator).FilterBy(Filters).From(ContainerElement);
+        }
+
     }
 }

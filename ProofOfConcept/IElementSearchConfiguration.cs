@@ -3,19 +3,21 @@ using System.Collections.Generic;
 
 namespace ProofOfConcept
 {
-    public interface IElementSearchConfiguration
+    public interface IElementSearchConfiguration: ICloneable
     {
         IElementSearchConfiguration FindBy(FindBy locator);
 
         IElementSearchConfiguration FilterBy(FilterBy[] filters);
 
         IElementSearchConfiguration From(IElement parentElement);
-        
+
+        int Index { get; set; }
+
         bool IsCachingAllowed { get; set; }
 
         IElement FindFirst();
 
-        IList<IElement> FindAll();
+        IElementsCollection<IElement> FindAll();
 
     }
 
@@ -33,7 +35,7 @@ namespace ProofOfConcept
 
         IList<IElement> Filter(IList<IElement> elements);
     }
-    
+
     //public interface IElementSearchConfiguration<TNativeElementType> where TNativeElementType : class
     //{
     //    IElementSearchConfiguration<TNativeElementType> FindBy(FindBy locator);
