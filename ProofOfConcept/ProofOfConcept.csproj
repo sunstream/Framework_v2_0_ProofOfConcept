@@ -39,12 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultSearchConfiguration.cs" />
+    <Compile Include="DefaultElementSearchConfiguration.cs" />
     <Compile Include="Behaviors\ITextReadable.cs" />
     <Compile Include="FilterByAttribute.cs" />
     <Compile Include="FindBy.cs" />
     <Compile Include="IDescribable.cs" />
-    <Compile Include="IElementFinder.cs" />
+    <Compile Include="IElementSearchConfiguration.cs" />
     <Compile Include="FindByAttribute.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="IDriverDecorator.cs" />

@@ -43,7 +43,8 @@ namespace ProofOfConcept
                             attributes.Where(item => item.GetType() == typeof (FilterByAttribute))
                                 .Cast<FilterByAttribute>()
                                 .ToList();
-                        
+                        IElement parentElement = containerElement;
+                        //DefaultElementSearchConfiguration<>
                     }
 
 

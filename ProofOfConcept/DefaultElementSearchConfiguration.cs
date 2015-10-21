@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ProofOfConcept
 {
-    public abstract class DefaultSearchConfiguration<TNativeElementType, TNativeLocatorType> : IElementFinder<TNativeElementType>, IDescribable
+    public abstract class DefaultElementSearchConfiguration<TNativeElementType, TNativeLocatorType> : IElementSearchConfiguration<TNativeElementType>, IDescribable
     {
         protected FindBy _findBy;
         protected FilterBy[] _filters;
@@ -39,23 +39,23 @@ namespace ProofOfConcept
             set { _timeout = value; }
         }
 
-        public IElementFinder<TNativeElementType> FindBy(FindBy locator)
+        public IElementSearchConfiguration<TNativeElementType> FindBy(FindBy locator)
         {
             _findBy = locator;
             return this;
         }
-        public IElementFinder<TNativeElementType> FilterBy(FilterBy[] filters)
+        public IElementSearchConfiguration<TNativeElementType> FilterBy(FilterBy[] filters)
         {
             _filters = filters;
             return this;
         }
-        public IElementFinder<TNativeElementType> From(IElement parentElement)
+        public IElementSearchConfiguration<TNativeElementType> From(IElement parentElement)
         {
             _parentElement = parentElement;
             return this;
         }
 
-        public DefaultSearchConfiguration(FindBy locator)
+        public DefaultElementSearchConfiguration(FindBy locator)
         {
             _findBy = locator;
         }
@@ -92,7 +92,6 @@ namespace ProofOfConcept
 
         public IList<IElement> FindAll()
         {
-            SetTimeout();
             IList<IElement> elements;
             TNativeElementType container = GetParentIfExists();
 
@@ -106,22 +105,6 @@ namespace ProofOfConcept
             } while (elements.Count == 0 || stopwatch.Elapsed < Timeout);
 
             return elements;
-        }
-
-        private void SetTimeout()
-        {
-            Timeout = null;
-            foreach (var filterBy in _filters)
-            {
-                if (filterBy is WithTimeout)
-                {
-                    Timeout = ((WithTimeout)filterBy).Timeout;
-                }
-            }
-            if (Timeout == null)
-            {
-                Timeout = DefaultTimeSpan;
-            }
         }
         
         public IList<IElement> Wrap(IList<TNativeElementType> nativeElements)

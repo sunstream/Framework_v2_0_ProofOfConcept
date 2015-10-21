@@ -4,12 +4,11 @@ using OpenQA.Selenium;
 
 namespace ProofOfConcept.Selenium
 {
-    //public class ElementSearchConfiguration : IElementFinder<IWebElement>, IDescribable
-    public class ElementSearchConfiguration : DefaultSearchConfiguration<IWebElement, By>
+    public class SeleniumElementSearchConfiguration : DefaultElementSearchConfiguration<IWebElement, By>
     {
         public IWebDriver Driver;
 
-        public ElementSearchConfiguration(FindBy locator) : base(locator)
+        public SeleniumElementSearchConfiguration(FindBy locator) : base(locator)
         {
             LocatorTransformer = new SeleniumLocatorTransformer();
         }
