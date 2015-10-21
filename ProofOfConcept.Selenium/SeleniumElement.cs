@@ -90,7 +90,7 @@ namespace ProofOfConcept.Selenium
 
         public IEnumerable<IElement> GetChildren()
         {
-            FindBy childrenLocator = new FindBy(How.Xpath, ".//*");
+            FindBy childrenLocator = new FindBy(How.Xpath, "./*");
             IElementSearchConfiguration<IWebElement> childrenSearchConfiguration = new SeleniumElementSearchConfiguration(childrenLocator);
             return childrenSearchConfiguration.FindAll();
 
