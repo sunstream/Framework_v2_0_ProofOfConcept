@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultSearchConfiguration.cs" />
     <Compile Include="Behaviors\ITextReadable.cs" />
     <Compile Include="FilterByAttribute.cs" />
     <Compile Include="FindBy.cs" />

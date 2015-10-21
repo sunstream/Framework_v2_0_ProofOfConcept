@@ -7,15 +7,16 @@ namespace ProofOfConcept
 {
     public class PageFactory
     {
-        private IDriverDecorator DriverDecorator { get; set; }
+        //private IDriverDecorator DriverDecorator { get; set; }
         //private Type _requestedPageType;
 
         public static T GetPage<T>(IElement containerElement = null) where T : IContainer, new()
         {
             T result = new T();
-
             Type requestedPageType = typeof(T);
+
             IEnumerable<MemberInfo> pageMembers = ExtractPageMembers(requestedPageType);
+            
 
             foreach (MemberInfo pageMember in pageMembers)
             {
@@ -31,11 +32,24 @@ namespace ProofOfConcept
                 }
                 if (IsAnElement(pageMember))
                 {
-
                    //3.2. Get attributes: findBy (mandatory), filters/SearchConfiguration's (optional)
-	               //3.3. Specify a parent element if a page has one.
-	               //3.4. Setup a lazy proxy to the page element using attributes data. (see SeleniumHQ / PageFactory for examples; InvocationHandler in Java).
-	               //3.5. Cast the resulting object to requested type.
+                    var attributes = pageMember.GetCustomAttributes(false);
+                    //read element type
+                    FindByAttribute locatorAttribute = 
+                        attributes.FirstOrDefault(item => item.GetType() == typeof (FindByAttribute)) as FindByAttribute;
+                    if (locatorAttribute != null)
+                    {
+                        IList<FilterByAttribute> filterAttributes =
+                            attributes.Where(item => item.GetType() == typeof (FilterByAttribute))
+                                .Cast<FilterByAttribute>()
+                                .ToList();
+                        
+                    }
+
+
+                    //3.3. Specify a parent element if a page has one.
+                    //3.4. Setup a lazy proxy to the page element using attributes data. (see SeleniumHQ / PageFactory for examples; InvocationHandler in Java).
+                    //3.5. Cast the resulting object to requested type.
                 }
             }
             return result;

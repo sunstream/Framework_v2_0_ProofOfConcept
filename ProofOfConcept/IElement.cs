@@ -17,7 +17,7 @@ namespace ProofOfConcept
         string GetAttribute(string attributeName);
 
         IEnumerable<IElement> GetChildren();
-
+        
         void Click();
 
     }

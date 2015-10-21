@@ -7,6 +7,11 @@ namespace ProofOfConcept.Selenium
 {
     public class SeleniumElement : IElement
     {
+        public SeleniumElement(IElementFinder<IWebElement> searchCofiguration)
+        {
+            this.SearchConfiguration = searchCofiguration;
+        }
+
         public IWebElement WebElement
         {
             get
@@ -36,11 +41,6 @@ namespace ProofOfConcept.Selenium
             }
         }
         
-        public SeleniumElement(IElementFinder<IWebElement> searchCofiguration)
-        {
-            this.SearchConfiguration = searchCofiguration;
-        }
-
         public bool Exists
         {
             get
@@ -90,7 +90,9 @@ namespace ProofOfConcept.Selenium
 
         public IEnumerable<IElement> GetChildren()
         {
-            throw new NotImplementedException();
+            FindBy childrenLocator = new FindBy(How.Xpath, ".//*");
+            IElementFinder<IWebElement> childrenFinder = new ElementSearchConfiguration();
+
         }
 
         public void Click()

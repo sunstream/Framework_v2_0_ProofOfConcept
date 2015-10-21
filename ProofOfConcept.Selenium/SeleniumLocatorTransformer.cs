@@ -33,6 +33,9 @@ namespace ProofOfConcept.Selenium
                 case How.TagName:
                     result = By.TagName(value);
                     break;
+                case How.Xpath:
+                    result = By.XPath(value);
+                    break;
                 default:
                     throw new ArgumentException(string.Format("findBy type [{0}] is not described in {1}: cannot apply search by provided value [{2}].",
                         findBy.How,

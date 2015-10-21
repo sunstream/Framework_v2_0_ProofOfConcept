@@ -11,7 +11,7 @@ namespace ProofOfConcept.Selenium
         public const String Name = "Name";
         public const String PartialLinkText = "PartialLinkText";
         public const String TagName = "TagName";
-
+        public const String Xpath = "Xpath";
     }
     
 }
