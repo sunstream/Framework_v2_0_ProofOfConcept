@@ -5,14 +5,22 @@ using System.Linq;
 
 namespace ProofOfConcept
 {
-    public abstract class DefaultElementSearchConfiguration<TNativeElementType, TNativeLocatorType> : IElementSearchConfiguration<TNativeElementType>, IDescribable
+    public abstract class ElementSearchConfigurationBase<TNativeElement, TNativeLocator> : IElementSearchConfiguration<TNativeElement>, IDescribable 
+        where TNativeElement : class 
+        where TNativeLocator : class
     {
+        public ElementSearchConfigurationBase(FindBy locator, ILocatorTransformer<TNativeLocator> locatorTransformer)
+        {
+            _findBy = locator;
+            LocatorTransformer = locatorTransformer;
+        }
+        
         protected FindBy _findBy;
         protected FilterBy[] _filters;
         protected IElement _parentElement;
         protected bool? _isCachingAllowed;
 
-        protected ILocatorTransformer<TNativeLocatorType> LocatorTransformer;
+        protected ILocatorTransformer<TNativeLocator> LocatorTransformer;
 
         //TODO: get default time span from configuration file
         //TODO: use default value from ElementService
@@ -39,25 +47,20 @@ namespace ProofOfConcept
             set { _timeout = value; }
         }
 
-        public IElementSearchConfiguration<TNativeElementType> FindBy(FindBy locator)
+        public IElementSearchConfiguration<TNativeElement> FindBy(FindBy locator)
         {
             _findBy = locator;
             return this;
         }
-        public IElementSearchConfiguration<TNativeElementType> FilterBy(FilterBy[] filters)
+        public IElementSearchConfiguration<TNativeElement> FilterBy(FilterBy[] filters)
         {
             _filters = filters;
             return this;
         }
-        public IElementSearchConfiguration<TNativeElementType> From(IElement parentElement)
+        public IElementSearchConfiguration<TNativeElement> From(IElement parentElement)
         {
             _parentElement = parentElement;
             return this;
-        }
-
-        public DefaultElementSearchConfiguration(FindBy locator)
-        {
-            _findBy = locator;
         }
 
         public bool IsCachingAllowed
@@ -80,10 +83,10 @@ namespace ProofOfConcept
             set { _isCachingAllowed = value; }
         }
 
-        public abstract TNativeElementType GetNativeElement();
-        public abstract TNativeElementType GetParentIfExists();
-        public abstract IList<TNativeElementType> Find(TNativeElementType container);
-        public abstract IElement Wrap(TNativeElementType nativeElement);
+        public abstract TNativeElement GetNativeElement();
+        public abstract TNativeElement GetParentIfExists();
+        public abstract IList<TNativeElement> Find(TNativeElement container);
+        public abstract IElement Wrap(TNativeElement nativeElement);
 
         public IElement FindFirst()
         {
@@ -93,7 +96,7 @@ namespace ProofOfConcept
         public IList<IElement> FindAll()
         {
             IList<IElement> elements;
-            TNativeElementType container = GetParentIfExists();
+            dynamic container = GetParentIfExists();
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -106,8 +109,8 @@ namespace ProofOfConcept
 
             return elements;
         }
-        
-        public IList<IElement> Wrap(IList<TNativeElementType> nativeElements)
+
+        public IList<IElement> Wrap(IList<TNativeElement> nativeElements)
         {
             return nativeElements.Select(Wrap).ToList();
         }

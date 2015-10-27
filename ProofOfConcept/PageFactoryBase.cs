@@ -5,15 +5,20 @@ using System.Reflection;
 
 namespace ProofOfConcept
 {
-    public class PageFactory
+    public interface IPageFactory
     {
-        //private IDriverDecorator DriverDecorator { get; set; }
-        //private Type _requestedPageType;
+        TPageType Create<TPageType>(IElement containerElement = null) where TPageType : IContainer, new();
+    }
 
-        public static T GetPage<T>(IElement containerElement = null) where T : IContainer, new()
+    public class PageFactoryBase : IPageFactory
+    {
+        //LoginPage -> T == LoginPage
+        //NativeElementType: Selenium -> IWebElement
+        //IElementSearchConfiguration<IWebElement>
+        public TPageType Create<TPageType>(IElement containerElement = null) where TPageType : IContainer, new()
         {
-            T result = new T();
-            Type requestedPageType = typeof(T);
+            TPageType result = new TPageType();
+            Type requestedPageType = typeof(TPageType);
 
             IEnumerable<MemberInfo> pageMembers = ExtractPageMembers(requestedPageType);
             
@@ -43,8 +48,11 @@ namespace ProofOfConcept
                             attributes.Where(item => item.GetType() == typeof (FilterByAttribute))
                                 .Cast<FilterByAttribute>()
                                 .ToList();
+                        IList<FilterBy> filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToList();
                         IElement parentElement = containerElement;
-                        //DefaultElementSearchConfiguration<>
+                        
+                        //IElementSearchConfiguration elementSearchConfiguration = 
+
                     }
 
 
@@ -56,30 +64,30 @@ namespace ProofOfConcept
             return result;
         }
 
-        public static T GetContainer<T>(IElement containerElement) where T : IContainer, new()
-        {
-            return GetPage<T>(containerElement);
-        }
+        //public T GetContainer<T>(IElement containerElement) where T : IContainer, new()
+        //{
+        //    return Create<T>(containerElement);
+        //}
         
         #region Private Methods
 
-        private static IContainer InitializeComplexControl(MemberInfo pageMember)
+        private IContainer InitializeComplexControl(MemberInfo pageMember)
         {
             IElement containerElementForComplexControl = GetContainerElementFromAttributes(pageMember);
             Type complexControlType = pageMember.DeclaringType;
-            MethodInfo getPageMethod = (typeof(PageFactory)).GetMethod("GetPage").MakeGenericMethod(complexControlType);
+            MethodInfo getPageMethod = (typeof(PageFactoryBase)).GetMethod("Create").MakeGenericMethod(complexControlType);
             object[] getPageMethodArguments = { containerElementForComplexControl };
             IContainer complexControlInstance = (IContainer)getPageMethod.Invoke(null, getPageMethodArguments);
 
             return complexControlInstance;
         }
 
-        private static IElement GetContainerElementFromAttributes(MemberInfo pageMember)
+        private IElement GetContainerElementFromAttributes(MemberInfo pageMember)
         {
             return null;
         }
 
-        private static IEnumerable<MemberInfo> ExtractPageMembers(Type requestedPageType)
+        private IEnumerable<MemberInfo> ExtractPageMembers(Type requestedPageType)
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
             IEnumerable<MemberInfo> pageMembers =
@@ -89,17 +97,17 @@ namespace ProofOfConcept
             return pageMembers;
         }
 
-        private static bool IsAnElement(MemberInfo pageMember)
+        private bool IsAnElement(MemberInfo pageMember)
         {
             return IsOfType(pageMember, typeof (IElement));
         }
 
-        private static bool IsAComplexControl(MemberInfo pageMember)
+        private bool IsAComplexControl(MemberInfo pageMember)
         {
             return IsOfType(pageMember, typeof (IContainer));
         }
 
-        private static bool IsOfType(MemberInfo pageMember, Type expectedType)
+        private bool IsOfType(MemberInfo pageMember, Type expectedType)
         {
             try
             {
@@ -114,3 +122,48 @@ namespace ProofOfConcept
         #endregion
     }
 }
+
+
+//public interface ISearchConfiguration<T>
+//{
+//    T Get();
+//}
+
+//public interface IWebElement
+//{
+//    string Text { get; }
+//}
+
+//public interface ICodedUIElement
+//{
+//    string Text { get; }
+//}
+
+//public class SeleniumSearchConfiguration : ISearchConfiguration<IWebElement>
+//{
+
+//    public IWebElement Get()
+//    {
+//        throw new NotImplementedException();
+//    }
+//}
+
+//public class CodedUISearchConfigutration : ISearchConfiguration<ICodedUIElement>
+//{
+
+//    public ICodedUIElement Get()
+//    {
+//        throw new NotImplementedException();
+//    }
+//}
+
+//class X
+//{
+
+//    public void Method()
+//    {
+//        ISearchConfiguration<IWebElement> x;
+//        x = new SeleniumSearchConfiguration();
+//    }
+
+//}

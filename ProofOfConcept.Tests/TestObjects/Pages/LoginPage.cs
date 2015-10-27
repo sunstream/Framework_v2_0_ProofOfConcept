@@ -16,6 +16,17 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
 
     }
 
+    class InvestorDashboardPage : IPage
+    {
+        public static string Url = "https://roadshowaccess.qx.ipreo.com/Deal";
+
+        [FindBy(How.ClassName, "input-group")] 
+        public DealSearchField DealSearchField;
+
+        [FindBy(How.Id, "filter")] 
+        public DealSearchFilters Filters;
+    }
+
     public class LoginForm : IContainer
     {
         [FindBy(How.Name, "UserName")]
@@ -31,5 +42,25 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
         [HasAttribute("type", "submit")] 
         public IElement LoginButton;
 
+    }
+
+    public class DealSearchFilters : IContainer
+    {
+        
+    }
+
+    public class DealSearchField : IContainer
+    {
+        [FindBy(How.Name, "dealCode")]
+        public HtmlTextField SearchField;
+
+        [FindBy(How.TagName, "button")] 
+        public IElement GoButton;
+
+        public void SearchDeal(string dealName)
+        {
+            SearchField.SetText(dealName);
+            GoButton.Click();
+        }
     }
 }
