@@ -55,9 +55,25 @@ namespace ProofOfConcept
                         IElement parentElement = containerElement;
 
                         Type nativeElementType = DependencyManager.ActiveKernel.Get<INativeElement>().GetType();
+
+                        //var genericIElementSearchConfigurationType = typeof( IElementSearchConfiguration<> );
+                        //var specificListType = genericIElementSearchConfigurationType.MakeGenericType( nativeElementType );
+                        //var elementSearchConfiguration = (typeof (IKernel)).GetMethod("Get").MakeGenericMethod(specificListType).Invoke(DependencyManager.ActiveKernel, null);
                         //var elementSearchConfiguration = DependencyManager.ActiveKernel.Get<IElementSearchConfiguration<nativeElementType>>()
-                        
-                        
+
+                        Type specificElementSearchConfigurationType = typeof(IElementSearchConfiguration<>).MakeGenericType(nativeElementType);
+                        var elementSearchConfiguration = DependencyManager.ActiveKernel.Get(specificElementSearchConfigurationType);
+                        Convert.ChangeType(elementSearchConfiguration, specificElementSearchConfigurationType);
+                        //elementSearchConfiguration.
+
+
+                        //var specificElementSearchConfigurationType = typeof(IElementSearchConfiguration<>).MakeGenericType(nativeElementType);
+                        //var elementSearchConfiguration = typeof(ResolutionExtensions)
+                        //    .GetMethod("Get", new[] { typeof(Ninject.Syntax.IResolutionRoot), typeof(Ninject.Parameters.IParameter[]) })
+                        //    .MakeGenericMethod(specificElementSearchConfigurationType)
+                        //    .Invoke(null, new[] { DependencyManager.ActiveKernel, null });
+
+
                     }
 
 
