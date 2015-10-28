@@ -22,9 +22,6 @@ namespace ProofOfConcept
 
         protected ILocatorTransformer<TNativeLocator> LocatorTransformer;
 
-        //TODO: get default time span from configuration file
-        //TODO: use default value from ElementService
-        protected readonly TimeSpan DefaultTimeSpan = TimeSpan.FromSeconds(5);
         private TimeSpan? _timeout;
         public TimeSpan? Timeout
         {
@@ -39,7 +36,7 @@ namespace ProofOfConcept
                     }
                     if (_timeout == null)
                     {
-                        _timeout = DefaultTimeSpan;
+                        _timeout = Settings.ElementSearchConfigurationSettings.Timeout;
                     }
                 }
                 return _timeout;
