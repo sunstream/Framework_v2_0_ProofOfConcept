@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Threading;
 using Ninject;
 using ProofOfConcept.Selenium;

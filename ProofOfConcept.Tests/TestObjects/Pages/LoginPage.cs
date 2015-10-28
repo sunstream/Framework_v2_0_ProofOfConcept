@@ -5,7 +5,6 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
 {
     class LoginPage : IPage
     {
-
         public static string Url = "https://roadshowaccess.qx.ipreo.com/";
 
         public string LoginValue = "qainvestor@ipreo.com";
@@ -13,7 +12,6 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
 
         [FindBy(How.Id, "loginForm")]
         public LoginForm LoginForm;
-
     }
 
     class InvestorDashboardPage : IPage

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ninject;
 using System.Reflection;
+using ProofOfConcept.TestInterfaces;
 
 namespace ProofOfConcept
 {
@@ -11,6 +13,7 @@ namespace ProofOfConcept
     }
 
     public class PageFactoryBase : IPageFactory
+
     {
         //LoginPage -> T == LoginPage
         //NativeElementType: Selenium -> IWebElement
@@ -50,9 +53,11 @@ namespace ProofOfConcept
                                 .ToList();
                         IList<FilterBy> filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToList();
                         IElement parentElement = containerElement;
-                        
-                        //IElementSearchConfiguration elementSearchConfiguration = 
 
+                        Type nativeElementType = DependencyManager.ActiveKernel.Get<INativeElement>().GetType();
+                        //var elementSearchConfiguration = DependencyManager.ActiveKernel.Get<IElementSearchConfiguration<nativeElementType>>()
+                        
+                        
                     }
 
 
