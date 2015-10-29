@@ -3,30 +3,61 @@ using System.Collections.Generic;
 
 namespace ProofOfConcept
 {
-    public interface IElementSearchConfiguration<TNativeElementType>
+    public interface IElementSearchConfiguration
     {
-        IElementSearchConfiguration<TNativeElementType> FindBy(FindBy locator);
+        IElementSearchConfiguration FindBy(FindBy locator);
 
-        IElementSearchConfiguration<TNativeElementType> FilterBy(FilterBy[] filters);
+        IElementSearchConfiguration FilterBy(FilterBy[] filters);
 
-        IElementSearchConfiguration<TNativeElementType> From(IElement parentElement);
-
+        IElementSearchConfiguration From(IElement parentElement);
+        
         bool IsCachingAllowed { get; set; }
-
-        TNativeElementType GetNativeElement();
-
-        TNativeElementType GetParentIfExists();
 
         IElement FindFirst();
 
         IList<IElement> FindAll();
 
-        IList<TNativeElementType> Find(TNativeElementType container);
+    }
 
-        IElement Wrap(TNativeElementType nativeElement);
+    public interface IElementFinder<TNativeElement>
+    {
+        TNativeElement GetNativeElement();
 
-        IList<IElement> Wrap(IList<TNativeElementType> nativeElements);
+        TNativeElement GetParentIfExists();
+
+        IList<TNativeElement> Find(TNativeElement container);
+
+        IElement Wrap(TNativeElement nativeElement);
+
+        IList<IElement> Wrap(IList<TNativeElement> nativeElements);
 
         IList<IElement> Filter(IList<IElement> elements);
     }
+    
+    //public interface IElementSearchConfiguration<TNativeElementType> where TNativeElementType : class
+    //{
+    //    IElementSearchConfiguration<TNativeElementType> FindBy(FindBy locator);
+
+    //    IElementSearchConfiguration<TNativeElementType> FilterBy(FilterBy[] filters);
+
+    //    IElementSearchConfiguration<TNativeElementType> From(IElement parentElement);
+
+    //    bool IsCachingAllowed { get; set; }
+
+    //    TNativeElementType GetNativeElement();
+
+    //    TNativeElementType GetParentIfExists();
+
+    //    IElement FindFirst();
+
+    //    IList<IElement> FindAll();
+
+    //    IList<TNativeElementType> Find(TNativeElementType container);
+
+    //    IElement Wrap(TNativeElementType nativeElement);
+
+    //    IList<IElement> Wrap(IList<TNativeElementType> nativeElements);
+
+    //    IList<IElement> Filter(IList<IElement> elements);
+    //}
 }

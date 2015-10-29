@@ -4,13 +4,12 @@ using OpenQA.Selenium;
 
 namespace ProofOfConcept.Selenium
 {
-    public class SeleniumElementSearchConfiguration : DefaultElementSearchConfiguration<IWebElement, By>
+    public class SeleniumElementFinder : ElementFinderBase<IWebElement, By>
     {
         public IWebDriver Driver;
 
-        public SeleniumElementSearchConfiguration(FindBy locator) : base(locator)
+        public SeleniumElementFinder(FindBy locator, ILocatorTransformer<By> locatorTransformer) : base(locator, locatorTransformer)
         {
-            LocatorTransformer = new SeleniumLocatorTransformer();
         }
 
         public override IWebElement GetNativeElement()
@@ -41,7 +40,7 @@ namespace ProofOfConcept.Selenium
         public override IList<IWebElement> Find(IWebElement container)
         {
             By locator = LocatorTransformer.GetNativeLocator(_findBy);
-            IList<IWebElement> nativeElements = container == null
+            IList<OpenQA.Selenium.IWebElement> nativeElements = container == null
                 ? Driver.FindElements(locator)
                 : container.FindElements(locator);
             return nativeElements;
