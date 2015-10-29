@@ -20,7 +20,7 @@ namespace ProofOfConcept.Tests.Behaviors
         [TestMethod]
         public void GetTextTest()
         {
-            var button = _loginContext.Kernel.Get<IPageFactory>().Create<LoginPage>().LoginForm.LoginButton;
+            var button = DependencyManager.Kernel.Get<IPageFactory>().Create<LoginPage>().LoginForm.LoginButton;
             Assert.Equals(button.GetText(), "LOGIN");
         }
     }

@@ -1,16 +1,17 @@
-﻿using ProofOfConcept.Behaviors;
+﻿using Ninject;
+using ProofOfConcept.Behaviors;
 using ProofOfConcept.Selenium;
 using ProofOfConcept.Selenium.Behaviors;
 
 namespace ProofOfConcept.Tests.TestObjects.Elements
 {
-    public class HtmlCheckBox : SeleniumElement, ICheckable, ITextReadable
+    public class HtmlCheckBox : ElementBase, ICheckable, ITextReadable
     {
-        private readonly CheckBoxBehavior _checkBoxBehavior;
+        private readonly ICheckboxBehavior _checkBoxBehavior;
 
         public HtmlCheckBox()
         {
-            _checkBoxBehavior = new CheckBoxBehavior(this);
+            _checkBoxBehavior = DependencyManager.Kernel.Get<ICheckboxBehavior>();
         }
 
         public void Check()

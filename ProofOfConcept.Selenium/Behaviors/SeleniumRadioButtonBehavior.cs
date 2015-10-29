@@ -5,31 +5,38 @@ using ProofOfConcept.Behaviors;
 
 namespace ProofOfConcept.Selenium.Behaviors
 {
-    public class RadioButtonBehavior : ISelectable, ITextReadable
+    public class SeleniumRadioButtonBehavior : IRadioButtonBehavior
     {
-        private readonly SeleniumElement _element;
-
-        public RadioButtonBehavior(SeleniumElement element)
+        public ElementBase Element { get; set; }
+        private IWebElement NativeElement
         {
-            _element = element;
+            get
+            {
+                return ((IWebElement)Element.NativeElement);
+            }
+        }
+
+        public SeleniumRadioButtonBehavior(ElementBase element)
+        {
+            Element = element;
         }
 
         public void Select()
         {
             if (!IsSelected())
             {
-                _element.Click();
+                NativeElement.Click();
             }
         }
 
         public bool IsSelected()
         {
-            return _element.WebElement.Selected;
+            return NativeElement.Selected;
         }
 
         public string GetText()
         {
-            var parent = _element.WebElement.FindElement(By.XPath(".."));
+            var parent = NativeElement.FindElement(By.XPath(".."));
             if (parent.TagName.Equals("label", StringComparison.InvariantCultureIgnoreCase))
             {
                 return parent.Text;
@@ -42,8 +49,8 @@ namespace ProofOfConcept.Selenium.Behaviors
         private bool IsLabelElemetFor(IWebElement labelElement)
         {
             var forValue = labelElement.GetAttribute("for");
-            var idValue = _element.GetAttribute("id");
-            var nameValue = _element.GetAttribute("name");
+            var idValue = NativeElement.GetAttribute("id");
+            var nameValue = NativeElement.GetAttribute("name");
 
             return forValue.Equals(idValue, StringComparison.InvariantCultureIgnoreCase) || forValue.Equals(nameValue, StringComparison.InvariantCultureIgnoreCase);
         }

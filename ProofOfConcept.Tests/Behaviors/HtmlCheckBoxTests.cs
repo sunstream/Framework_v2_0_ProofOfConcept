@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
+using OpenQA.Selenium;
 using ProofOfConcept.Tests.TestObjects.Contexts;
 using ProofOfConcept.Tests.TestObjects.Elements;
 using ProofOfConcept.Tests.TestObjects.Pages;
@@ -22,7 +23,7 @@ namespace ProofOfConcept.Tests.Behaviors
             _loginContext.OpenApplication();
             _loginContext.LoginToApplication();
 
-            _disclaimerPage = _loginContext.Kernel.Get<IPageFactory>().Create<DisclaimerPage>();
+            _disclaimerPage = DependencyManager.Kernel.Get<IPageFactory>().Create<DisclaimerPage>();
             _disclaimerCheckBox = _disclaimerPage.DisclaimerCheckBox;
         }
 
@@ -31,7 +32,7 @@ namespace ProofOfConcept.Tests.Behaviors
         {
             _disclaimerCheckBox.Check();
 
-            Assert.IsTrue(_disclaimerCheckBox.WebElement.Selected);
+            Assert.IsTrue(((IWebElement)_disclaimerCheckBox.NativeElement).Selected);
         }
 
         [TestMethod]
@@ -39,13 +40,13 @@ namespace ProofOfConcept.Tests.Behaviors
         {
             _disclaimerCheckBox.Uncheck();
 
-            Assert.IsFalse(_disclaimerCheckBox.WebElement.Selected);
+            Assert.IsFalse(((IWebElement)_disclaimerCheckBox.NativeElement).Selected);
         }
 
         [TestMethod]
         public void IsCheckedTest()
         {
-            Assert.Equals(_disclaimerCheckBox.IsChecked(), _disclaimerCheckBox.WebElement.Selected);
+            Assert.Equals(_disclaimerCheckBox.IsChecked(), ((IWebElement)_disclaimerCheckBox.NativeElement).Selected);
         }
 
         [TestMethod]

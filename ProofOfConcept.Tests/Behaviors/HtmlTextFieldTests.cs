@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
+using OpenQA.Selenium;
 using ProofOfConcept.Tests.TestObjects.Contexts;
 using ProofOfConcept.Tests.TestObjects.Pages;
 
@@ -18,7 +19,7 @@ namespace ProofOfConcept.Tests.Behaviors
             _loginContext.OpenApplication();
             _loginContext.LoginToApplication();
 
-            _dashboard = _loginContext.Kernel.Get<IPageFactory>().Create<InvestorDashboardPage>();
+            _dashboard = DependencyManager.Kernel.Get<IPageFactory>().Create<InvestorDashboardPage>();
         }
 
         [TestMethod]
@@ -27,13 +28,13 @@ namespace ProofOfConcept.Tests.Behaviors
             var textValue = "Hello, World!";
             _dashboard.DealAccessCode.SetText(textValue);
 
-            Assert.Equals(textValue, _dashboard.DealAccessCode.WebElement.Text);
+            Assert.Equals(textValue, ((IWebElement)_dashboard.DealAccessCode.NativeElement).Text);
         }
 
         [TestMethod]
         public void GetTextTest()
         {
-            Assert.Equals(_dashboard.DealAccessCode.GetText(), _dashboard.DealAccessCode.WebElement.Text);
+            Assert.Equals(_dashboard.DealAccessCode.GetText(), ((IWebElement)_dashboard.DealAccessCode.NativeElement).Text);
         }
 
         [TestMethod]

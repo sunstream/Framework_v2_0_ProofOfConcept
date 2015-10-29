@@ -1,111 +1,213 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ninject;
 using OpenQA.Selenium;
+using ProofOfConcept.Behaviors;
+using ProofOfConcept.Selenium.Behaviors;
 
-namespace ProofOfConcept.Selenium
-{
-    public class SeleniumElement : IElement
-    {
- public OpenQA.Selenium.IWebElement WebElement
-        {
-            get
-            {
-                if (_webElement == null || !Exists || IsNewLookupAlwaysRequired )
-                {
-                    if (SearchConfiguration == null)
-                    {
-                        throw new Exception("No element, no search criteria");
-                    }
-                    _webElement = ((SeleniumElementFinder)SearchConfiguration).GetNativeElement();
-                }
-                return _webElement;
-            }
-            set { _webElement = value; }
-        }
+//namespace ProofOfConcept.Selenium
+//{
+    //public interface INativeElementAspectsHandler
+    //{
+    //    bool Exists();
+    //    bool Equals(IElement element);
+    //    bool Displayed();
+    //    dynamic WebElement { get; set; }
+    //}
 
-        public IElementSearchConfiguration SearchConfiguration { get; set; }
 
-        private OpenQA.Selenium.IWebElement _webElement;
+    
+    //public class ElementBase : IElement
+    //{
+    //    private INativeElementAspectsHandler nativeElementAspectsHandler =
+    //        DependencyManager.Kernel.Get<INativeElementAspectsHandler>(DependencyManager.Tool);
+    //    public bool Exists()
+    //    {
+    //        return nativeElementAspectsHandler.Exists();
+    //    }
+    //}
 
-        private bool IsNewLookupAlwaysRequired
-        {
-            get
-            {
-                return SearchConfiguration != null && !SearchConfiguration.IsCachingAllowed;
-            }
-        }
+    //public class SeleniumNativeAspectsHandler : INativeElementAspectsHandler
+    //{
+    //    private IWebElement _webElement;
+    //    public bool Exists()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public bool Equals(IElement element)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public bool Displayed()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public dynamic WebElement
+    //    {
+    //        get { throw new NotImplementedException(); }
+    //        set { throw new NotImplementedException(); }
+    //    }
+    //}
+
+    //public class SomeControl : ElementBase, ITextEditable
+    //{
+    //    private readonly ITextBehaviour _textBehaviour;
         
-        public bool Exists
-        {
-            get
-            {
-                bool exists = false;
-                if (WebElement != null)
-                {
-                    try
-                    {
-                        WebElement.GetAttribute("innerHTML");
-                        exists = true;
-                    }
-                    catch (StaleElementReferenceException) {}
-                }
-                return exists;
-            }
-        }
+    //    public SomeControl(ITextBehaviour textBehaviour)
+    //    {
+    //        _textBehaviour = textBehaviour;
+    //    }
+    //    public void SetText(string textValue)
+    //    {
+    //        _textBehaviour.SetText(textValue);
+    //    }
 
-        public bool Equals(IElement element)
-        {
-            if (element.GetType().IsAssignableFrom(typeof (SeleniumElement)))
-            {
-                return this.WebElement.IsEqualTo(((SeleniumElement) element).WebElement);
-            }
-            return false;
-        }
+    //    public void AppendText(string textValue)
+    //    {
+    //         _textBehaviour.AppendText(textValue);
+    //    }
 
-        public bool Displayed
-        {
-            get { return WebElement.Displayed; }
-        }
+    //    public void Clear()
+    //    {
+    //        _textBehaviour.Clear();
+    //    }
 
-        public bool MatchesFilter(FilterBy filterBy)
-        {
-            return filterBy.Check(this);
-        }
+    //    bool Exists()
+    //    {
+    //        return _smth.Exists();
+    //    }
 
-        public bool MatchesAllFilters(params FilterBy[] filtersBy)
-        {
-            return filtersBy.All(searchFilter => searchFilter.Check(this));
-        }
+    //}
 
-        public string GetAttribute(string attributeName)
-        {
-            return WebElement.GetAttribute(attributeName);
-        }
 
-        public IEnumerable<IElement> GetChildren()
-        {
-            FindBy childrenLocator = new FindBy(How.Xpath, "./*");
-            IElementSearchConfiguration childrenSearchConfiguration = new SeleniumElementFinder(childrenLocator, new SeleniumLocatorTransformer());
-            return childrenSearchConfiguration.FindAll();
+//    public class SeleniumElement : IElement, INativeElementAspectsHandler
+//    {
+//        public OpenQA.Selenium.IWebElement WebElement
+//        {
+//            get
+//            {
+//                if (_webElement == null || !Exists || IsNewLookupAlwaysRequired )
+//                {
+//                    if (SearchConfiguration == null)
+//                    {
+//                        throw new Exception("No element, no search criteria");
+//                    }
+//                    _webElement = ((SeleniumElementFinder)SearchConfiguration).GetNativeElement();
+//                }
+//                return _webElement;
+//            }
+//            set { _webElement = value; }
+//        }
 
-        }
+//        public IElementSearchConfiguration SearchConfiguration { get; set; }
 
-        public void Click()
-        {
-            WebElement.Click();
-        }
+//        private OpenQA.Selenium.IWebElement _webElement;
 
-    }
+//        private bool IsNewLookupAlwaysRequired
+//        {
+//            get
+//            {
+//                return SearchConfiguration != null && !SearchConfiguration.IsCachingAllowed;
+//            }
+//        }
+        
+//        public bool Exists
+//        {
+//            get
+//            {
+//                bool exists = false;
+//                if (WebElement != null)
+//                {
+//                    try
+//                    {
+//                        WebElement.GetAttribute("innerHTML");
+//                        exists = true;
+//                    }
+//                    catch (StaleElementReferenceException) {}
+//                }
+//                return exists;
+//            }
+//        }
 
-    public static class WebElementExtension
-    {
-        public static bool IsEqualTo(this OpenQA.Selenium.IWebElement element1, OpenQA.Selenium.IWebElement element2)
-        {
-            const string equalityParam = "outerHTML";
-            return element1 != null && element2 != null && element1.GetAttribute(equalityParam) == element2.GetAttribute(equalityParam);
-        }
-    }
-}
+//        public bool Equals(IElement element)
+//        {
+//            return DependencyManager.Kernel.Get<INativeElementAspectsHandler>().Equals(element);
+
+//            if (element.GetType().IsAssignableFrom(typeof (SeleniumElement)))
+//            {
+//                return this.WebElement.IsEqualTo(((SeleniumElement) element).WebElement);
+//            }
+//            return false;
+//        }
+
+//        public bool Displayed
+//        {
+//            get { return WebElement.Displayed; }
+//        }
+
+//        public bool MatchesFilter(FilterBy filterBy)
+//        {
+//            return filterBy.Check(this);
+//        }
+
+//        public bool MatchesAllFilters(params FilterBy[] filtersBy)
+//        {
+//            return filtersBy.All(searchFilter => searchFilter.Check(this));
+//        }
+
+//        public string GetAttribute(string attributeName)
+//        {
+//            return WebElement.GetAttribute(attributeName);
+//        }
+
+//        public IEnumerable<IElement> GetChildren()
+//        {
+//            FindBy childrenLocator = new FindBy(How.Xpath, "./*");
+//            IElementSearchConfiguration childrenSearchConfiguration = new SeleniumElementFinder(childrenLocator, new SeleniumLocatorTransformer());
+//            return childrenSearchConfiguration.FindAll();
+
+//        }
+
+//        public void Click()
+//        {
+//            WebElement.Click();
+//        }
+
+//    }
+
+    
+
+//    public class SeleniumElementState : INativeElementHandler
+//    {
+//        public bool Displayed
+//        {
+//            get { throw new System.NotImplementedException(); }
+//        }
+
+//        public bool Exists
+//        {
+//            get { throw new System.NotImplementedException(); }
+//        }
+
+//        public bool Equals(IElement element)
+//        {
+//            throw new System.NotImplementedException();
+//        }
+
+//        public string GetAttribute(string attributeName)
+//        {
+//            throw new System.NotImplementedException();
+//        }
+
+//        public IEnumerable<IElement> GetChildren()
+//        {
+//            throw new System.NotImplementedException();
+//        }
+//    }
+//}
 
 

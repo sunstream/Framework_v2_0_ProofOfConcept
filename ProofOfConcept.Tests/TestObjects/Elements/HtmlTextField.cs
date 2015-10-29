@@ -1,16 +1,18 @@
-﻿using ProofOfConcept.Behaviors;
+
+using ProofOfConcept.Behaviors;
 using ProofOfConcept.Selenium;
 using ProofOfConcept.Selenium.Behaviors;
+using Ninject;
 
 namespace ProofOfConcept.Tests.TestObjects.Elements
 
 {
-    public class HtmlTextField : SeleniumElement, ITextEditable, ITextReadable
+    public class HtmlTextField : ElementBase, ITextFieldBehavior
     {
-        private readonly TextFieldBehavior _textFieldBehavior;
+        private readonly ITextFieldBehavior _textFieldBehavior;
         public HtmlTextField()
         {
-            _textFieldBehavior = new TextFieldBehavior(this);
+            _textFieldBehavior = DependencyManager.Kernel.Get<ITextFieldBehavior>();
         }
         
         public void SetText(string textValue)

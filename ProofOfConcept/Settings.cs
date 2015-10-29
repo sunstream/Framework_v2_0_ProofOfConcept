@@ -6,19 +6,16 @@ namespace ProofOfConcept
 {
     public static class Settings
     {
-
-        private static ThreadLocal<ElementSearchConfigurationSettings> _elementSearchConfigurationSettings;
+        private static readonly ThreadLocal<ElementSearchConfigurationSettings> _elementSearchConfigurationSettings 
+            = new ThreadLocal<ElementSearchConfigurationSettings>();
         public static IElementSearchConfigurationSettings ElementSearchConfigurationSettings
         {
             get
             {
-                if (_elementSearchConfigurationSettings == null)
+                if (!_elementSearchConfigurationSettings.IsValueCreated)
                 {
-                    _elementSearchConfigurationSettings = new ThreadLocal<ElementSearchConfigurationSettings>(() =>
-                    {
-                        var result = GetConfiguration<ElementSearchConfigurationSettings>();
-                        return result != null ? result : new ElementSearchConfigurationSettings();
-                    });
+                    var result = GetConfiguration<ElementSearchConfigurationSettings>();
+                    _elementSearchConfigurationSettings.Value = result;
                 }
                 return _elementSearchConfigurationSettings.Value;
             }
@@ -41,5 +38,13 @@ namespace ProofOfConcept
             return default(T);
         }
 
+    }
+
+    public class SettingsException : Exception
+    {
+        public SettingsException(string message, Exception innerException)
+            : base(message, innerException) {}
+        public SettingsException(string message)
+            : base(message) { }
     }
 }

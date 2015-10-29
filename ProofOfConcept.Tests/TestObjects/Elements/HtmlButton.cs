@@ -1,16 +1,17 @@
-﻿using ProofOfConcept.Behaviors;
+﻿using Ninject;
+using ProofOfConcept.Behaviors;
 using ProofOfConcept.Selenium;
 using ProofOfConcept.Selenium.Behaviors;
 
 namespace ProofOfConcept.Tests.TestObjects.Elements
 {
-    public class HtmlButton : SeleniumElement, ITextReadable
+    public class HtmlButton : ElementBase, IButtonBehavior
     {
-        private readonly ButtonBehavior _buttonBehavior;
+        private readonly IButtonBehavior _buttonBehavior;
 
         public HtmlButton()
         {
-            _buttonBehavior = new ButtonBehavior(this);
+            _buttonBehavior = DependencyManager.Kernel.Get<IButtonBehavior>();
         }
 
         public string GetText()

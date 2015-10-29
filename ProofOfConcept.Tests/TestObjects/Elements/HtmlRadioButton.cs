@@ -1,16 +1,17 @@
-﻿using ProofOfConcept.Behaviors;
+﻿using Ninject;
+using ProofOfConcept.Behaviors;
 using ProofOfConcept.Selenium;
 using ProofOfConcept.Selenium.Behaviors;
 
 namespace ProofOfConcept.Tests.TestObjects.Elements
 {
-    public class HtmlRadioButton : SeleniumElement, ISelectable, ITextReadable
+    public class HtmlRadioButton : ElementBase, IRadioButtonBehavior
     {
-        private readonly RadioButtonBehavior _radioButtonBehavior;
+        private readonly IRadioButtonBehavior _radioButtonBehavior;
 
         public HtmlRadioButton()
         {
-            _radioButtonBehavior = new RadioButtonBehavior(this);
+            _radioButtonBehavior = DependencyManager.Kernel.Get<IRadioButtonBehavior>();
         }
 
         public void Select()

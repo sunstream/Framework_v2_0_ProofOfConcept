@@ -5,20 +5,27 @@ using ProofOfConcept.Behaviors;
 
 namespace ProofOfConcept.Selenium.Behaviors
 {
-    public class CheckBoxBehavior : ICheckable, ITextReadable
+    public class SeleniumCheckboxBehavior : ICheckboxBehavior
     {
-        private readonly SeleniumElement _element;
-
-        public CheckBoxBehavior(SeleniumElement element)
+        public ElementBase Element { get; set; }
+        private IWebElement NativeElement
         {
-            _element = element;
+            get
+            {
+                return ((IWebElement)Element.NativeElement);
+            }
+        }
+
+        public SeleniumCheckboxBehavior(ElementBase element)
+        {
+            Element = element;
         }
 
         public void Check()
         {
             if (!IsChecked())
             {
-                _element.Click();
+                NativeElement.Click();
             }
         }
 
@@ -26,32 +33,32 @@ namespace ProofOfConcept.Selenium.Behaviors
         {
             if (IsChecked())
             {
-                _element.Click();
+                NativeElement.Click();
             }
         }
 
         public bool IsChecked()
         {
-            return _element.WebElement.Selected;
+            return NativeElement.Selected;
         }
 
         public string GetText()
         {
-            var parent = _element.WebElement.FindElement(By.XPath(".."));
+            var parent = NativeElement.FindElement(By.XPath(".."));
             if (parent.TagName.Equals("label", StringComparison.InvariantCultureIgnoreCase))
             {
                 return parent.Text;
             }
 
-            var label = parent.FindElements(By.TagName("label")).FirstOrDefault(IsLabelElemetFor);
+            var label = parent.FindElements(By.TagName("label")).FirstOrDefault(IsLabelElementFor);
             return label == null ? string.Empty : label.Text;
         }
 
-        private bool IsLabelElemetFor(IWebElement labelElement)
+        private bool IsLabelElementFor(IWebElement labelElement)
         {
             var forValue = labelElement.GetAttribute("for");
-            var idValue = _element.GetAttribute("id");
-            var nameValue = _element.GetAttribute("name");
+            var idValue = NativeElement.GetAttribute("id");
+            var nameValue = NativeElement.GetAttribute("name");
 
             return forValue.Equals(idValue, StringComparison.InvariantCultureIgnoreCase) || forValue.Equals(nameValue, StringComparison.InvariantCultureIgnoreCase);
         }

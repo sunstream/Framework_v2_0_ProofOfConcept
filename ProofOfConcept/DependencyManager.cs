@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using Ninject;
 
 namespace ProofOfConcept
 {
+
     public static class DependencyManager
     {
         private static readonly ThreadLocal<IKernel> _activeKernel = new ThreadLocal<IKernel>();
@@ -28,35 +30,31 @@ namespace ProofOfConcept
             private set { _activeKernel.Value = value; }
         }
 
-        private static readonly ThreadLocal<string> _activeTool = new ThreadLocal<string>();
-        //private static readonly ThreadLocal<ToolFamily> _activeTool = new ThreadLocal<ToolFamily>();
+        //private static readonly ThreadLocal<string> _activeTool = new ThreadLocal<string>();
+        private static readonly ThreadLocal<ToolFamily> _activeTool = new ThreadLocal<ToolFamily>();
 
-        public static string ActiveTool
-        //public static ToolFamily ActiveTool
+        //public static string Tool
+        public static ToolFamily Tool
         {
             get
             {
                 if (!_activeTool.IsValueCreated)
                 {
                     string defaultToolName = ConfigurationManager.AppSettings["toolFamily"];
-                    if (defaultToolName == null)
+                    try
                     {
-                        throw new DependencyConfigurationException("Missing default automation tool name in appSettings section of app.config file. Expected format: <add key=\"toolFamily\" value=\"Selenium\"/>");
+                        _activeTool.Value = (ToolFamily)Enum.Parse(typeof(ToolFamily), defaultToolName);
                     }
-                    //try
-                    //{
-                    //    _activeTool.Value = (ToolFamily) Enum.Parse(typeof (ToolFamily), "Bob");
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //    if (e is ArgumentNullException | e is ArgumentException)
-                    //    {
-                    //        throw new DependencyConfigurationException(
-                    //            "Failed to parse ToolFamily parameter in in appSettings section of app.config file. Expected format: <add key=\"toolFamily\" value=\"Selenium\"/>");
-                    //    }
-                    //    throw;
-                    //}
-                    _activeTool.Value = defaultToolName;
+                    catch (Exception e)
+                    {
+                        if (e is ArgumentNullException | e is ArgumentException)
+                        {
+                            throw new DependencyConfigurationException(
+                                "Failed to parse ToolFamily parameter in in appSettings section of app.config file. Expected format: <add key=\"toolFamily\" value=\"Selenium\"/>");
+                        }
+                        throw;
+                    }
+                    //_activeTool.Value = defaultToolName;
                 }
                 return _activeTool.Value;
             }
@@ -123,18 +121,18 @@ namespace ProofOfConcept
             : base(message) { }
     }
 
-    //public enum ToolFamily
-    //{
-    //    Selenium,
-    //    CodedUI,
-    //    Protractor
-    //}
-
-    public class AutomationTool
+    public enum ToolFamily
     {
-        public const string Selenium = "Selenium";
-        public const string CodedUI = "CodedUI";
-        public const string Protractor = "Protractor";
+        Selenium,
+        CodedUI,
+        Protractor
     }
+
+    //public class AutomationTool
+    //{
+    //    public const string Selenium = "Selenium";
+    //    public const string CodedUI = "CodedUI";
+    //    public const string Protractor = "Protractor";
+    //}
     
 }
