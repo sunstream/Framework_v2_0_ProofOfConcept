@@ -12,7 +12,8 @@ namespace ProofOfConcept
         public ContextBase()
         {
             Kernel = new StandardKernel();
-            //Kernel.Bind<IDriverDecorator>().To<Selenium>()
+            //Kernel.Bind<IPageFactory>().To<PageFactoryBase>();
+            //Kernel.Bind<IWebDriver>().To<Web>()
         }
          
     }

@@ -1,9 +1,8 @@
-﻿using System;
-using ProofOfConcept.Behaviors;
+﻿using ProofOfConcept.Behaviors;
 
 namespace ProofOfConcept.Selenium.Behaviors
 {
-    public class ButtonBehavior : IClickable
+    public class ButtonBehavior : ITextReadable
     {
         private readonly SeleniumElement _element;
 
@@ -12,9 +11,9 @@ namespace ProofOfConcept.Selenium.Behaviors
             _element = element;
         }
 
-        public void Click()
+        public string GetText()
         {
-            _element.WebElement.Click();
+            return _element.WebElement.Text;
         }
     }
 }

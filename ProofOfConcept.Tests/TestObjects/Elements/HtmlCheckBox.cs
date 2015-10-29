@@ -7,17 +7,20 @@ namespace ProofOfConcept.Tests.TestObjects.Elements
     public class HtmlCheckBox : SeleniumElement, ICheckable, ITextReadable
     {
         private readonly CheckBoxBehavior _checkBoxBehavior;
-        private readonly TextFieldBehavior _textFieldBehavior;
 
         public HtmlCheckBox()
         {
-            _textFieldBehavior = new TextFieldBehavior(this);
             _checkBoxBehavior = new CheckBoxBehavior(this);
         }
 
         public void Check()
         {
             _checkBoxBehavior.Check();
+        }
+
+        public void Uncheck()
+        {
+            _checkBoxBehavior.Uncheck();
         }
 
         public bool IsChecked()
@@ -27,7 +30,7 @@ namespace ProofOfConcept.Tests.TestObjects.Elements
 
         public string GetText()
         {
-            return _textFieldBehavior.GetText();
+            return _checkBoxBehavior.GetText();
         }
     }
 }

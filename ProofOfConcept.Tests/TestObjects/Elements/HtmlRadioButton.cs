@@ -7,11 +7,9 @@ namespace ProofOfConcept.Tests.TestObjects.Elements
     public class HtmlRadioButton : SeleniumElement, ISelectable, ITextReadable
     {
         private readonly RadioButtonBehavior _radioButtonBehavior;
-        private readonly TextFieldBehavior _textFieldBehavior;
 
         public HtmlRadioButton()
         {
-            _textFieldBehavior = new TextFieldBehavior(this);
             _radioButtonBehavior = new RadioButtonBehavior(this);
         }
 
@@ -27,7 +25,7 @@ namespace ProofOfConcept.Tests.TestObjects.Elements
 
         public string GetText()
         {
-            return _textFieldBehavior.GetText();
+            return _radioButtonBehavior.GetText();
         }
     }
 }

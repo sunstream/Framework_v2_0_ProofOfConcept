@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium;
-using ProofOfConcept.Behaviors;
+﻿using ProofOfConcept.Behaviors;
 using ProofOfConcept.Selenium;
 using ProofOfConcept.Selenium.Behaviors;
 

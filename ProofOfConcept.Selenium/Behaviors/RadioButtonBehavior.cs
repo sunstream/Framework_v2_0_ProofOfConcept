@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using OpenQA.Selenium;
 using ProofOfConcept.Behaviors;
 
 namespace ProofOfConcept.Selenium.Behaviors
@@ -17,8 +19,6 @@ namespace ProofOfConcept.Selenium.Behaviors
             if (!IsSelected())
             {
                 _element.Click();
-
-                //TODO Add setting on performing or not verification afetr action
             }
         }
 
@@ -29,11 +29,23 @@ namespace ProofOfConcept.Selenium.Behaviors
 
         public string GetText()
         {
-            //return _element.WebElement.Text;
-            /*
-             *  Oops, we have to look for label control with given name or id in 'for' attribute
-             */
-            throw new NotImplementedException();
+            var parent = _element.WebElement.FindElement(By.XPath(".."));
+            if (parent.TagName.Equals("label", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return parent.Text;
+            }
+
+            var label = parent.FindElements(By.TagName("label")).FirstOrDefault(IsLabelElemetFor);
+            return label == null ? string.Empty : label.Text;
+        }
+
+        private bool IsLabelElemetFor(IWebElement labelElement)
+        {
+            var forValue = labelElement.GetAttribute("for");
+            var idValue = _element.GetAttribute("id");
+            var nameValue = _element.GetAttribute("name");
+
+            return forValue.Equals(idValue, StringComparison.InvariantCultureIgnoreCase) || forValue.Equals(nameValue, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

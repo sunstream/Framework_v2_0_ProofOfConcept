@@ -23,6 +23,17 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
 
         [FindBy(How.Id, "filter")] 
         public DealSearchFilters Filters;
+
+        [FindBy(How.Id, "dealCode")]
+        public HtmlTextField DealAccessCode;
+    }
+    
+    class DisclaimerPage : IPage
+    {
+        public static string Url = "https://roadshowaccess.qx.ipreo.com/RoadshowDetails/ProspectusDisclaimer/-Ww8jWIXOpNPGWEAHZpIhBp9H1no5Hwe/2047494394?isStreetViewRequired=False";
+
+        [FindBy(How.Id, "attestationCheckBox")]
+        public HtmlCheckBox DisclaimerCheckBox;
     }
 
     public class LoginForm : IContainer
@@ -38,7 +49,7 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
         [FindBy(How.TagName, "button")]
         [IsDisplayed]
         [HasAttribute("type", "submit")] 
-        public IElement LoginButton;
+        public HtmlButton LoginButton;
 
     }
 

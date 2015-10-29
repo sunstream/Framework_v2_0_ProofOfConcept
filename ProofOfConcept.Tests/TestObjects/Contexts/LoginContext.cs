@@ -2,6 +2,8 @@
 using System.Configuration;
 using System.Threading;
 using Ninject;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using ProofOfConcept.Selenium;
 using ProofOfConcept.Tests.TestObjects.Pages;
 
@@ -19,6 +21,8 @@ namespace ProofOfConcept.Tests.TestObjects.Contexts
             Kernel.Bind<IPageFactory>().To<PageFactoryBase>();
             Kernel.Bind<IDriverDecorator>().To<SeleniumDriver>();
             Kernel.Bind<IElement>().To<SeleniumElement>();
+            Kernel.Bind<IWebDriver>().To<ChromeDriver>();
+                        
             Kernel.Bind<IHow>().To<ProofOfConcept.Selenium.How>();
             Kernel.Bind<NavigationService>().To<NavigationService>();
 

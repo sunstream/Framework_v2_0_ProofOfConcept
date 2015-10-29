@@ -4,6 +4,8 @@
     {
         void Check();
 
+        void Uncheck();
+
         bool IsChecked();
     }
 }
