@@ -47,25 +47,34 @@ namespace ProofOfConcept
                         attributes.FirstOrDefault(item => item.GetType() == typeof (FindByAttribute)) as FindByAttribute;
                     if (locatorAttribute != null)
                     {
+                        FindBy locator = locatorAttribute.FindBy;
                         IList<FilterByAttribute> filterAttributes =
                             attributes.Where(item => item.GetType() == typeof (FilterByAttribute))
                                 .Cast<FilterByAttribute>()
                                 .ToList();
-                        IList<FilterBy> filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToList();
+                        FilterBy[] filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToArray();
                         IElement parentElement = containerElement;
 
-                        Type nativeElementType = DependencyManager.ActiveKernel.Get<INativeElement>().GetType();
+                        IElementSearchConfiguration searchConfiguration =
+                            DependencyManager.ActiveKernel.Get<IElementSearchConfiguration>(DependencyManager.ActiveTool);
+                        searchConfiguration.FindBy(locator).FilterBy(filters).From(parentElement);
+
+                        //create an element with this search configuration
+
+                        //Type nativeElementType = DependencyManager.ActiveKernel.Get<INativeElement>().GetType();
 
                         //var genericIElementSearchConfigurationType = typeof( IElementSearchConfiguration<> );
                         //var specificListType = genericIElementSearchConfigurationType.MakeGenericType( nativeElementType );
                         //var elementSearchConfiguration = (typeof (IKernel)).GetMethod("Get").MakeGenericMethod(specificListType).Invoke(DependencyManager.ActiveKernel, null);
                         //var elementSearchConfiguration = DependencyManager.ActiveKernel.Get<IElementSearchConfiguration<nativeElementType>>()
 
-                        Type specificElementSearchConfigurationType = typeof(IElementSearchConfiguration<>).MakeGenericType(nativeElementType);
-                        var elementSearchConfiguration = DependencyManager.ActiveKernel.Get(specificElementSearchConfigurationType);
-                        Convert.ChangeType(elementSearchConfiguration, specificElementSearchConfigurationType);
+                        //Type specificElementSearchConfigurationType = typeof(IElementSearchConfiguration<>).MakeGenericType(nativeElementType);
+                        //var elementSearchConfiguration = DependencyManager.ActiveKernel.Get(specificElementSearchConfigurationType);
+
+                        //Convert.ChangeType(elementSearchConfiguration, specificElementSearchConfigurationType);
                         //elementSearchConfiguration.
 
+                        //IElementSearchConfiguration<>
 
                         //var specificElementSearchConfigurationType = typeof(IElementSearchConfiguration<>).MakeGenericType(nativeElementType);
                         //var elementSearchConfiguration = typeof(ResolutionExtensions)

@@ -5,11 +5,14 @@ using System.Linq;
 
 namespace ProofOfConcept
 {
-    public abstract class ElementSearchConfigurationBase<TNativeElement, TNativeLocator> : IElementSearchConfiguration<TNativeElement>, IDescribable 
+    public abstract class ElementFinderBase<TNativeElement, TNativeLocator> : 
+        IElementSearchConfiguration, 
+        IElementFinder<TNativeElement>, 
+        IDescribable 
         where TNativeElement : class 
         where TNativeLocator : class
     {
-        public ElementSearchConfigurationBase(FindBy locator, ILocatorTransformer<TNativeLocator> locatorTransformer)
+        protected ElementFinderBase(FindBy locator, ILocatorTransformer<TNativeLocator> locatorTransformer)
         {
             _findBy = locator;
             LocatorTransformer = locatorTransformer;

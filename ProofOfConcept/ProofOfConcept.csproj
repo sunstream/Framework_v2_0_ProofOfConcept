@@ -47,7 +47,7 @@
     <Compile Include="DependencyConfiguration.cs" />
     <Compile Include="DependencyManager.cs" />
     <Compile Include="ElementBase.cs" />
-    <Compile Include="ElementSearchConfigurationBase.cs" />
+    <Compile Include="ElementFinderBase.cs" />
     <Compile Include="Behaviors\ITextReadable.cs" />
     <Compile Include="FilterByAttribute.cs" />
     <Compile Include="FindBy.cs" />

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
@@ -26,60 +28,112 @@ namespace ProofOfConcept
             private set { _activeKernel.Value = value; }
         }
 
-        //private static IDictionary<ToolFamily, IKernel> _bindingsByTool = new Dictionary<ToolFamily, IKernel>(); 
+        private static readonly ThreadLocal<string> _activeTool = new ThreadLocal<string>();
+        //private static readonly ThreadLocal<ToolFamily> _activeTool = new ThreadLocal<ToolFamily>();
 
-        
-        //static DependencyManager()
-        static IKernel InitKernel()
+        public static string ActiveTool
+        //public static ToolFamily ActiveTool
         {
-            DependencyConfiguration configuration = (DependencyConfiguration) System.Configuration.ConfigurationManager.GetSection(DependencyConfiguration.SectionName);
-            IKernel Kernel = new StandardKernel();
+            get
+            {
+                if (!_activeTool.IsValueCreated)
+                {
+                    string defaultToolName = ConfigurationManager.AppSettings["toolFamily"];
+                    if (defaultToolName == null)
+                    {
+                        throw new DependencyConfigurationException("Missing default automation tool name in appSettings section of app.config file. Expected format: <add key=\"toolFamily\" value=\"Selenium\"/>");
+                    }
+                    //try
+                    //{
+                    //    _activeTool.Value = (ToolFamily) Enum.Parse(typeof (ToolFamily), "Bob");
+                    //}
+                    //catch (Exception e)
+                    //{
+                    //    if (e is ArgumentNullException | e is ArgumentException)
+                    //    {
+                    //        throw new DependencyConfigurationException(
+                    //            "Failed to parse ToolFamily parameter in in appSettings section of app.config file. Expected format: <add key=\"toolFamily\" value=\"Selenium\"/>");
+                    //    }
+                    //    throw;
+                    //}
+                    _activeTool.Value = defaultToolName;
+                }
+                return _activeTool.Value;
+            }
+            set { _activeTool.Value = value; }
+        }
+
+        private static IKernel InitKernel()
+        {
+            DependencyConfiguration configuration = (DependencyConfiguration) ConfigurationManager.GetSection(DependencyConfiguration.SectionName);
+            IKernel kernel = new StandardKernel();
             foreach (DependencyElement dependency in configuration.Dependencies)
             {
-                #region comment
-                //if tool-independent:
-                //resolve type by interface
-                //put regular binding
-                
-                //check if interface or class are generic types: use typeof then.
-
-                //if tool-dependent
-                //put named binding
-                
-
-                //Kernel.Bind<NavigationService>().To<NavigationService>();
-
-                //Kernel.Bind<ILocatorTransformer<>>
-
-                //Kernel.Bind(typeof(ILocatorTransformer<>)).To(typeof(SeleniumLocatorTransformer));
-
-                //try
-                //{
-                #endregion
-                Type interfaceType = Type.GetType(dependency.InterfaceName);
-                Type resolvedByType = Type.GetType(dependency.ClassName);
-                //} catch ()
-                if (dependency.HasToolFamilyParameter)
+                try
                 {
-                    Kernel.Bind(interfaceType).To(resolvedByType).Named(dependency.ToolFamily);
+                    Type interfaceType = Type.GetType(dependency.InterfaceName);
+                    Type resolvedByType = Type.GetType(dependency.ClassName);
+                    if (dependency.HasToolFamilyParameter)
+                    {
+                        kernel.Bind(interfaceType).To(resolvedByType).Named(dependency.ToolFamily);
+                    }
+                    else
+                    {
+                        kernel.Bind(interfaceType).To(resolvedByType);
+                    }
                 }
-                else
+                catch (ArgumentNullException e)
                 {
-                    Kernel.Bind(interfaceType).To(resolvedByType);
+                    throw new DependencyConfigurationException(
+                        string.Format(
+                            "No proper type name provided in dependency configuration node. Node description:{0}{1}{2}",
+                            dependency.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+                        e);
                 }
-                //ActiveKernel.
+                catch (FileLoadException e)
+                {
+                    throw new DependencyConfigurationException(
+                        string.Format(
+                            "Failed to load the assembly described in the node (or one of its dependencies). Node description:{0}{1}{2}",
+                            dependency.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+                        e);
+                }
+                catch (BadImageFormatException e)
+                {
+                    throw new DependencyConfigurationException(
+                        string.Format(
+                            "The assembly described in the node (or one of its dependencies) is invalid. Node description:{0}{1}{2}",
+                            dependency.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+                        e);
+                }
+                
 
             }
-            return Kernel;
+            return kernel;
         }
         
 
     }
 
-    public enum ToolFamily
+    public class DependencyConfigurationException : Exception
     {
-        Selenium,
-        CodedUI,
-        Protractor
+        public DependencyConfigurationException(string message, Exception innerException)
+            : base(message, innerException) {}
+        public DependencyConfigurationException(string message)
+            : base(message) { }
+    }
+
+    //public enum ToolFamily
+    //{
+    //    Selenium,
+    //    CodedUI,
+    //    Protractor
+    //}
+
+    public class AutomationTool
+    {
+        public const string Selenium = "Selenium";
+        public const string CodedUI = "CodedUI";
+        public const string Protractor = "Protractor";
     }
 }

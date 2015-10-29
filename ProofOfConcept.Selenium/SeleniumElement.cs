@@ -7,7 +7,7 @@ namespace ProofOfConcept.Selenium
 {
     public class SeleniumElement : IElement
     {
-        public SeleniumElement(SeleniumElementSearchConfiguration searchCofiguration)
+        public SeleniumElement(SeleniumElementFinder searchCofiguration)
         {
             this.SearchConfiguration = searchCofiguration;
         }
@@ -29,7 +29,7 @@ namespace ProofOfConcept.Selenium
             set { _webElement = value; }
         }
 
-        public SeleniumElementSearchConfiguration SearchConfiguration { get; set; }
+        public SeleniumElementFinder SearchConfiguration { get; set; }
 
         private OpenQA.Selenium.IWebElement _webElement;
 
@@ -91,7 +91,7 @@ namespace ProofOfConcept.Selenium
         public IEnumerable<IElement> GetChildren()
         {
             FindBy childrenLocator = new FindBy(How.Xpath, "./*");
-            IElementSearchConfiguration<IWebElement> childrenSearchConfiguration = new SeleniumElementSearchConfiguration(childrenLocator, new SeleniumLocatorTransformer());
+            IElementSearchConfiguration<IWebElement> childrenSearchConfiguration = new SeleniumElementFinder(childrenLocator, new SeleniumLocatorTransformer());
             return childrenSearchConfiguration.FindAll();
 
         }

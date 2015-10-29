@@ -23,7 +23,7 @@ namespace ProofOfConcept.Tests.TestObjects.Contexts
             Kernel.Bind<NavigationService>().To<NavigationService>();
 
             Kernel.Bind(typeof(ILocatorTransformer<>)).To(typeof(SeleniumLocatorTransformer));
-            Kernel.Bind(typeof(IElementSearchConfiguration<>)).To(typeof(SeleniumElementSearchConfiguration));
+            Kernel.Bind(typeof(IElementSearchConfiguration<>)).To(typeof(SeleniumElementFinder));
 
             _pageFactory = Kernel.Get<IPageFactory>();
             _navigationService = Kernel.Get<NavigationService>();

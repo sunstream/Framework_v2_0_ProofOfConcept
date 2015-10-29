@@ -3,25 +3,27 @@ using System.Collections.Generic;
 
 namespace ProofOfConcept
 {
-    public interface IElementSearchConfiguration<TNativeElement>
+    public interface IElementSearchConfiguration
     {
-        IElementSearchConfiguration<TNativeElement> FindBy(FindBy locator);
+        IElementSearchConfiguration FindBy(FindBy locator);
 
-        IElementSearchConfiguration<TNativeElement> FilterBy(FilterBy[] filters);
+        IElementSearchConfiguration FilterBy(FilterBy[] filters);
 
-        IElementSearchConfiguration<TNativeElement> From(IElement parentElement);
-        
-        IList<IElement> Filter(IList<IElement> elements);
+        IElementSearchConfiguration From(IElement parentElement);
         
         bool IsCachingAllowed { get; set; }
-
-        TNativeElement GetNativeElement();
-
-        TNativeElement GetParentIfExists();
 
         IElement FindFirst();
 
         IList<IElement> FindAll();
+
+    }
+
+    public interface IElementFinder<TNativeElement>
+    {
+        TNativeElement GetNativeElement();
+
+        TNativeElement GetParentIfExists();
 
         IList<TNativeElement> Find(TNativeElement container);
 
@@ -29,6 +31,7 @@ namespace ProofOfConcept
 
         IList<IElement> Wrap(IList<TNativeElement> nativeElements);
 
+        IList<IElement> Filter(IList<IElement> elements);
     }
     
     //public interface IElementSearchConfiguration<TNativeElementType> where TNativeElementType : class
