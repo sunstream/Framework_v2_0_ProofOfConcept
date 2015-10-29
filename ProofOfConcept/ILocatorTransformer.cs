@@ -2,7 +2,7 @@
 
 namespace ProofOfConcept
 {
-    public interface ILocatorTransformer<TNativeLocator> where TNativeLocator : class
+    public interface ILocatorTransformer<out TNativeLocator> where TNativeLocator : class
     {
         TNativeLocator GetNativeLocator(FindBy findBy);
         
