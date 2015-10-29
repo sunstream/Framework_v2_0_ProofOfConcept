@@ -31,8 +31,12 @@ namespace ProofOfConcept
             }
             set { _tool = value; }
         }
-        
-        public dynamic NativeElement { get; set; }
+
+        public dynamic NativeElement
+        {
+            get { return ElementHandler.NativeElement; }
+            set { ElementHandler.NativeElement = value; }
+        }
 
         public bool Displayed
         {

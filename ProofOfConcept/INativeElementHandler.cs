@@ -6,7 +6,7 @@ namespace ProofOfConcept
     {
         IElementSearchConfiguration SearchConfiguration { get; set; }
 
-        dynamic NativeElement { get; }
+        dynamic NativeElement { get; set; }
 
         bool Displayed { get; }
 

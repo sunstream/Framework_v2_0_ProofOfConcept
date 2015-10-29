@@ -46,6 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\SeleniumButtonBehavior.cs" />
+    <Compile Include="Behaviors\SeleniumCheckBoxBehavior.cs" />
+    <Compile Include="Behaviors\SeleniumRadioButtonBehavior.cs" />
     <Compile Include="Behaviors\SeleniumTextFieldBehavior.cs" />
     <Compile Include="How.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
