@@ -4,6 +4,8 @@ namespace ProofOfConcept
 {
     public interface IElement
     {
+        IElementSearchConfiguration SearchConfiguration { get; set; }
+
         bool Displayed { get; }
 
         bool Exists { get; }

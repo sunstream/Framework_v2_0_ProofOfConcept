@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ninject;
 using System.Reflection;
+using Ninject.Parameters;
 using ProofOfConcept.TestInterfaces;
 
 namespace ProofOfConcept
@@ -43,6 +44,8 @@ namespace ProofOfConcept
                    //3.2. Get attributes: findBy (mandatory), filters/SearchConfiguration's (optional)
                     var attributes = pageMember.GetCustomAttributes(false);
                     //read element type
+                    //read element technology
+
                     FindByAttribute locatorAttribute = 
                         attributes.FirstOrDefault(item => item.GetType() == typeof (FindByAttribute)) as FindByAttribute;
                     if (locatorAttribute != null)
@@ -55,34 +58,12 @@ namespace ProofOfConcept
                         FilterBy[] filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToArray();
                         IElement parentElement = containerElement;
 
-                        IElementSearchConfiguration searchConfiguration =
-                            DependencyManager.ActiveKernel.Get<IElementSearchConfiguration>(DependencyManager.ActiveTool);
+                        IElementSearchConfiguration searchConfiguration = DependencyManager.Kernel.Get<IElementSearchConfiguration>(DependencyManager.ActiveTool);
                         searchConfiguration.FindBy(locator).FilterBy(filters).From(parentElement);
+                        IElement elementInstance = DependencyManager.Kernel.Get<IElement>(DependencyManager.ActiveTool);
+                        elementInstance.SearchConfiguration = searchConfiguration;
 
-                        //create an element with this search configuration
-
-                        //Type nativeElementType = DependencyManager.ActiveKernel.Get<INativeElement>().GetType();
-
-                        //var genericIElementSearchConfigurationType = typeof( IElementSearchConfiguration<> );
-                        //var specificListType = genericIElementSearchConfigurationType.MakeGenericType( nativeElementType );
-                        //var elementSearchConfiguration = (typeof (IKernel)).GetMethod("Get").MakeGenericMethod(specificListType).Invoke(DependencyManager.ActiveKernel, null);
-                        //var elementSearchConfiguration = DependencyManager.ActiveKernel.Get<IElementSearchConfiguration<nativeElementType>>()
-
-                        //Type specificElementSearchConfigurationType = typeof(IElementSearchConfiguration<>).MakeGenericType(nativeElementType);
-                        //var elementSearchConfiguration = DependencyManager.ActiveKernel.Get(specificElementSearchConfigurationType);
-
-                        //Convert.ChangeType(elementSearchConfiguration, specificElementSearchConfigurationType);
-                        //elementSearchConfiguration.
-
-                        //IElementSearchConfiguration<>
-
-                        //var specificElementSearchConfigurationType = typeof(IElementSearchConfiguration<>).MakeGenericType(nativeElementType);
-                        //var elementSearchConfiguration = typeof(ResolutionExtensions)
-                        //    .GetMethod("Get", new[] { typeof(Ninject.Syntax.IResolutionRoot), typeof(Ninject.Parameters.IParameter[]) })
-                        //    .MakeGenericMethod(specificElementSearchConfigurationType)
-                        //    .Invoke(null, new[] { DependencyManager.ActiveKernel, null });
-
-
+                        
                     }
 
 

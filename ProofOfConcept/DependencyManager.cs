@@ -15,7 +15,7 @@ namespace ProofOfConcept
     public static class DependencyManager
     {
         private static readonly ThreadLocal<IKernel> _activeKernel = new ThreadLocal<IKernel>();
-        public static IKernel ActiveKernel
+        public static IKernel Kernel
         {
             get
             {
@@ -136,4 +136,5 @@ namespace ProofOfConcept
         public const string CodedUI = "CodedUI";
         public const string Protractor = "Protractor";
     }
+    
 }

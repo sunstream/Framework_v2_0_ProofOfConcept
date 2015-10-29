@@ -47,17 +47,17 @@ namespace ProofOfConcept
             set { _timeout = value; }
         }
 
-        public IElementSearchConfiguration<TNativeElement> FindBy(FindBy locator)
+        public IElementSearchConfiguration FindBy(FindBy locator)
         {
             _findBy = locator;
             return this;
         }
-        public IElementSearchConfiguration<TNativeElement> FilterBy(FilterBy[] filters)
+        public IElementSearchConfiguration FilterBy(FilterBy[] filters)
         {
             _filters = filters;
             return this;
         }
-        public IElementSearchConfiguration<TNativeElement> From(IElement parentElement)
+        public IElementSearchConfiguration From(IElement parentElement)
         {
             _parentElement = parentElement;
             return this;

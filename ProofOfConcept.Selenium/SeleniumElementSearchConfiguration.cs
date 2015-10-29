@@ -48,7 +48,7 @@ namespace ProofOfConcept.Selenium
 
         public override IElement Wrap(IWebElement nativeElement)
         {
-            SeleniumElement wrappedElement = new SeleniumElement(this);
+            SeleniumElement wrappedElement = new SeleniumElement();
             wrappedElement.WebElement = nativeElement;
             return wrappedElement;
         }
