@@ -54,7 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeleniumDriver.cs" />
     <Compile Include="SeleniumElement.cs" />
-    <Compile Include="SeleniumElementSearchConfiguration.cs" />
+    <Compile Include="SeleniumElementFinder.cs" />
     <Compile Include="SeleniumLocatorTransformer.cs" />
     <Compile Include="SeleniumNativeElementHandler.cs" />
   </ItemGroup>
