@@ -12,15 +12,14 @@ namespace ProofOfConcept
         where TNativeElement : class 
         where TNativeLocator : class
     {
-        protected ElementFinderBase(FindBy locator, ILocatorTransformer<TNativeLocator> locatorTransformer)
+        protected ElementFinderBase(FindBy locator)
         {
-            _findBy = locator;
-            LocatorTransformer = locatorTransformer;
+            Locator = locator;
         }
         
-        protected FindBy _findBy;
-        protected FilterBy[] _filters;
-        protected IElement _parentElement;
+        protected FindBy Locator;
+        protected FilterBy[] Filters;
+        protected IElement ContainerElement;
         protected bool? _isCachingAllowed;
 
         protected ILocatorTransformer<TNativeLocator> LocatorTransformer;
@@ -32,7 +31,7 @@ namespace ProofOfConcept
             {
                 if (_timeout == null)
                 {
-                    foreach (WithTimeout filterBy in _filters.OfType<WithTimeout>())
+                    foreach (WithTimeout filterBy in Filters.OfType<WithTimeout>())
                     {
                         _timeout = (filterBy).Timeout;
                         break;
@@ -49,17 +48,17 @@ namespace ProofOfConcept
 
         public IElementSearchConfiguration FindBy(FindBy locator)
         {
-            _findBy = locator;
+            Locator = locator;
             return this;
         }
         public IElementSearchConfiguration FilterBy(FilterBy[] filters)
         {
-            _filters = filters;
+            Filters = filters;
             return this;
         }
         public IElementSearchConfiguration From(IElement parentElement)
         {
-            _parentElement = parentElement;
+            ContainerElement = parentElement;
             return this;
         }
 
@@ -69,7 +68,7 @@ namespace ProofOfConcept
             {
                 if (_isCachingAllowed == null)
                 {
-                    foreach (var filterBy in _filters)
+                    foreach (var filterBy in Filters)
                     {
                         if (filterBy is NoCaching)
                         {
@@ -117,16 +116,16 @@ namespace ProofOfConcept
 
         public IList<IElement> Filter(IList<IElement> elements)
         {
-            return elements.Where(element => element.MatchesAllFilters(_filters)).ToList();
+            return elements.Where(element => element.MatchesAllFilters(Filters)).ToList();
         }
 
         public string Describe()
         {
-            string locatorDescription = LocatorTransformer.GetNativeLocator(_findBy).ToString();
+            string locatorDescription = LocatorTransformer.GetNativeLocator(Locator).ToString();
             string description = string.Format("Looking up elements by the following parameters:{0}1) locator = '{1}{0}; 2) filters: {2}",
                 Environment.NewLine,
                 locatorDescription,
-                String.Join(string.Format("{0}\\t", Environment.NewLine), _filters.Select(s => s.Describe())));
+                String.Join(string.Format("{0}\\t", Environment.NewLine), Filters.Select(s => s.Describe())));
             return description;
         }
     }

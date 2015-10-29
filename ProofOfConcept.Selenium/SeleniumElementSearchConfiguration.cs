@@ -8,8 +8,9 @@ namespace ProofOfConcept.Selenium
     {
         public IWebDriver Driver;
 
-        public SeleniumElementFinder(FindBy locator, ILocatorTransformer<By> locatorTransformer) : base(locator, locatorTransformer)
+        public SeleniumElementFinder(FindBy locator) : base(locator)
         {
+            LocatorTransformer = new SeleniumLocatorTransformer();
         }
 
         public override IWebElement GetNativeElement()
@@ -27,9 +28,9 @@ namespace ProofOfConcept.Selenium
         public override IWebElement GetParentIfExists()
         {
             IWebElement container = null;
-            if (_parentElement != null)
+            if (ContainerElement != null)
             {
-                container = ((IWebElement)_parentElement.NativeElement);
+                container = ((IWebElement)ContainerElement.NativeElement);
                 if (container == null)
                 {
                     throw new ArgumentException("Parent element does not match any real element on the page.");
@@ -40,7 +41,7 @@ namespace ProofOfConcept.Selenium
 
         public override IList<IWebElement> Find(IWebElement container)
         {
-            By locator = LocatorTransformer.GetNativeLocator(_findBy);
+            By locator = LocatorTransformer.GetNativeLocator(Locator);
             IList<OpenQA.Selenium.IWebElement> nativeElements = container == null
                 ? Driver.FindElements(locator)
                 : container.FindElements(locator);

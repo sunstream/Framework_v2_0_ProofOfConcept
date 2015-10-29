@@ -19,7 +19,7 @@ namespace ProofOfConcept
         //IElementSearchConfiguration<IWebElement>
         public TPageType Create<TPageType>(IElement containerElement = null) where TPageType : IContainer, new()
         {
-            TPageType result = new TPageType();
+            TPageType requestedPage = new TPageType();
             Type requestedPageType = typeof(TPageType);
 
             IEnumerable<MemberInfo> pageMembers = ExtractPageMembers(requestedPageType);
@@ -32,8 +32,8 @@ namespace ProofOfConcept
                     IContainer complexControlInstance = InitializeComplexControl(pageMember);
                     switch (pageMember.MemberType)
                     {
-                        case MemberTypes.Field: ((FieldInfo)pageMember).SetValue(result, complexControlInstance); break;
-                        case MemberTypes.Property: ((PropertyInfo)pageMember).SetValue(result, complexControlInstance); break;
+                        case MemberTypes.Field: ((FieldInfo)pageMember).SetValue(requestedPage, complexControlInstance); break;
+                        case MemberTypes.Property: ((PropertyInfo)pageMember).SetValue(requestedPage, complexControlInstance); break;
                     }
 
                 }
@@ -62,8 +62,13 @@ namespace ProofOfConcept
                         IElement elementInstance = DependencyManager.Kernel.Get<IElement>(DependencyManager.Tool.ToString());
                         elementInstance.SearchConfiguration = searchConfiguration;
 
-                        Type resultingElementType = pageMember.DeclaringType;
+                        //cast / convert found element to type?
 
+                        switch (pageMember.MemberType)
+                        {
+                            case MemberTypes.Field: ((FieldInfo)pageMember).SetValue(requestedPage, elementInstance); break;
+                            case MemberTypes.Property: ((PropertyInfo)pageMember).SetValue(requestedPage, elementInstance); break;
+                        }
 
                     }
 
@@ -73,7 +78,7 @@ namespace ProofOfConcept
                     //3.5. Cast the resulting object to requested type.
                 }
             }
-            return result;
+            return requestedPage;
         }
 
         //public T GetContainer<T>(IElement containerElement) where T : IContainer, new()

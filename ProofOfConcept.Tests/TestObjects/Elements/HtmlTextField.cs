@@ -1,7 +1,5 @@
 
 using ProofOfConcept.Behaviors;
-using ProofOfConcept.Selenium;
-using ProofOfConcept.Selenium.Behaviors;
 using Ninject;
 
 namespace ProofOfConcept.Tests.TestObjects.Elements

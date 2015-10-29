@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 
 namespace ProofOfConcept.Selenium
 {
-    public class SeleniumLocatorTransformer : ILocatorTransformer<By>
+    public sealed class SeleniumLocatorTransformer : ILocatorTransformer<By>
     {
         public By GetNativeLocator(FindBy findBy)
         {

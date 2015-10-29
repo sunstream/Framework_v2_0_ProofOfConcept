@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Configuration;
 using System.Threading;
-using Ninject;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using ProofOfConcept.Selenium;
 using ProofOfConcept.Tests.TestObjects.Pages;
 
 namespace ProofOfConcept.Tests.TestObjects.Contexts
