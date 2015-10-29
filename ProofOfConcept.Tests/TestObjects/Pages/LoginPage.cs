@@ -63,8 +63,8 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
         [FindBy(How.Name, "dealCode")]
         public HtmlTextField SearchField;
 
-        [FindBy(How.TagName, "button")] 
-        public IElement GoButton;
+        [FindBy(How.TagName, "button")]
+        public HtmlButton GoButton;
 
         public void SearchDeal(string dealName)
         {

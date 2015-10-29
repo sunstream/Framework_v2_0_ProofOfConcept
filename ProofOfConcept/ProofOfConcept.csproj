@@ -44,11 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\IButtonBehavior.cs" />
-    <Compile Include="Behaviors\ICheckable.cs" />
+    <Compile Include="Behaviors\Traits\ICheckable.cs" />
     <Compile Include="Behaviors\ICheckboxBehavior.cs" />
     <Compile Include="Behaviors\IRadioButtonBehavior.cs" />
-    <Compile Include="Behaviors\ISelectable.cs" />
-    <Compile Include="Behaviors\ITextEditable.cs" />
+    <Compile Include="Behaviors\Traits\ISelectable.cs" />
+    <Compile Include="Behaviors\Traits\ITextEditable.cs" />
     <Compile Include="Behaviors\ITextFieldBehavior.cs" />
     <Compile Include="ContextBase.cs" />
     <Compile Include="DependencyConfiguration.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="ElementBase.cs" />
     <Compile Include="ElementFinderBase.cs" />
     <Compile Include="ElementSearchConfigurationSettings.cs" />
-    <Compile Include="Behaviors\ITextReadable.cs" />
+    <Compile Include="Behaviors\Traits\ITextReadable.cs" />
     <Compile Include="FilterByAttribute.cs" />
     <Compile Include="FindBy.cs" />
     <Compile Include="IDescribable.cs" />
