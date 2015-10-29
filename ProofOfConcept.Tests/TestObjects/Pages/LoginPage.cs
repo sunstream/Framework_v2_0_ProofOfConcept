@@ -37,8 +37,8 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
 
         [FindBy(How.TagName, "button")]
         [IsDisplayed]
-        [HasAttribute("type", "submit")] 
-        public IElement LoginButton;
+        [HasAttribute("type", "submit")]
+        public HtmlButton LoginButton;
 
     }
 

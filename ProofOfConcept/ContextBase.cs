@@ -2,18 +2,18 @@
 
 namespace ProofOfConcept
 {
-    public class ContextBase
-    {
-        public IKernel Kernel
-        {
-            get; set;
-        }
+    //public class ContextBase
+    //{
+    //    public IKernel Kernel
+    //    {
+    //        get; set;
+    //    }
 
-        public ContextBase()
-        {
-            Kernel = new StandardKernel();
-            //Kernel.Bind<IDriverDecorator>().To<Selenium>()
-        }
+    //    public ContextBase()
+    //    {
+    //        Kernel = new StandardKernel();
+    //        //Kernel.Bind<IDriverDecorator>().To<Selenium>()
+    //    }
          
-    }
+    //}
 }
