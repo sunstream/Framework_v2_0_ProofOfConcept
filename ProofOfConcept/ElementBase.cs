@@ -8,7 +8,7 @@ namespace ProofOfConcept
     {
         public IElementSearchConfiguration SearchConfiguration { get; set; }
 
-        private INativeElementHandler ElementState
+        private INativeElementHandler ElementHandler
         {
             get
             {
@@ -32,35 +32,31 @@ namespace ProofOfConcept
             set { _tool = value; }
         }
         
-        public dynamic NativeElement
-        {
-            get { return ElementState.NativeElement; }
-            set { NativeElement = value; }
-        }
+        public dynamic NativeElement { get; set; }
 
         public bool Displayed
         {
-            get { return ElementState.Displayed; }
+            get { return ElementHandler.Displayed; }
         }
 
         public bool Exists
         {
-            get { return ElementState.Exists; }
+            get { return ElementHandler.Exists; }
         }
 
         public bool Equals(IElement element)
         {
-            return ElementState.Equals(element);
+            return ElementHandler.Equals(element);
         }
 
         public string GetAttribute(string attributeName)
         {
-            return ElementState.GetAttribute(attributeName);
+            return ElementHandler.GetAttribute(attributeName);
         }
 
         public IEnumerable<IElement> GetChildren()
         {
-            return ElementState.GetChildren();
+            return ElementHandler.GetChildren();
         }
 
         public bool MatchesFilter(FilterBy filterBy)
@@ -75,7 +71,7 @@ namespace ProofOfConcept
 
         public void Click()
         {
-            ElementState.Click();
+            ElementHandler.Click();
         }
     }
 }

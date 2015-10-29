@@ -49,7 +49,7 @@ namespace ProofOfConcept.Selenium
 
         public override IElement Wrap(IWebElement nativeElement)
         {
-            ElementBase wrappedElement = new ElementBase {NativeElement = nativeElement};
+            ElementBase wrappedElement = new ElementBase {NativeElement = nativeElement, SearchConfiguration = this};
             return wrappedElement;
         }
     }
