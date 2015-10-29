@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\ICheckable.cs" />
+    <Compile Include="Behaviors\IClickable.cs" />
+    <Compile Include="Behaviors\ISelectable.cs" />
     <Compile Include="ContextBase.cs" />
     <Compile Include="DependencyConfiguration.cs" />
     <Compile Include="DependencyManager.cs" />

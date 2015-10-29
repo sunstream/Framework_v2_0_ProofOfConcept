@@ -46,6 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\ButtonBehavior.cs" />
+    <Compile Include="Behaviors\CheckBoxBehavior.cs" />
+    <Compile Include="Behaviors\RadioButtonBehavior.cs" />
     <Compile Include="Behaviors\TextFieldBehavior.cs" />
     <Compile Include="How.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
