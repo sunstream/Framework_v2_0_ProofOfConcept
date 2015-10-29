@@ -47,6 +47,7 @@
     <Compile Include="DependencyConfiguration.cs" />
     <Compile Include="DependencyManager.cs" />
     <Compile Include="ElementBase.cs" />
+    <Compile Include="ElementSearchConfigurationSettings.cs" />
     <Compile Include="ElementSearchConfigurationBase.cs" />
     <Compile Include="Behaviors\ITextReadable.cs" />
     <Compile Include="FilterByAttribute.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Behaviors\ITextEditable.cs" />
     <Compile Include="TestInterfaces\INativeElement.cs" />
     <Compile Include="TestInterfaces\INativeLocator.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

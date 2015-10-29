@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -48,6 +49,7 @@
   <ItemGroup>
     <Compile Include="PageFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ElementSearchConfigurationSettingsTests.cs" />
     <Compile Include="TestObjects\Contexts\LoginContext.cs" />
     <Compile Include="TestObjects\Elements\HtmlTextField.cs" />
     <Compile Include="TestObjects\Pages\LoginPage.cs" />
@@ -64,6 +66,9 @@
       <Project>{DD19B448-FEB7-40A8-A235-7E23B8D04BBC}</Project>
       <Name>ProofOfConcept</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
