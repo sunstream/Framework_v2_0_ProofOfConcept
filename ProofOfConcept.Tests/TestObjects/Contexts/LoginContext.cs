@@ -18,7 +18,7 @@ namespace ProofOfConcept.Tests.TestObjects.Contexts
             //_pageFactory = new PageFactoryBase();
             Kernel.Bind<IPageFactory>().To<PageFactoryBase>();
             Kernel.Bind<IDriverDecorator>().To<SeleniumDriver>();
-            Kernel.Bind<IElement>().To<SeleniumElement>();
+            //Kernel.Bind<IElement>().To<SeleniumElement>();
             Kernel.Bind<IHow>().To<ProofOfConcept.Selenium.How>();
             Kernel.Bind<NavigationService>().To<NavigationService>();
             Kernel.Bind<IElementSearchConfiguration>().To<SeleniumElementFinder>();

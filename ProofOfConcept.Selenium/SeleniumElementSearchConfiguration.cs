@@ -18,7 +18,8 @@ namespace ProofOfConcept.Selenium
             IElement firstElement = FindFirst();
             if (firstElement != null && firstElement.Exists)
             {
-                result = ((SeleniumElement) firstElement).WebElement;
+                //result = ((SeleniumElement) firstElement).WebElement;
+                result = ((IWebElement)firstElement.NativeElement);
             }
             return result;
         }
@@ -28,7 +29,7 @@ namespace ProofOfConcept.Selenium
             IWebElement container = null;
             if (_parentElement != null)
             {
-                container = ((SeleniumElement) _parentElement).WebElement;
+                container = ((IWebElement)_parentElement.NativeElement);
                 if (container == null)
                 {
                     throw new ArgumentException("Parent element does not match any real element on the page.");
@@ -48,8 +49,7 @@ namespace ProofOfConcept.Selenium
 
         public override IElement Wrap(IWebElement nativeElement)
         {
-            SeleniumElement wrappedElement = new SeleniumElement();
-            wrappedElement.WebElement = nativeElement;
+            ElementBase wrappedElement = new ElementBase {NativeElement = nativeElement};
             return wrappedElement;
         }
     }

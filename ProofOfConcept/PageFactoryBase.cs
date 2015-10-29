@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Ninject;
 using System.Reflection;
-using Ninject.Parameters;
-using ProofOfConcept.TestInterfaces;
 
 namespace ProofOfConcept
 {
@@ -58,12 +56,15 @@ namespace ProofOfConcept
                         FilterBy[] filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToArray();
                         IElement parentElement = containerElement;
 
-                        IElementSearchConfiguration searchConfiguration = DependencyManager.Kernel.Get<IElementSearchConfiguration>(DependencyManager.ActiveTool);
+                        IElementSearchConfiguration searchConfiguration = DependencyManager.Kernel.Get<IElementSearchConfiguration>(DependencyManager.Tool.ToString());
                         searchConfiguration.FindBy(locator).FilterBy(filters).From(parentElement);
-                        IElement elementInstance = DependencyManager.Kernel.Get<IElement>(DependencyManager.ActiveTool);
+
+                        IElement elementInstance = DependencyManager.Kernel.Get<IElement>(DependencyManager.Tool.ToString());
                         elementInstance.SearchConfiguration = searchConfiguration;
 
-                        
+                        Type resultingElementType = pageMember.DeclaringType;
+
+
                     }
 
 
