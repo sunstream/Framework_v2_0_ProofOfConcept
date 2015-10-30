@@ -32,7 +32,7 @@ namespace ProofOfConcept
 
         public bool HasToolFamilyParameter
         {
-            get { return ToolFamily != null; }
+            get { return !string.IsNullOrEmpty(ToolFamily); }
         }
 
         public string Describe()

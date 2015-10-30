@@ -70,15 +70,23 @@ namespace ProofOfConcept
                 try
                 {
                     Type interfaceType = Type.GetType(dependency.InterfaceName);
-                    Type resolvedByType = Type.GetType(dependency.ClassName);
-                    if (dependency.HasToolFamilyParameter)
+                    if (dependency.InterfaceName == dependency.ClassName)
                     {
-                        kernel.Bind(interfaceType).To(resolvedByType).Named(dependency.ToolFamily);
+                        kernel.Bind(interfaceType).ToSelf();
                     }
                     else
                     {
-                        kernel.Bind(interfaceType).To(resolvedByType);
+                        Type resolvedByType = Type.GetType(dependency.ClassName);
+                        if (dependency.HasToolFamilyParameter)
+                        {
+                            kernel.Bind(interfaceType).To(resolvedByType).Named(dependency.ToolFamily);
+                        }
+                        else
+                        {
+                            kernel.Bind(interfaceType).To(resolvedByType);
+                        }    
                     }
+                    
                 }
                 catch (ArgumentNullException e)
                 {

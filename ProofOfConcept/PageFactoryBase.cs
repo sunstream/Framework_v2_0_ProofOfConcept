@@ -69,7 +69,7 @@ namespace ProofOfConcept
         {
             FindByAttribute locatorAttribute =
                         pageMemberAttributes.FirstOrDefault(item => item.GetType() == typeof(FindByAttribute)) as FindByAttribute;
-            return locatorAttribute?.FindBy;
+            return (locatorAttribute == null ? null : locatorAttribute.FindBy);
         }
 
         private FilterBy[] GetFilters(object[] pageMemberAttributes)
@@ -114,15 +114,18 @@ namespace ProofOfConcept
 
         private bool IsOfType(MemberInfo pageMember, Type expectedType)
         {
+            bool result;
             try
             {
-                return pageMember.DeclaringType.IsAssignableFrom(expectedType);
+                Type pageMemberType = pageMember.DeclaringType;
+                result = expectedType.IsAssignableFrom(pageMemberType);
             }
             catch (NullReferenceException e)
             {
                 throw new NullReferenceException(
                     string.Format("Failed to extract type information for page member {0}", pageMember.Name), e);
             }
+            return result;
         }
         #endregion
     }

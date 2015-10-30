@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using Ninject;
+using ProofOfConcept.Services;
 using ProofOfConcept.Tests.TestObjects.Pages;
 
 namespace ProofOfConcept.Tests.TestObjects.Contexts
@@ -20,8 +20,8 @@ namespace ProofOfConcept.Tests.TestObjects.Contexts
             //Kernel.Bind<IHow>().To<ProofOfConcept.Selenium.How>();
             //Kernel.Bind<NavigationService>().To<NavigationService>();
             //Kernel.Bind<IElementSearchConfiguration>().To<SeleniumElementFinder>();
-            //_pageFactory = Kernel.Get<IPageFactory>();
-            //_navigationService = Kernel.Get<NavigationService>();
+            _pageFactory = DependencyManager.Kernel.Get<IPageFactory>();
+            _navigationService = DependencyManager.Kernel.Get<NavigationService>();
         }
 
         public void OpenApplication()
@@ -42,29 +42,5 @@ namespace ProofOfConcept.Tests.TestObjects.Contexts
             _navigationService.VerifyPageUrl("https://roadshowaccess.qx.ipreo.com/Deal");
         }
 
-    }
-
-    public class NavigationService
-    {
-        private readonly IDriverDecorator _driver;
-
-        public NavigationService(IDriverDecorator driverDecorator)
-        {
-            this._driver = driverDecorator;
-        }
-        
-        public void NavigateTo(string url)
-        {
-            _driver.NavigateTo(url);
-        }
-
-        public void VerifyPageUrl(string expectedUrl)
-        {
-            Thread.Sleep(3000);
-            if (String.Compare(_driver.GetCurrentUrl(), expectedUrl, StringComparison.InvariantCultureIgnoreCase) != 0)
-            {
-                throw new Exception("Invalid URL (custom assert, just for demo purposes).");
-            }
-        }
     }
 }
