@@ -8,28 +8,23 @@ namespace ProofOfConcept
 {
     public interface IPageFactory
     {
-        TPageType Create<TPageType>(IElement containerElement = null) where TPageType : IContainer, new();
+        TPageType Create<TPageType>(IElement commonContainerElement = null) where TPageType : IContainer, new();
     }
 
     public class PageFactoryBase : IPageFactory
-
     {
-        //LoginPage -> T == LoginPage
-        //NativeElementType: Selenium -> IWebElement
-        //IElementSearchConfiguration<IWebElement>
-        public TPageType Create<TPageType>(IElement containerElement = null) where TPageType : IContainer, new()
+
+        public TPageType Create<TPageType>(IElement commonContainerElement = null) where TPageType : IContainer, new()
         {
             TPageType requestedPage = new TPageType();
             Type requestedPageType = typeof(TPageType);
 
             IEnumerable<MemberInfo> pageMembers = ExtractPageMembers(requestedPageType);
-            
-
             foreach (MemberInfo pageMember in pageMembers)
             {
                 if (IsAComplexControl(pageMember))
                 {
-                    IContainer complexControlInstance = InitializeComplexControl(pageMember);
+                    IContainer complexControlInstance = InitializeComplexControl(pageMember, commonContainerElement);
                     switch (pageMember.MemberType)
                     {
                         case MemberTypes.Field: ((FieldInfo)pageMember).SetValue(requestedPage, complexControlInstance); break;
@@ -39,58 +34,55 @@ namespace ProofOfConcept
                 }
                 if (IsAnElement(pageMember))
                 {
-                   //3.2. Get attributes: findBy (mandatory), filters/SearchConfiguration's (optional)
-                    var attributes = pageMember.GetCustomAttributes(false);
-                    //read element type
-                    //read element technology
-
-                    FindByAttribute locatorAttribute = 
-                        attributes.FirstOrDefault(item => item.GetType() == typeof (FindByAttribute)) as FindByAttribute;
-                    if (locatorAttribute != null)
-                    {
-                        FindBy locator = locatorAttribute.FindBy;
-                        IList<FilterByAttribute> filterAttributes =
-                            attributes.Where(item => item.GetType() == typeof (FilterByAttribute))
-                                .Cast<FilterByAttribute>()
-                                .ToList();
-                        FilterBy[] filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToArray();
-                        IElement parentElement = containerElement;
-
-                        IElementSearchConfiguration searchConfiguration = DependencyManager.Kernel.Get<IElementSearchConfiguration>(DependencyManager.Tool.ToString());
-                        searchConfiguration.FindBy(locator).FilterBy(filters).From(parentElement);
-
-                        IElement elementInstance = DependencyManager.Kernel.Get<IElement>(DependencyManager.Tool.ToString());
-                        elementInstance.SearchConfiguration = searchConfiguration;
-
-                        //cast / convert found element to type?
-
-                        switch (pageMember.MemberType)
+                    IElement elementInstance = GetElementByAttributes(pageMember, commonContainerElement);
+                    switch (pageMember.MemberType)
                         {
                             case MemberTypes.Field: ((FieldInfo)pageMember).SetValue(requestedPage, elementInstance); break;
                             case MemberTypes.Property: ((PropertyInfo)pageMember).SetValue(requestedPage, elementInstance); break;
                         }
-
                     }
-
-
-                    //3.3. Specify a parent element if a page has one.
-                    //3.4. Setup a lazy proxy to the page element using attributes data. (see SeleniumHQ / PageFactory for examples; InvocationHandler in Java).
-                    //3.5. Cast the resulting object to requested type.
                 }
-            }
             return requestedPage;
         }
 
-        //public T GetContainer<T>(IElement containerElement) where T : IContainer, new()
-        //{
-        //    return Create<T>(containerElement);
-        //}
-        
         #region Private Methods
 
-        private IContainer InitializeComplexControl(MemberInfo pageMember)
+        private IElement GetElementByAttributes(MemberInfo pageMember, IElement parentElement)
         {
-            IElement containerElementForComplexControl = GetContainerElementFromAttributes(pageMember);
+            var pageMemberAttributes = pageMember.GetCustomAttributes(false);
+            FindBy locator = GetLocator(pageMemberAttributes);
+            if (locator != null)
+            {
+                FilterBy[] filters = GetFilters(pageMemberAttributes);
+                IElementSearchConfiguration searchConfiguration =
+                    DependencyManager.Kernel.Get<IElementSearchConfiguration>(DependencyManager.Tool.ToString());
+                searchConfiguration.FindBy(locator).FilterBy(filters).From(parentElement);
+
+                IElement elementInstance = DependencyManager.Kernel.Get<IElement>(DependencyManager.Tool.ToString());
+                elementInstance.SearchConfiguration = searchConfiguration;
+                return elementInstance;
+            }
+            return null;
+        }
+
+        private FindBy GetLocator(object[] pageMemberAttributes)
+        {
+            FindByAttribute locatorAttribute =
+                        pageMemberAttributes.FirstOrDefault(item => item.GetType() == typeof(FindByAttribute)) as FindByAttribute;
+            return locatorAttribute?.FindBy;
+        }
+
+        private FilterBy[] GetFilters(object[] pageMemberAttributes)
+        {
+            IList<FilterByAttribute> filterAttributes =
+                            pageMemberAttributes.Where(item => item.GetType() == typeof(FilterByAttribute)).Cast<FilterByAttribute>().ToList();
+            FilterBy[] filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToArray();
+            return filters;
+        }
+
+        private IContainer InitializeComplexControl(MemberInfo pageMember, IElement commonContainerElement)
+        {
+            IElement containerElementForComplexControl = GetElementByAttributes(pageMember, commonContainerElement);
             Type complexControlType = pageMember.DeclaringType;
             MethodInfo getPageMethod = (typeof(PageFactoryBase)).GetMethod("Create").MakeGenericMethod(complexControlType);
             object[] getPageMethodArguments = { containerElementForComplexControl };
@@ -99,11 +91,7 @@ namespace ProofOfConcept
             return complexControlInstance;
         }
 
-        private IElement GetContainerElementFromAttributes(MemberInfo pageMember)
-        {
-            return null;
-        }
-
+       
         private IEnumerable<MemberInfo> ExtractPageMembers(Type requestedPageType)
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
@@ -133,54 +121,9 @@ namespace ProofOfConcept
             catch (NullReferenceException e)
             {
                 throw new NullReferenceException(
-                    String.Format("Failed to extract type information for page member {0}", pageMember.Name), e);
+                    string.Format("Failed to extract type information for page member {0}", pageMember.Name), e);
             }
         }
         #endregion
     }
 }
-
-
-//public interface ISearchConfiguration<T>
-//{
-//    T Get();
-//}
-
-//public interface IWebElement
-//{
-//    string Text { get; }
-//}
-
-//public interface ICodedUIElement
-//{
-//    string Text { get; }
-//}
-
-//public class SeleniumSearchConfiguration : ISearchConfiguration<IWebElement>
-//{
-
-//    public IWebElement Get()
-//    {
-//        throw new NotImplementedException();
-//    }
-//}
-
-//public class CodedUISearchConfigutration : ISearchConfiguration<ICodedUIElement>
-//{
-
-//    public ICodedUIElement Get()
-//    {
-//        throw new NotImplementedException();
-//    }
-//}
-
-//class X
-//{
-
-//    public void Method()
-//    {
-//        ISearchConfiguration<IWebElement> x;
-//        x = new SeleniumSearchConfiguration();
-//    }
-
-//}
