@@ -1,6 +1,6 @@
 ﻿namespace ProofOfConcept.Behaviors
 {
-    public interface IRadioButtonBehavior : ISelectable, ITextReadable
+    public interface IRadioButtonBehavior : ISelectable, ITextReadable, IElementBehavior
     {
          
     }

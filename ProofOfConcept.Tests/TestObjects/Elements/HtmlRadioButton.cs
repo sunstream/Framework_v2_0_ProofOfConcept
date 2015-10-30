@@ -9,7 +9,7 @@ namespace ProofOfConcept.Tests.TestObjects.Elements
 
         public HtmlRadioButton()
         {
-            _radioButtonBehavior = DependencyManager.Kernel.Get<IRadioButtonBehavior>();
+            _radioButtonBehavior = AddBehavior<IRadioButtonBehavior>();
         }
 
         public void Select()

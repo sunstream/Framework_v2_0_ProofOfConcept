@@ -5,9 +5,7 @@ using ProofOfConcept.Tests.TestObjects.Contexts;
 namespace ProofOfConcept.Tests
 {
     [TestClass]
-    [DeploymentItem("chromedriver.exe")]
-    [DeploymentItem("ProofOfConcept.Selenium.dll")]
-    public class PageFactoryTest
+    public class PageFactoryTest : BaseMsTest
     {
         private LoginContext _loginContext;
 

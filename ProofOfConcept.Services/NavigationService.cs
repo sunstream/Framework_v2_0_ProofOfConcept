@@ -32,5 +32,10 @@ namespace ProofOfConcept.Services
                 throw new Exception("Invalid URL (custom assert, just for demo purposes).");
             }
         }
+
+        public void Stop()
+        {
+            Driver.Stop();
+        }
     }
 }

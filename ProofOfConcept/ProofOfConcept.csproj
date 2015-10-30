@@ -50,6 +50,7 @@
     <Compile Include="Behaviors\Traits\ICheckable.cs" />
     <Compile Include="Behaviors\ICheckboxBehavior.cs" />
     <Compile Include="Behaviors\IRadioButtonBehavior.cs" />
+    <Compile Include="Behaviors\Traits\IElementBehavior.cs" />
     <Compile Include="Behaviors\Traits\ISelectable.cs" />
     <Compile Include="Behaviors\Traits\ITextEditable.cs" />
     <Compile Include="Behaviors\ITextFieldBehavior.cs" />

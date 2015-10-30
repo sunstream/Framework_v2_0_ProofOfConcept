@@ -6,7 +6,7 @@ using ProofOfConcept.Tests.TestObjects.Pages;
 namespace ProofOfConcept.Tests.Behaviors
 {
     [TestClass]
-    public class HtmlButtonTests
+    public class HtmlButtonTests : BaseMsTest
     {
         private LoginContext _loginContext;
 
@@ -21,7 +21,7 @@ namespace ProofOfConcept.Tests.Behaviors
         public void GetTextTest()
         {
             var button = DependencyManager.Kernel.Get<IPageFactory>().Create<LoginPage>().LoginForm.LoginButton;
-            Assert.Equals(button.GetText(), "LOGIN");
+            Assert.AreEqual(button.GetText(), "LOGIN");
         }
     }
 }

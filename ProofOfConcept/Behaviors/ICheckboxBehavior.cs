@@ -1,6 +1,6 @@
 ﻿namespace ProofOfConcept.Behaviors
 {
-    public interface ICheckboxBehavior : ICheckable, ITextReadable
+    public interface ICheckboxBehavior : ICheckable, ITextReadable, IElementBehavior
     {
          
     }

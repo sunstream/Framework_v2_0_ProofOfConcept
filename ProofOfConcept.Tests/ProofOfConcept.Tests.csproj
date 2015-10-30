@@ -47,6 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseMSTest.cs" />
     <Compile Include="Behaviors\HtmlButtonTests.cs" />
     <Compile Include="Behaviors\HtmlCheckBoxTests.cs" />
     <Compile Include="Behaviors\HtmlRadioButtonTests.cs" />

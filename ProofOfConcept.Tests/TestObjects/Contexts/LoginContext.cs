@@ -15,7 +15,7 @@ namespace ProofOfConcept.Tests.TestObjects.Contexts
             //_pageFactory = new PageFactoryBase();          
             //Kernel.Bind(typeof(ILocatorTransformer<>)).To(typeof(SeleniumLocatorTransformer));
             //Kernel.Bind<IPageFactory>().To<PageFactoryBase>();
-            //Kernel.Bind<IDriverDecorator>().To<SeleniumDriver>();
+            //Kernel.Bind<IDriverDecorator>().To<SeleniumDriverDecorator>();
             //Kernel.Bind<IElement>().To<SeleniumElement>();
             //Kernel.Bind<IHow>().To<ProofOfConcept.Selenium.How>();
             //Kernel.Bind<NavigationService>().To<NavigationService>();

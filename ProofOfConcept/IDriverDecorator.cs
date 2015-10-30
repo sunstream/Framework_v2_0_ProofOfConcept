@@ -9,5 +9,7 @@ namespace ProofOfConcept
         string GetCurrentUrl();
 
         TDriverType GetDriver<TDriverType>() where TDriverType : class;
+
+        void Stop();
     }
 }

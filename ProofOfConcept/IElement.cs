@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Ninject;
+using ProofOfConcept.Behaviors;
 
 namespace ProofOfConcept
 {
@@ -9,6 +10,8 @@ namespace ProofOfConcept
         bool MatchesFilter(FilterBy filterBy);
 
         bool MatchesAllFilters(params FilterBy[] filtersBy);
+
+        TElementBehavior AddBehavior<TElementBehavior>() where TElementBehavior : IElementBehavior;
 
     }
 

@@ -9,7 +9,7 @@ namespace ProofOfConcept.Tests.TestObjects.Elements
 
         public HtmlButton()
         {
-            _buttonBehavior = DependencyManager.Kernel.Get<IButtonBehavior>();
+            _buttonBehavior = AddBehavior<IButtonBehavior>();
         }
 
         public string GetText()

@@ -1,6 +1,6 @@
 ﻿namespace ProofOfConcept.Behaviors
 {
-    public interface ITextFieldBehavior : ITextReadable, ITextEditable
+    public interface ITextFieldBehavior : ITextReadable, ITextEditable, IElementBehavior
     {
          
     }

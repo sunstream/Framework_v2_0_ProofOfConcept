@@ -2,10 +2,11 @@
 using System.Linq;
 using Ninject;
 using ProofOfConcept;
+using ProofOfConcept.Behaviors;
 
 namespace ProofOfConcept
 {
-    public class ElementBase : IElement
+    public class ElementBase : IElement, IElementBehavior
     {
         private IElementSearchConfiguration _searchConfiguration;
         public IElementSearchConfiguration SearchConfiguration
@@ -81,9 +82,22 @@ namespace ProofOfConcept
             return filtersBy.All(searchFilter => searchFilter.Check(this));
         }
 
+        public TElementBehavior AddBehavior<TElementBehavior>() where TElementBehavior : IElementBehavior
+        {
+            TElementBehavior behavior = (TElementBehavior)DependencyManager.Kernel.Get(typeof(TElementBehavior));
+            behavior.Element = this;
+            return behavior;
+        }
+
         public void Click()
         {
             ElementHandler.Click();
+        }
+
+        public ElementBase Element
+        {
+            get { return this; }
+            set { }
         }
     }
 }

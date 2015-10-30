@@ -52,7 +52,7 @@
     <Compile Include="Behaviors\SeleniumTextFieldBehavior.cs" />
     <Compile Include="How.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SeleniumDriver.cs" />
+    <Compile Include="SeleniumDriverDecorator.cs" />
     <Compile Include="SeleniumElement.cs" />
     <Compile Include="SeleniumElementFinder.cs" />
     <Compile Include="SeleniumLocatorTransformer.cs" />

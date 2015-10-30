@@ -9,7 +9,7 @@ namespace ProofOfConcept.Tests.TestObjects.Elements
 
         public HtmlCheckBox()
         {
-            _checkBoxBehavior = DependencyManager.Kernel.Get<ICheckboxBehavior>();
+            _checkBoxBehavior = AddBehavior<ICheckboxBehavior>();
         }
 
         public void Check()
