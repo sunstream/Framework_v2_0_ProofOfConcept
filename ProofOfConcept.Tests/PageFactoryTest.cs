@@ -23,6 +23,7 @@ namespace ProofOfConcept.Tests
         {
             _loginContext = new LoginContext();
             _loginContext.OpenApplication();
+            _loginContext.LoginToApplication();
         }
     }
 }

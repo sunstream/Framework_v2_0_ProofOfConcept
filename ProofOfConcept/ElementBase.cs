@@ -1,33 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Ninject;
+using ProofOfConcept;
 
 namespace ProofOfConcept
 {
     public class ElementBase : IElement
     {
-        //public ElementBase()
-        //{
-        //}
-
-        //public ElementBase(ElementBase template)
-        //{
-        //    this.SearchConfiguration = template.SearchConfiguration;
-        //    this.NativeElement = template.NativeElement;
-        //}
-
-        public IElementSearchConfiguration SearchConfiguration { get; set; }
-
-        private INativeElementHandler ElementHandler
+        private IElementSearchConfiguration _searchConfiguration;
+        public IElementSearchConfiguration SearchConfiguration
         {
-            get
+            get { return _searchConfiguration; }
+            set
             {
-                INativeElementHandler handler = DependencyManager.Kernel.Get<INativeElementHandler>(Tool.ToString());
-                handler.SearchConfiguration = SearchConfiguration;
-                return handler;
+                _searchConfiguration = value;
+                ElementHandler.SearchConfiguration = value;
             }
         }
 
+        private INativeElementHandler _elementHandler;
+        protected INativeElementHandler ElementHandler
+        {
+            get {
+                return _elementHandler ??
+                       (_elementHandler = DependencyManager.Kernel.Get<INativeElementHandler>(Tool.ToString()));
+            }
+        } 
         private ToolFamily? _tool;
         public ToolFamily Tool
         {
@@ -87,5 +85,13 @@ namespace ProofOfConcept
         {
             ElementHandler.Click();
         }
+    }
+}
+
+public static class IElementExtensions
+{
+    public static void InitFromBase(this IElement element, IElement baseElement)
+    {
+        element.SearchConfiguration = baseElement.SearchConfiguration;
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Ninject;
 using System.Reflection;
+using Newtonsoft.Json;
 using ProofOfConcept.Utils;
 
 namespace ProofOfConcept
@@ -35,34 +37,58 @@ namespace ProofOfConcept
                 }
                 if (IsAnElement(pageMember))
                 {
-                    IElement elementInstance = GetElementByAttributes(pageMember, commonContainerElement);
+                    IElementSearchConfiguration searchConfiguration = GetSearchConfigurationByAttributes(pageMember,
+                        commonContainerElement);
+                    Type expectedElementType = pageMember.GetUnderlyingType();
+                    var expectedElementInstance = Activator.CreateInstance(expectedElementType);
+                    ((IElement) expectedElementInstance).SearchConfiguration = searchConfiguration;
+
+                    switch (pageMember.MemberType)
+                    {
+                        case MemberTypes.Field:
+                            ((FieldInfo)pageMember).SetValue(requestedPage, expectedElementInstance);
+                            break;
+                        case MemberTypes.Property:
+                            ((PropertyInfo)pageMember).SetValue(requestedPage, expectedElementInstance);
+                            break;
+                    }
+
+                    #region InstantiateElementOfProperType
 
                     //Type elementType = pageMember.GetUnderlyingType();
                     //Type baseElementType = DependencyManager.Kernel.Get<IElement>().GetType();
 
                     //var concreteElementTemplate = Activator.CreateInstance(elementType);
                     //var concreteElementInstance = elementInstance.ShallowConvert<>(concreteElementTemplate);
-                    Type elementType = pageMember.GetUnderlyingType();
-                    var concreteElementInstance = Activator.CreateInstance(elementType);
-                    elementInstance.ShallowConvert(concreteElementInstance);
+
+                    //Type elementType = pageMember.GetUnderlyingType();
+                    //var serializedParent = JsonConvert.SerializeObject(elementInstance);
+                    //var deserializedChild = JsonConvert.DeserializeObject(serializedParent, elementType);
+
+                    //var concreteElementInstance = Activator.CreateInstance(elementType);
+                    //elementInstance.ShallowConvert(concreteElementInstance);
                     //((IElement) concreteElementInstance).SearchConfiguration = elementInstance.SearchConfiguration;
-                    
-                    switch (pageMember.MemberType)
-                        {
-                            case MemberTypes.Field: 
-                                //elementInstance
-                                ((FieldInfo)pageMember).SetValue(requestedPage, elementInstance); 
-                                break;
-                            case MemberTypes.Property: ((PropertyInfo)pageMember).SetValue(requestedPage, elementInstance); break;
-                        }
-                    }
+
+                    //switch (pageMember.MemberType)
+                    //    {
+                    //        case MemberTypes.Field: 
+                    //            //elementInstance
+                    //            //((FieldInfo)pageMember).SetValue(requestedPage, elementInstance); 
+                    //            ((FieldInfo)pageMember).SetValue(requestedPage, deserializedChild);
+                    //            break;
+                    //        case MemberTypes.Property: ((PropertyInfo)pageMember).SetValue(requestedPage, elementInstance); break;
+                    //    }
+
+                    #endregion
+
+                }
                 }
             return requestedPage;
         }
 
         #region Private Methods
 
-        private IElement GetElementByAttributes(MemberInfo pageMember, IElement parentElement)
+        private IElementSearchConfiguration GetSearchConfigurationByAttributes(MemberInfo pageMember, IElement parentElement)
         {
             var pageMemberAttributes = pageMember.GetCustomAttributes(false);
             FindBy locator = GetLocator(pageMemberAttributes);
@@ -72,11 +98,7 @@ namespace ProofOfConcept
                 IElementSearchConfiguration searchConfiguration =
                     DependencyManager.Kernel.Get<IElementSearchConfiguration>(DependencyManager.Tool.ToString());
                 searchConfiguration.FindBy(locator).FilterBy(filters).From(parentElement);
-
-                //IElement elementInstance = DependencyManager.Kernel.Get<IElement>(DependencyManager.Tool.ToString());
-                IElement elementInstance = DependencyManager.Kernel.Get<IElement>();
-                elementInstance.SearchConfiguration = searchConfiguration;
-                return elementInstance;
+                return searchConfiguration;
             }
             return null;
         }
@@ -89,16 +111,23 @@ namespace ProofOfConcept
         }
 
         private FilterBy[] GetFilters(object[] pageMemberAttributes)
-        {
+        { 
             IList<FilterByAttribute> filterAttributes =
-                            pageMemberAttributes.Where(item => item.GetType() == typeof(FilterByAttribute)).Cast<FilterByAttribute>().ToList();
+                            pageMemberAttributes.Where(item => item.GetType().IsSubclassOf(typeof(FilterByAttribute))).Cast<FilterByAttribute>().ToList();
+            
+
             FilterBy[] filters = filterAttributes.Select(filterAttribute => filterAttribute.FilterBy).ToArray();
             return filters;
         }
 
         private IContainer InitializeComplexControl(MemberInfo pageMember, IElement commonContainerElement)
         {
-            IElement containerElementForComplexControl = GetElementByAttributes(pageMember, commonContainerElement);
+            //IElement containerElementForComplexControl = GetElementByAttributes(pageMember, commonContainerElement);
+            IElementSearchConfiguration searchConfiguration = GetSearchConfigurationByAttributes(pageMember,
+                commonContainerElement);
+            IElement containerElementForComplexControl = DependencyManager.Kernel.Get<IElement>();
+            containerElementForComplexControl.SearchConfiguration = searchConfiguration;
+
             Type complexControlType = pageMember.GetUnderlyingType();
             MethodInfo getPageMethod = (typeof(PageFactoryBase)).GetMethod("Create").MakeGenericMethod(complexControlType);
             object[] getPageMethodArguments = { containerElementForComplexControl };

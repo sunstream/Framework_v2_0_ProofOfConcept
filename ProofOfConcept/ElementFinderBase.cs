@@ -104,7 +104,7 @@ namespace ProofOfConcept
                 var nativeElements = Find(container);
                 elements = Wrap(nativeElements);
                 elements = Filter(elements);
-            } while (elements.Count == 0 || stopwatch.Elapsed < Timeout);
+            } while (elements.Count == 0 && stopwatch.Elapsed < Timeout);
 
             return elements;
         }

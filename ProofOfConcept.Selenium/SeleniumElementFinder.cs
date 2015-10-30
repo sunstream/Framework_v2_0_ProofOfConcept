@@ -10,11 +10,6 @@ namespace ProofOfConcept.Selenium
     {
         public IWebDriver Driver = DependencyManager.Kernel.Get<NavigationService>().GetDriver<IWebDriver>();
 
-        //public SeleniumElementFinder(FindBy locator) : base(locator)
-        //{
-        //    LocatorTransformer = new SeleniumLocatorTransformer();
-        //}
-
         public SeleniumElementFinder()
         {
             LocatorTransformer = new SeleniumLocatorTransformer();
@@ -26,7 +21,6 @@ namespace ProofOfConcept.Selenium
             IElement firstElement = FindFirst();
             if (firstElement != null && firstElement.Exists)
             {
-                //result = ((SeleniumElement) firstElement).WebElement;
                 result = ((IWebElement)firstElement.NativeElement);
             }
             return result;

@@ -34,7 +34,7 @@ namespace ProofOfConcept
 
         public override bool Check(IElement element)
         {
-            return element.Displayed ^ IncludeMatchingElements;
+            return !(element.Displayed ^ IncludeMatchingElements);
         }
 
         public override string Describe()
@@ -55,7 +55,7 @@ namespace ProofOfConcept
         }
         public override bool Check(IElement element)
         {
-            return (element.GetAttribute(_attributeName) == _attributeValue) ^ IncludeMatchingElements;
+            return !((element.GetAttribute(_attributeName) == _attributeValue) ^ IncludeMatchingElements);
         }
         public override string Describe()
         {

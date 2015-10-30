@@ -7,10 +7,24 @@ namespace ProofOfConcept.Tests.TestObjects.Elements
 {
     public class HtmlTextField : ElementBase, ITextFieldBehavior
     {
-        private readonly ITextFieldBehavior _textFieldBehavior;
+        private ITextFieldBehavior _textFieldBehavior;
+
+        //private ITextFieldBehavior TextFieldBehavior
+        //{
+        //    get
+        //    {
+        //        if (_textFieldBehavior == null)
+        //        {
+        //            _textFieldBehavior = DependencyManager.Kernel.Get<ITextFieldBehavior>();
+        //            _textFieldBehavior.Element = this;
+        //        }
+        //        return _textFieldBehavior;
+        //    }
+        //}
         public HtmlTextField()
         {
-            _textFieldBehavior = DependencyManager.Kernel.Get<ITextFieldBehavior>();
+            var element = new Ninject.Parameters.ConstructorArgument("element", this);
+            _textFieldBehavior = DependencyManager.Kernel.Get<ITextFieldBehavior>(element);
         }
         
         public void SetText(string textValue)
