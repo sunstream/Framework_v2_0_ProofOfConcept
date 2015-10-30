@@ -2,7 +2,7 @@
 
 namespace ProofOfConcept.Behaviors
 {
-    public interface IButtonBehavior : ITextReadable, IElementBehavior
+    public interface IDropDownBehavior : IElementBehavior, ISelectableValue
     {
          
     }

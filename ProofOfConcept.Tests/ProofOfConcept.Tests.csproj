@@ -59,8 +59,10 @@
     <Compile Include="TestObjects\Contexts\LoginContext.cs" />
     <Compile Include="TestObjects\Elements\HtmlButton.cs" />
     <Compile Include="TestObjects\Elements\HtmlCheckBox.cs" />
+    <Compile Include="TestObjects\Elements\HtmlDropDown.cs" />
     <Compile Include="TestObjects\Elements\HtmlRadioButton.cs" />
     <Compile Include="TestObjects\Elements\HtmlTextField.cs" />
+    <Compile Include="TestObjects\Pages\InvestorDashboardPage.cs" />
     <Compile Include="TestObjects\Pages\LoginPage.cs" />
   </ItemGroup>
   <ItemGroup>

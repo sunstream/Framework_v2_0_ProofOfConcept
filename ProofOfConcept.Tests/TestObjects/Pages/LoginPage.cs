@@ -14,27 +14,15 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
         public LoginForm LoginForm;
     }
 
-    class InvestorDashboardPage : IPage
-    {
-        public static string Url = "https://roadshowaccess.qx.ipreo.com/Deal";
-
-        [FindBy(How.ClassName, "input-group")] 
-        public DealSearchField DealSearchField;
-
-        [FindBy(How.Id, "filter")] 
-        public DealSearchFilters Filters;
-
-        [FindBy(How.Id, "dealCode")]
-        public HtmlTextField DealAccessCode;
-    }
     
-    class DisclaimerPage : IPage
-    {
-        public static string Url = "https://roadshowaccess.qx.ipreo.com/RoadshowDetails/ProspectusDisclaimer/-Ww8jWIXOpNPGWEAHZpIhBp9H1no5Hwe/2047494394?isStreetViewRequired=False";
+    
+    //class DisclaimerPage : IPage
+    //{
+    //    public static string Url = "https://roadshowaccess.qx.ipreo.com/RoadshowDetails/ProspectusDisclaimer/-Ww8jWIXOpNPGWEAHZpIhBp9H1no5Hwe/2047494394?isStreetViewRequired=False";
 
-        [FindBy(How.Id, "attestationCheckBox")]
-        public HtmlCheckBox DisclaimerCheckBox;
-    }
+    //    [FindBy(How.Id, "attestationCheckBox")]
+    //    public HtmlCheckBox DisclaimerCheckBox;
+    //}
 
     public class LoginForm : IContainer
     {

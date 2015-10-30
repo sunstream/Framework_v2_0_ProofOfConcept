@@ -44,10 +44,14 @@
     <Reference Include="WebDriver">
       <HintPath>..\packages\Selenium.WebDriver.2.48.0\lib\net40\WebDriver.dll</HintPath>
     </Reference>
+    <Reference Include="WebDriver.Support">
+      <HintPath>..\packages\Selenium.Support.2.48.0\lib\net40\WebDriver.Support.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\SeleniumButtonBehavior.cs" />
     <Compile Include="Behaviors\SeleniumCheckBoxBehavior.cs" />
+    <Compile Include="Behaviors\SeleniumDropDownBehavior.cs" />
     <Compile Include="Behaviors\SeleniumRadioButtonBehavior.cs" />
     <Compile Include="Behaviors\SeleniumTextFieldBehavior.cs" />
     <Compile Include="How.cs" />

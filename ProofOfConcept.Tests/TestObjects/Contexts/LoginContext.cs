@@ -9,6 +9,7 @@ namespace ProofOfConcept.Tests.TestObjects.Contexts
         private readonly IPageFactory _pageFactory;
         private readonly NavigationService _navigationService;
         private LoginPage _loginPage;
+        private InvestorDashboardPage _investorDashboardPage;
 
         public LoginContext()
         {
@@ -40,6 +41,12 @@ namespace ProofOfConcept.Tests.TestObjects.Contexts
         public void VerifyLandingPage()
         {
             _navigationService.VerifyPageUrl("https://roadshowaccess.qx.ipreo.com/Deal");
+        }
+
+        public void SelectDealTypeOnInvestorDashboardPage(string dealType)
+        {
+            _investorDashboardPage = _pageFactory.Create<InvestorDashboardPage>();
+            _investorDashboardPage.DealTypeFilter.Select(dealType);
         }
 
     }

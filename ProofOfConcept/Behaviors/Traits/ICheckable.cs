@@ -1,4 +1,4 @@
-﻿namespace ProofOfConcept.Behaviors
+﻿namespace ProofOfConcept.Behaviors.Traits
 {
     public interface ICheckable
     {

@@ -1,5 +1,6 @@
 ﻿using Ninject;
 using ProofOfConcept.Behaviors;
+using ProofOfConcept.Behaviors.Traits;
 
 namespace ProofOfConcept.Tests.TestObjects.Elements
 {
