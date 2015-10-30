@@ -7,5 +7,7 @@ namespace ProofOfConcept
         void NavigateTo(string url);
 
         string GetCurrentUrl();
+
+        TDriverType GetDriver<TDriverType>() where TDriverType : class;
     }
 }

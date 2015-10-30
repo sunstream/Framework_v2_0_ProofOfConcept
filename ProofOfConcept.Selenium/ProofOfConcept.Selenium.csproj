@@ -59,6 +59,10 @@
     <Compile Include="SeleniumNativeElementHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ProofOfConcept.Services\ProofOfConcept.Services.csproj">
+      <Project>{16256FA4-36C1-41A0-A69B-CAFD7D4C6499}</Project>
+      <Name>ProofOfConcept.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProofOfConcept\ProofOfConcept.csproj">
       <Project>{DD19B448-FEB7-40A8-A235-7E23B8D04BBC}</Project>
       <Name>ProofOfConcept</Name>

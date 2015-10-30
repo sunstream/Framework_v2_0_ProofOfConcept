@@ -5,23 +5,29 @@ namespace ProofOfConcept.Services
 {
     public class NavigationService
     {
-        private readonly IDriverDecorator _driver;
+        //TODO: driver must be private. Provide a list of methods to manipulate driver instead.
+        public readonly IDriverDecorator Driver;
 
         public NavigationService(IDriverDecorator driverDecorator)
         {
-            this._driver = driverDecorator;
+            this.Driver = driverDecorator;
+        }
+
+        public TDriverType GetDriver<TDriverType>() where TDriverType : class
+        {
+            return Driver.GetDriver<TDriverType>();
         }
 
         public void NavigateTo(string url)
         {
-            _driver.NavigateTo(url);
+            Driver.NavigateTo(url);
         }
 
         public void VerifyPageUrl(string expectedUrl)
         {
             //TODO: REMOVE TEMPORARY STUB!
             Thread.Sleep(3000);
-            if (String.Compare(_driver.GetCurrentUrl(), expectedUrl, StringComparison.InvariantCultureIgnoreCase) != 0)
+            if (String.Compare(Driver.GetCurrentUrl(), expectedUrl, StringComparison.InvariantCultureIgnoreCase) != 0)
             {
                 throw new Exception("Invalid URL (custom assert, just for demo purposes).");
             }

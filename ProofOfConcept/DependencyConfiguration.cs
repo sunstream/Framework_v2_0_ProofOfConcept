@@ -30,6 +30,12 @@ namespace ProofOfConcept
             get { return (string)this["resolvedBy"]; }
         }
 
+        [ConfigurationProperty("isSingleton", IsRequired = false)]
+        public bool IsSingleton
+        {
+            get { return (bool)this["isSingleton"]; }
+        }
+
         public bool HasToolFamilyParameter
         {
             get { return !string.IsNullOrEmpty(ToolFamily); }

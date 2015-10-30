@@ -6,13 +6,23 @@ namespace ProofOfConcept
 {
     public class ElementBase : IElement
     {
+        //public ElementBase()
+        //{
+        //}
+
+        //public ElementBase(ElementBase template)
+        //{
+        //    this.SearchConfiguration = template.SearchConfiguration;
+        //    this.NativeElement = template.NativeElement;
+        //}
+
         public IElementSearchConfiguration SearchConfiguration { get; set; }
 
         private INativeElementHandler ElementHandler
         {
             get
             {
-                INativeElementHandler handler = DependencyManager.Kernel.Get<INativeElementHandler>(_tool.ToString());
+                INativeElementHandler handler = DependencyManager.Kernel.Get<INativeElementHandler>(Tool.ToString());
                 handler.SearchConfiguration = SearchConfiguration;
                 return handler;
             }

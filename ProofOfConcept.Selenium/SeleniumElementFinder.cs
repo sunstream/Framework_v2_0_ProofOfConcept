@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ninject;
 using OpenQA.Selenium;
+using ProofOfConcept.Services;
 
 namespace ProofOfConcept.Selenium
 {
     public class SeleniumElementFinder : ElementFinderBase<IWebElement, By>
     {
-        public IWebDriver Driver;
+        public IWebDriver Driver = DependencyManager.Kernel.Get<NavigationService>().GetDriver<IWebDriver>();
 
-        public SeleniumElementFinder(FindBy locator) : base(locator)
+        //public SeleniumElementFinder(FindBy locator) : base(locator)
+        //{
+        //    LocatorTransformer = new SeleniumLocatorTransformer();
+        //}
+
+        public SeleniumElementFinder()
         {
             LocatorTransformer = new SeleniumLocatorTransformer();
         }

@@ -79,13 +79,35 @@ namespace ProofOfConcept
                         Type resolvedByType = Type.GetType(dependency.ClassName);
                         if (dependency.HasToolFamilyParameter)
                         {
-                            kernel.Bind(interfaceType).To(resolvedByType).Named(dependency.ToolFamily);
+                            if (dependency.IsSingleton)
+                            {
+                                kernel.Bind(interfaceType)
+                                    .To(resolvedByType)
+                                    .InSingletonScope()
+                                    .Named(dependency.ToolFamily);
+                            }
+                            else
+                            {
+                                kernel.Bind(interfaceType)
+                                    .To(resolvedByType)
+                                    .Named(dependency.ToolFamily);
+                            }
                         }
                         else
                         {
-                            kernel.Bind(interfaceType).To(resolvedByType);
-                        }    
-                    }
+                            if (dependency.IsSingleton)
+                            {
+                                kernel.Bind(interfaceType)
+                                    .To(resolvedByType)
+                                    .InSingletonScope();
+                            }
+                            else
+                            {
+                                kernel.Bind(interfaceType)
+                                    .To(resolvedByType);
+                            }
+                        }
+                   }
                     
                 }
                 catch (ArgumentNullException e)

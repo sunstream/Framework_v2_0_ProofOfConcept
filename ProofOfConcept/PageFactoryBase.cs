@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ninject;
 using System.Reflection;
+using ProofOfConcept.Utils;
 
 namespace ProofOfConcept
 {
@@ -35,9 +36,23 @@ namespace ProofOfConcept
                 if (IsAnElement(pageMember))
                 {
                     IElement elementInstance = GetElementByAttributes(pageMember, commonContainerElement);
+
+                    //Type elementType = pageMember.GetUnderlyingType();
+                    //Type baseElementType = DependencyManager.Kernel.Get<IElement>().GetType();
+
+                    //var concreteElementTemplate = Activator.CreateInstance(elementType);
+                    //var concreteElementInstance = elementInstance.ShallowConvert<>(concreteElementTemplate);
+                    Type elementType = pageMember.GetUnderlyingType();
+                    var concreteElementInstance = Activator.CreateInstance(elementType);
+                    elementInstance.ShallowConvert(concreteElementInstance);
+                    //((IElement) concreteElementInstance).SearchConfiguration = elementInstance.SearchConfiguration;
+                    
                     switch (pageMember.MemberType)
                         {
-                            case MemberTypes.Field: ((FieldInfo)pageMember).SetValue(requestedPage, elementInstance); break;
+                            case MemberTypes.Field: 
+                                //elementInstance
+                                ((FieldInfo)pageMember).SetValue(requestedPage, elementInstance); 
+                                break;
                             case MemberTypes.Property: ((PropertyInfo)pageMember).SetValue(requestedPage, elementInstance); break;
                         }
                     }
@@ -58,7 +73,8 @@ namespace ProofOfConcept
                     DependencyManager.Kernel.Get<IElementSearchConfiguration>(DependencyManager.Tool.ToString());
                 searchConfiguration.FindBy(locator).FilterBy(filters).From(parentElement);
 
-                IElement elementInstance = DependencyManager.Kernel.Get<IElement>(DependencyManager.Tool.ToString());
+                //IElement elementInstance = DependencyManager.Kernel.Get<IElement>(DependencyManager.Tool.ToString());
+                IElement elementInstance = DependencyManager.Kernel.Get<IElement>();
                 elementInstance.SearchConfiguration = searchConfiguration;
                 return elementInstance;
             }
@@ -83,10 +99,10 @@ namespace ProofOfConcept
         private IContainer InitializeComplexControl(MemberInfo pageMember, IElement commonContainerElement)
         {
             IElement containerElementForComplexControl = GetElementByAttributes(pageMember, commonContainerElement);
-            Type complexControlType = pageMember.DeclaringType;
+            Type complexControlType = pageMember.GetUnderlyingType();
             MethodInfo getPageMethod = (typeof(PageFactoryBase)).GetMethod("Create").MakeGenericMethod(complexControlType);
             object[] getPageMethodArguments = { containerElementForComplexControl };
-            IContainer complexControlInstance = (IContainer)getPageMethod.Invoke(null, getPageMethodArguments);
+            IContainer complexControlInstance = (IContainer)getPageMethod.Invoke(this, getPageMethodArguments);
 
             return complexControlInstance;
         }
@@ -114,18 +130,7 @@ namespace ProofOfConcept
 
         private bool IsOfType(MemberInfo pageMember, Type expectedType)
         {
-            bool result;
-            try
-            {
-                Type pageMemberType = pageMember.DeclaringType;
-                result = expectedType.IsAssignableFrom(pageMemberType);
-            }
-            catch (NullReferenceException e)
-            {
-                throw new NullReferenceException(
-                    string.Format("Failed to extract type information for page member {0}", pageMember.Name), e);
-            }
-            return result;
+            return pageMember.GetUnderlyingType().GetInterfaces().Contains(expectedType);
         }
         #endregion
     }

@@ -79,6 +79,12 @@
   <ItemGroup>
     <Folder Include="bin\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProofOfConcept.Utils\ProofOfConcept.Utils.csproj">
+      <Project>{665ACCBE-1B9A-4C42-A11F-97E6EE4583EE}</Project>
+      <Name>ProofOfConcept.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

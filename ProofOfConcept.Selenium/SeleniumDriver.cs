@@ -6,6 +6,7 @@ namespace ProofOfConcept.Selenium
 {
     public class SeleniumDriver : IDriverDecorator
     {
+        //TODO: make _driver private
         private readonly IWebDriver _driver;
 
         public SeleniumDriver(IWebDriver driver)
@@ -21,6 +22,11 @@ namespace ProofOfConcept.Selenium
         public string GetCurrentUrl()
         {
             return _driver.Url;
+        }
+
+        public TDriverType GetDriver<TDriverType>() where TDriverType : class
+        {
+            return _driver as TDriverType;
         }
     }
 }

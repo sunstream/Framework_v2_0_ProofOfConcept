@@ -12,10 +12,10 @@ namespace ProofOfConcept
         where TNativeElement : class 
         where TNativeLocator : class
     {
-        protected ElementFinderBase(FindBy locator)
-        {
-            Locator = locator;
-        }
+        //protected ElementFinderBase(FindBy locator)
+        //{
+        //    Locator = locator;
+        //}
         
         protected FindBy Locator;
         protected FilterBy[] Filters;
