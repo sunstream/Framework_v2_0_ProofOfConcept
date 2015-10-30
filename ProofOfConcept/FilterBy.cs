@@ -16,7 +16,13 @@ namespace ProofOfConcept
         {
             IncludeMatchingElements = includeMatchingElements;
         }
-        public abstract bool Check(IElement element);
+
+        public bool Check(IElement element)
+        {
+            return !(CalculateCondition(element) ^ IncludeMatchingElements);
+        }
+
+        public abstract bool CalculateCondition(IElement element);
 
         public string DescribeIncludeRule()
         {
@@ -32,7 +38,7 @@ namespace ProofOfConcept
         {
         }
 
-        public override bool Check(IElement element)
+        public override bool CalculateCondition(IElement element)
         {
             return !(element.Displayed ^ IncludeMatchingElements);
         }
@@ -53,7 +59,7 @@ namespace ProofOfConcept
             _attributeName = attributeName;
             _attributeValue = attributeValue;
         }
-        public override bool Check(IElement element)
+        public override bool CalculateCondition(IElement element)
         {
             return !((element.GetAttribute(_attributeName) == _attributeValue) ^ IncludeMatchingElements);
         }
@@ -70,7 +76,7 @@ namespace ProofOfConcept
         {
             Timeout = timeout;
         }
-        public override bool Check(IElement element)
+        public override bool CalculateCondition(IElement element)
         {
             return true;
         }
@@ -83,7 +89,7 @@ namespace ProofOfConcept
 
     public class NoCaching : FilterBy
     {
-        public override bool Check(IElement element)
+        public override bool CalculateCondition(IElement element)
         {
             return true;
         }
