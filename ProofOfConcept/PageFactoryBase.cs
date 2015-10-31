@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using Ninject;
 using System.Reflection;
-using Newtonsoft.Json;
+using Ninject;
 using ProofOfConcept.Utils;
 
 namespace ProofOfConcept

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProofOfConcept.Samples.TestObjects.Elements;
 using ProofOfConcept.Selenium;
-using ProofOfConcept.Tests.TestObjects.Elements;
 
-namespace ProofOfConcept.Tests.TestObjects.Pages
+namespace ProofOfConcept.Samples.TestObjects.Pages
 {
     public class InvestorDashboardPage : IPage
     {
@@ -23,5 +18,10 @@ namespace ProofOfConcept.Tests.TestObjects.Pages
 
         [FindBy(How.Id, "InvestorDealFilterId")]
         public HtmlDropDown DealTypeFilter;
+
+        public void WaitUntilLoaded()
+        {
+            
+        }
     }
 }

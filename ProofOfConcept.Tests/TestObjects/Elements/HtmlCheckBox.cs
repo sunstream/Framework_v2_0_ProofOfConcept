@@ -1,8 +1,7 @@
-﻿using Ninject;
-using ProofOfConcept.Behaviors;
+﻿using ProofOfConcept.Behaviors;
 using ProofOfConcept.Behaviors.Traits;
 
-namespace ProofOfConcept.Tests.TestObjects.Elements
+namespace ProofOfConcept.Samples.TestObjects.Elements
 {
     public class HtmlCheckBox : ElementBase, ICheckable, ITextReadable
     {

@@ -1,13 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Ninject;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 
 namespace ProofOfConcept.Selenium
 {
     public class SeleniumDriverDecorator : IDriverDecorator
     {
-        //TODO: make _driver private
-        private readonly IWebDriver _driver;
+        private IWebDriver _driver;
+        private IWebDriver Driver
+        {
+            get
+            {
+                if (_driver == null || IsDisposed())
+                {
+                    _driver = DependencyManager.Kernel.Get<IWebDriver>();
+                }
+                return _driver;
+            }
+        }
+
+        private bool IsDisposed()
+        {
+            bool sessionDead = true;
+            try
+            {
+                var result = _driver.Title;
+                sessionDead = false;
+            }
+            catch
+            {
+            }
+            return sessionDead;
+        }
 
         public SeleniumDriverDecorator(IWebDriver driver)
         {
@@ -16,22 +43,32 @@ namespace ProofOfConcept.Selenium
 
         public void NavigateTo(string url)
         {
-            _driver.Url = url;
+            Driver.Url = url;
         }
 
         public string GetCurrentUrl()
         {
-            return _driver.Url;
+            return Driver.Url;
         }
 
         public TDriverType GetDriver<TDriverType>() where TDriverType : class
         {
-            return _driver as TDriverType;
+            return Driver as TDriverType;
         }
 
         public void Stop()
         {
-            _driver.Close();
+            try
+            {
+                if (_driver != null) _driver.Quit();
+            }
+            catch (Exception e)
+            {
+                if (!(e is OpenQA.Selenium.DriverServiceNotFoundException))
+                {
+                    throw;
+                }
+            }
         }
     }
 }

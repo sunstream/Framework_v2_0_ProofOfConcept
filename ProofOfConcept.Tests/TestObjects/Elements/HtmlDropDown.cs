@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ProofOfConcept.Behaviors;
+﻿using ProofOfConcept.Behaviors;
 
-namespace ProofOfConcept.Tests.TestObjects.Elements
+namespace ProofOfConcept.Samples.TestObjects.Elements
 {
     public class HtmlDropDown : ElementBase, IDropDownBehavior
     {

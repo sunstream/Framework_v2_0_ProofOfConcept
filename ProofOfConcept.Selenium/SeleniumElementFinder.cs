@@ -8,7 +8,13 @@ namespace ProofOfConcept.Selenium
 {
     public class SeleniumElementFinder : ElementFinderBase<IWebElement, By>
     {
-        public IWebDriver Driver = DependencyManager.Kernel.Get<NavigationService>().GetDriver<IWebDriver>();
+        private IWebDriver Driver
+        {
+            get
+            {
+                return DependencyManager.Kernel.Get<NavigationService>().GetDriver<IWebDriver>();
+            }
+        }
 
         public SeleniumElementFinder()
         {

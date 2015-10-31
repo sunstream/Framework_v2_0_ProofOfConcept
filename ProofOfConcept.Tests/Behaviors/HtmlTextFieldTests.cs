@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using OpenQA.Selenium;
-using ProofOfConcept.Tests.TestObjects.Contexts;
-using ProofOfConcept.Tests.TestObjects.Pages;
+using ProofOfConcept.Samples.TestObjects.Contexts;
+using ProofOfConcept.Samples.TestObjects.Pages;
 
-namespace ProofOfConcept.Tests.Behaviors
+namespace ProofOfConcept.Samples.Behaviors
 {
     [TestClass]
     public class HtmlTextFieldTests

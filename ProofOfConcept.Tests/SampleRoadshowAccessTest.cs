@@ -1,25 +1,26 @@
-﻿using ProofOfConcept.Selenium;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProofOfConcept.Tests.TestObjects.Contexts;
-using ProofOfConcept.Tests.TestObjects.Pages;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ProofOfConcept.Samples.TestObjects.Contexts;
 
-namespace ProofOfConcept.Tests
+namespace ProofOfConcept.Samples
 {
     [TestClass]
-    public class PageFactoryTest : BaseMsTest
+    public class SampleRoadshowAccessTest : BaseMsTest
     {
         private LoginContext _loginContext;
+        private InvestorContext _investorContext;
         
         [TestInitialize]
         public void InitContext()
         {
             _loginContext = new LoginContext();
+            _investorContext = new InvestorContext();
         }
 
         [TestMethod]
         public void TestOpensRoadshowAccessWebsite()
         {
             _loginContext.OpenApplication();
+            _loginContext.VerifyLoginPageUrl();
         }
 
         [TestMethod]
@@ -27,6 +28,7 @@ namespace ProofOfConcept.Tests
         {
             _loginContext.OpenApplication();
             _loginContext.LoginToApplication();
+            _investorContext.VerifyLandingPageUrl();
         }
 
         [TestMethod]
@@ -34,8 +36,7 @@ namespace ProofOfConcept.Tests
         {
             _loginContext.OpenApplication();
             _loginContext.LoginToApplication();
-            _loginContext.SelectDealTypeOnInvestorDashboardPage("All Deals");
-            _loginContext.ToString();
+            _investorContext.SelectDealTypeOnInvestorDashboardPage("All Deals");
         }
     }
 }

@@ -2,17 +2,17 @@
 using Ninject;
 using ProofOfConcept.Services;
 
-namespace ProofOfConcept.Tests
+namespace ProofOfConcept.Samples
 {
     [TestClass]
     [DeploymentItem("chromedriver.exe")]
     [DeploymentItem("ProofOfConcept.Selenium.dll")]
     public class BaseMsTest
     {
-        //[TestCleanup]
-        //public void KillDriver()
-        //{
-        //    DependencyManager.Kernel.Get<NavigationService>().Stop();
-        //}
+        [TestCleanup]
+        public void KillDriverIfLaunched()
+        {
+            DependencyManager.Kernel.Get<NavigationService>().Stop();
+        }
     }
 }

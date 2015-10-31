@@ -12,11 +12,6 @@ namespace ProofOfConcept
         where TNativeElement : class 
         where TNativeLocator : class
     {
-        //protected ElementFinderBase(FindBy locator)
-        //{
-        //    Locator = locator;
-        //}
-        
         protected FindBy Locator;
         protected FilterBy[] Filters;
         protected IElement ContainerElement;
@@ -38,7 +33,7 @@ namespace ProofOfConcept
                     }
                     if (_timeout == null)
                     {
-                        _timeout = Settings.ElementSearchConfigurationSettings.Timeout;
+                        _timeout = Settings.TimeoutSettings.ElementTimeout;
                     }
                 }
                 return _timeout;
@@ -94,17 +89,18 @@ namespace ProofOfConcept
 
         public IList<IElement> FindAll()
         {
-            IList<IElement> elements;
+            IList<IElement> elements = new List<IElement>();
             dynamic container = GetParentIfExists();
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             do
             {
+                if (stopwatch.Elapsed >= Timeout) break;
                 var nativeElements = Find(container);
                 elements = Wrap(nativeElements);
                 elements = Filter(elements);
-            } while (elements.Count == 0 && stopwatch.Elapsed < Timeout);
+            } while (elements.Count == 0);
 
             return elements;
         }

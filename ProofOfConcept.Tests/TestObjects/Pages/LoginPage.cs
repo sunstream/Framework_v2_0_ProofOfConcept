@@ -1,7 +1,7 @@
-﻿using ProofOfConcept.Selenium;
-using ProofOfConcept.Tests.TestObjects.Elements;
+﻿using ProofOfConcept.Samples.TestObjects.Elements;
+using ProofOfConcept.Selenium;
 
-namespace ProofOfConcept.Tests.TestObjects.Pages
+namespace ProofOfConcept.Samples.TestObjects.Pages
 {
     class LoginPage : IPage
     {

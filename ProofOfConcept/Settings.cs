@@ -6,18 +6,18 @@ namespace ProofOfConcept
 {
     public static class Settings
     {
-        private static readonly ThreadLocal<ElementSearchConfigurationSettings> _elementSearchConfigurationSettings 
-            = new ThreadLocal<ElementSearchConfigurationSettings>();
-        public static IElementSearchConfigurationSettings ElementSearchConfigurationSettings
+        private static readonly ThreadLocal<TimeoutSettings> _timeoutSettings 
+            = new ThreadLocal<TimeoutSettings>();
+        public static ITimeoutSettings TimeoutSettings
         {
             get
             {
-                if (!_elementSearchConfigurationSettings.IsValueCreated)
+                if (!_timeoutSettings.IsValueCreated)
                 {
-                    var result = GetConfiguration<ElementSearchConfigurationSettings>();
-                    _elementSearchConfigurationSettings.Value = result;
+                    var result = GetConfiguration<TimeoutSettings>();
+                    _timeoutSettings.Value = result;
                 }
-                return _elementSearchConfigurationSettings.Value;
+                return _timeoutSettings.Value;
             }
         }
 

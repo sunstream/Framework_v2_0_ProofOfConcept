@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DriverService.cs" />
     <Compile Include="ElementService.cs" />
     <Compile Include="NavigationService.cs" />
     <Compile Include="PageService.cs" />

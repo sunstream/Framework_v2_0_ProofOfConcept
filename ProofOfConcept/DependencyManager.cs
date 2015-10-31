@@ -16,34 +16,32 @@ namespace ProofOfConcept
 
     public static class DependencyManager
     {
-        private static readonly ThreadLocal<IKernel> _activeKernel = new ThreadLocal<IKernel>();
+        private static readonly ThreadLocal<IKernel> ActiveKernel = new ThreadLocal<IKernel>();
         public static IKernel Kernel
         {
             get
             {
-                if (!_activeKernel.IsValueCreated)
+                if (!ActiveKernel.IsValueCreated)
                 {
-                    _activeKernel.Value = InitKernel();
+                    ActiveKernel.Value = InitKernel();
                 }
-                return _activeKernel.Value;
+                return ActiveKernel.Value;
             }
-            private set { _activeKernel.Value = value; }
+            private set { ActiveKernel.Value = value; }
         }
 
-        //private static readonly ThreadLocal<string> _activeTool = new ThreadLocal<string>();
-        private static readonly ThreadLocal<ToolFamily> _activeTool = new ThreadLocal<ToolFamily>();
+        private static readonly ThreadLocal<ToolFamily> ActiveTool = new ThreadLocal<ToolFamily>();
 
-        //public static string Tool
         public static ToolFamily Tool
         {
             get
             {
-                if (!_activeTool.IsValueCreated)
+                if (!ActiveTool.IsValueCreated)
                 {
                     string defaultToolName = ConfigurationManager.AppSettings["toolFamily"];
                     try
                     {
-                        _activeTool.Value = (ToolFamily)Enum.Parse(typeof(ToolFamily), defaultToolName);
+                        ActiveTool.Value = (ToolFamily)Enum.Parse(typeof(ToolFamily), defaultToolName);
                     }
                     catch (Exception e)
                     {
@@ -56,9 +54,9 @@ namespace ProofOfConcept
                     }
                     //_activeTool.Value = defaultToolName;
                 }
-                return _activeTool.Value;
+                return ActiveTool.Value;
             }
-            set { _activeTool.Value = value; }
+            set { ActiveTool.Value = value; }
         }
 
         private static IKernel InitKernel()
@@ -67,80 +65,161 @@ namespace ProofOfConcept
             IKernel kernel = new StandardKernel();
             foreach (DependencyElement dependency in configuration.Dependencies)
             {
-                try
-                {
-                    Type interfaceType = Type.GetType(dependency.InterfaceName);
-                    if (dependency.InterfaceName == dependency.ClassName)
-                    {
-                        kernel.Bind(interfaceType).ToSelf();
-                    }
-                    else
-                    {
-                        Type resolvedByType = Type.GetType(dependency.ClassName);
-                        if (dependency.HasToolFamilyParameter)
-                        {
-                            if (dependency.IsSingleton)
-                            {
-                                kernel.Bind(interfaceType)
-                                    .To(resolvedByType)
-                                    .InSingletonScope()
-                                    .Named(dependency.ToolFamily);
-                            }
-                            else
-                            {
-                                kernel.Bind(interfaceType)
-                                    .To(resolvedByType)
-                                    .Named(dependency.ToolFamily);
-                            }
-                        }
-                        else
-                        {
-                            if (dependency.IsSingleton)
-                            {
-                                kernel.Bind(interfaceType)
-                                    .To(resolvedByType)
-                                    .InSingletonScope();
-                            }
-                            else
-                            {
-                                kernel.Bind(interfaceType)
-                                    .To(resolvedByType);
-                            }
-                        }
-                   }
-                    
-                }
-                catch (ArgumentNullException e)
-                {
-                    throw new DependencyConfigurationException(
-                        string.Format(
-                            "No proper type name provided in dependency configuration node. Node description:{0}{1}{2}",
-                            dependency.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
-                        e);
-                }
-                catch (FileLoadException e)
-                {
-                    throw new DependencyConfigurationException(
-                        string.Format(
-                            "Failed to load the assembly described in the node (or one of its dependencies). Node description:{0}{1}{2}",
-                            dependency.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
-                        e);
-                }
-                catch (BadImageFormatException e)
-                {
-                    throw new DependencyConfigurationException(
-                        string.Format(
-                            "The assembly described in the node (or one of its dependencies) is invalid. Node description:{0}{1}{2}",
-                            dependency.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
-                        e);
-                }
-                
+                #region Conditional binding
+//                try
+//                {
+//                    Type interfaceType = Type.GetType(dependency.InterfaceName);
+//                    if (dependency.InterfaceName == dependency.ClassName)
+//                    {
+//                        if (dependency.IsSingleton)
+//                        {
+//                            kernel.Bind(interfaceType).ToSelf().InSingletonScope();
+//                        }
+//                        else
+//                        {
+//                            kernel.Bind(interfaceType).ToSelf();
+//                        }
+//                    }
+//                    else
+//                    {
+//                        Type resolvedByType = Type.GetType(dependency.ClassName);
+//                        if (dependency.HasToolFamilyParameter)
+//                        {
+//                            if (dependency.IsSingleton)
+//                            {
+//                                kernel.Bind(interfaceType)
+//                                    .To(resolvedByType)
+//                                    .InSingletonScope()
+//                                    .Named(dependency.ToolFamily);
+//                            }
+//                            else
+//                            {
+//                                kernel.Bind(interfaceType)
+//                                    .To(resolvedByType)
+//                                    .Named(dependency.ToolFamily);
+//                            }
+//                        }
+//                        else
+//                        {
+//                            if (dependency.IsSingleton)
+//                            {
+//                                kernel.Bind(interfaceType)
+//                                    .To(resolvedByType)
+//                                    .InSingletonScope();
+//                            }
+//                            else
+//                            {
+//                                kernel.Bind(interfaceType)
+//                                    .To(resolvedByType);
+//                            }
+//                        }
+//                   }
+//                    
+//                }
+//                catch (ArgumentNullException e)
+//                {
+//                    throw new DependencyConfigurationException(
+//                        string.Format(
+//                            "No proper type name provided in dependency configuration node. Node description:{0}{1}{2}",
+//                            dependency.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+//                        e);
+//                }
+//                catch (FileLoadException e)
+//                {
+//                    throw new DependencyConfigurationException(
+//                        string.Format(
+//                            "Failed to load the assembly described in the node (or one of its dependencies). Node description:{0}{1}{2}",
+//                            dependency.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+//                        e);
+//                }
+//                catch (BadImageFormatException e)
+//                {
+//                    throw new DependencyConfigurationException(
+//                        string.Format(
+//                            "The assembly described in the node (or one of its dependencies) is invalid. Node description:{0}{1}{2}",
+//                            dependency.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+//                        e);
+//                }
+                #endregion
 
+                new DependencyBuilder(dependency).Build(kernel);
             }
             return kernel;
         }
         
 
+    }
+
+    public class DependencyBuilder
+    {
+        private DependencyElement element;
+        private bool isSingleton;
+        private bool isSelfBound;
+        private bool hasToolFamily;
+
+        private Type baseType;
+        private Type resolvingType;
+
+        public DependencyBuilder(DependencyElement element)
+        {
+            this.element = element;
+
+            isSingleton = element.IsSingleton;
+            isSelfBound = element.InterfaceName == element.ClassName;
+            hasToolFamily = element.HasToolFamilyParameter;
+
+            baseType = GetType(element.InterfaceName);
+            resolvingType = GetType(element.ClassName);
+        }
+
+        public void Build(IKernel kernel)
+        {
+            var initialState = kernel.Bind(baseType);
+            var boundState = isSelfBound ? initialState.ToSelf() : initialState.To(resolvingType);
+            if (hasToolFamily)
+            {
+                boundState.Named(element.ToolFamily);
+            }
+            if (isSingleton)
+            {
+                boundState.InSingletonScope();
+            }
+        }
+
+        Type GetType(string name)
+        {
+            Type result;
+            try
+            {
+                result = Type.GetType(name);
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new DependencyConfigurationException(
+                    string.Format(
+                        "No proper type name provided in dependency configuration node. Node description:{0}{1}{2}",
+                        element.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+                    e);
+            }
+            catch (FileLoadException e)
+            {
+                throw new DependencyConfigurationException(
+                    string.Format(
+                        "Failed to load the assembly described in the node (or one of its dependencies). Node description:{0}{1}{2}",
+                        element.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+                    e);
+            }
+            catch (BadImageFormatException e)
+            {
+                throw new DependencyConfigurationException(
+                    string.Format(
+                        "The assembly described in the node (or one of its dependencies) is invalid. Node description:{0}{1}{2}",
+                        element.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+                    e);
+            }
+            return result;
+        }
+        
     }
 
     public class DependencyConfigurationException : Exception

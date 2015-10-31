@@ -1,7 +1,7 @@
 
 using ProofOfConcept.Behaviors;
 
-namespace ProofOfConcept.Tests.TestObjects.Elements
+namespace ProofOfConcept.Samples.TestObjects.Elements
 
 {
     public class HtmlTextField : ElementBase, ITextFieldBehavior

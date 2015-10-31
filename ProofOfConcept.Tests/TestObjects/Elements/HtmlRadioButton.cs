@@ -1,7 +1,6 @@
-﻿using Ninject;
-using ProofOfConcept.Behaviors;
+﻿using ProofOfConcept.Behaviors;
 
-namespace ProofOfConcept.Tests.TestObjects.Elements
+namespace ProofOfConcept.Samples.TestObjects.Elements
 {
     public class HtmlRadioButton : ElementBase, IRadioButtonBehavior
     {

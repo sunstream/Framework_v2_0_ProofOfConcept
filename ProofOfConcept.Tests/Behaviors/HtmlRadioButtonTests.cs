@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ProofOfConcept.Tests.Behaviors
+namespace ProofOfConcept.Samples.Behaviors
 {
     [TestClass]
     public class HtmlRadioButtonTests

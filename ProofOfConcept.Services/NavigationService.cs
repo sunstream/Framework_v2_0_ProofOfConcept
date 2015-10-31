@@ -1,16 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace ProofOfConcept.Services
 {
-    public class NavigationService
+    public class NavigationService : DriverService
     {
-        //TODO: driver must be private. Provide a list of methods to manipulate driver instead.
-        public readonly IDriverDecorator Driver;
-
-        public NavigationService(IDriverDecorator driverDecorator)
+        public NavigationService(IDriverDecorator driver)
+            : base(driver)
         {
-            this.Driver = driverDecorator;
         }
 
         public TDriverType GetDriver<TDriverType>() where TDriverType : class
@@ -23,19 +21,29 @@ namespace ProofOfConcept.Services
             Driver.NavigateTo(url);
         }
 
-        public void VerifyPageUrl(string expectedUrl)
+        public string GetCurrentUrl()
         {
-            //TODO: REMOVE TEMPORARY STUB!
-            Thread.Sleep(3000);
-            if (String.Compare(Driver.GetCurrentUrl(), expectedUrl, StringComparison.InvariantCultureIgnoreCase) != 0)
+            return Driver.GetCurrentUrl();
+        }
+
+        public bool PageUrlEquals(string expectedUrl)
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            bool urlValid = false;
+            while (!urlValid)
             {
-                throw new Exception("Invalid URL (custom assert, just for demo purposes).");
+                urlValid = String.Compare(Driver.GetCurrentUrl(), expectedUrl, StringComparison.InvariantCultureIgnoreCase) == 0;
+                if (stopwatch.Elapsed >= Settings.TimeoutSettings.PageTimeout) break;
+
             }
+            return urlValid;
         }
 
         public void Stop()
         {
             Driver.Stop();
         }
+
+        
     }
 }
