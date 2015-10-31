@@ -2,7 +2,6 @@
 
 namespace ProofOfConcept
 {
-
     public abstract class FilterBy : IDescribable
     {
         protected bool IncludeMatchingElements;

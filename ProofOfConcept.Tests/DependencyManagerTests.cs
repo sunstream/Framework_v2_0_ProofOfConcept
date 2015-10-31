@@ -3,11 +3,10 @@
 namespace ProofOfConcept.Samples
 {
     [TestClass]
-    [DeploymentItem("ProofOfConcept.Selenium.dll")]
     public class DependencyManagerTests
     {
         [TestInitialize]
-        public void testSetup()
+        public void TestSetup()
         {
             //DependencyManager.Kernel.
         }

@@ -3,11 +3,18 @@ using System.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProofOfConcept.Configuration;
 
-namespace ProofOfConcept.Samples
+namespace ProofOfConcept.UnitTests
 {
     [TestClass]
     public class TimeoutConfigurationTests
     {
+        [TestCleanup]
+        public void RestoreDefaultTimeouts()
+        {
+            Settings.TimeoutSettings.ElementTimeout = ((TimeoutSettings) ConfigurationManager.GetSection(TimeoutSettings.SectionName)).ElementTimeout;
+            Settings.TimeoutSettings.PageTimeout = ((TimeoutSettings)ConfigurationManager.GetSection(TimeoutSettings.SectionName)).PageTimeout;
+        }
+
         [TestMethod]
         public void TestChangesElementTimeout()
         {
@@ -46,14 +53,14 @@ namespace ProofOfConcept.Samples
         [TestMethod]
         public void TestValidatesElementTimeoutProperty()
         {
-            var elementSearchConfigurationSettings = (TimeoutSettings)ConfigurationManager.GetSection("ProofOfConcept.TimeoutSettings");
+            var elementSearchConfigurationSettings = (TimeoutSettings)ConfigurationManager.GetSection(TimeoutSettings.SectionName);
             Assert.AreEqual(elementSearchConfigurationSettings.ElementTimeout, Settings.TimeoutSettings.ElementTimeout);
         }
 
         [TestMethod]
         public void TestValidatesPageTimeoutProperty()
         {
-            var elementSearchConfigurationSettings = (TimeoutSettings)ConfigurationManager.GetSection("ProofOfConcept.TimeoutSettings");
+            var elementSearchConfigurationSettings = (TimeoutSettings)ConfigurationManager.GetSection(TimeoutSettings.SectionName);
             Assert.AreEqual(elementSearchConfigurationSettings.PageTimeout, Settings.TimeoutSettings.PageTimeout);
         }
 

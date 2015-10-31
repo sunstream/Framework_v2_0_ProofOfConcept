@@ -56,7 +56,6 @@
     <Compile Include="Configuration\DependencyConfigurationException.cs" />
     <Compile Include="Configuration\DependencyParser.cs" />
     <Compile Include="Configuration\ITimeoutSettings.cs" />
-    <Compile Include="ContextBase.cs" />
     <Compile Include="Configuration\DependencyConfiguration.cs" />
     <Compile Include="Configuration\DependencyManager.cs" />
     <Compile Include="ElementBase.cs" />

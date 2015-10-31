@@ -54,7 +54,6 @@
     <Compile Include="DependencyManagerTests.cs" />
     <Compile Include="SampleRoadshowAccessTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimeoutSettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,6 +1,0 @@
-﻿using Ninject;
-
-namespace ProofOfConcept
-{
-       
-}
