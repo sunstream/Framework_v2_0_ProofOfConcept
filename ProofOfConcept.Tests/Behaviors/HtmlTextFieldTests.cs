@@ -3,6 +3,7 @@ using Ninject;
 using OpenQA.Selenium;
 using ProofOfConcept.ComponentTests.TestObjects.Contexts;
 using ProofOfConcept.ComponentTests.TestObjects.Pages;
+using ProofOfConcept.Configuration;
 
 namespace ProofOfConcept.Samples.Behaviors
 {

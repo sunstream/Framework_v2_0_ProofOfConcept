@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Threading;
 using System.Configuration;
+using System.Threading;
 
-namespace ProofOfConcept
+namespace ProofOfConcept.Configuration
 {
     public static class Settings
     {

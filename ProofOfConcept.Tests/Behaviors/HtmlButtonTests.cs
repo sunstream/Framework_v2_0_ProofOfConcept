@@ -3,6 +3,7 @@ using Ninject;
 using ProofOfConcept.ComponentTests.TestObjects.Contexts;
 using ProofOfConcept.ComponentTests.TestObjects.Pages;
 using ProofOfConcept.ComponentTests.TestTemplates;
+using ProofOfConcept.Configuration;
 
 namespace ProofOfConcept.Samples.Behaviors
 {

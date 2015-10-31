@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ProofOfConcept.Configuration;
 
 namespace ProofOfConcept.Samples
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using Ninject;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
+using ProofOfConcept.Configuration;
 
 namespace ProofOfConcept.Selenium
 {

@@ -1,4 +1,5 @@
 ﻿using Ninject;
+using ProofOfConcept.Configuration;
 using ProofOfConcept.Services;
 
 namespace ProofOfConcept.ComponentTests.TestObjects.Contexts

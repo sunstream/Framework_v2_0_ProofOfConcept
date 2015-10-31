@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Ninject;
+using ProofOfConcept.Configuration;
 using ProofOfConcept.Utils;
 
 namespace ProofOfConcept

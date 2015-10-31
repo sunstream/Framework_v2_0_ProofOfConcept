@@ -2,6 +2,7 @@
 using System.Linq;
 using Ninject;
 using ProofOfConcept.Behaviors;
+using ProofOfConcept.Configuration;
 
 namespace ProofOfConcept
 {
@@ -26,8 +27,8 @@ namespace ProofOfConcept
                        (_elementHandler = DependencyManager.Kernel.Get<INativeElementHandler>(Tool.ToString()));
             }
         } 
-        private ToolFamily? _tool;
-        public ToolFamily Tool
+        private AutomationTool? _tool;
+        public AutomationTool Tool
         {
             get
             {

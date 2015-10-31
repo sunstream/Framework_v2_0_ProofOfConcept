@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Ninject;
 using OpenQA.Selenium;
+using ProofOfConcept.Configuration;
 using ProofOfConcept.Services;
 
 namespace ProofOfConcept.Selenium

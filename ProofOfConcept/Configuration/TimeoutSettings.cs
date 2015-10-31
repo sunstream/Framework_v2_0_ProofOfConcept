@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Configuration;
 
-namespace ProofOfConcept
+namespace ProofOfConcept.Configuration
 {
-    public interface ITimeoutSettings
-    {
-        TimeSpan ElementTimeout { get; set; }
-        TimeSpan PageTimeout { get; set; }
-    }
-
     public class TimeoutSettings : ConfigurationSection, ITimeoutSettings
     {
         public const string ElementTimeoutDefault = "00:00:10";

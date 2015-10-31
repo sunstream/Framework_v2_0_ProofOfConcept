@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
+using ProofOfConcept.Configuration;
 using ProofOfConcept.Services;
 
 namespace ProofOfConcept.ComponentTests.TestTemplates

@@ -1,4 +1,5 @@
 ﻿using System;
+using ProofOfConcept.Configuration;
 
 namespace ProofOfConcept.Services
 {
