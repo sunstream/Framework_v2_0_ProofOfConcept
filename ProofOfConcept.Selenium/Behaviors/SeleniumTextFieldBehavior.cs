@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Threading;
 using Ninject;
 using OpenQA.Selenium;
 using ProofOfConcept.Behaviors;
+using ProofOfConcept.Configuration;
 
 namespace ProofOfConcept.Selenium.Behaviors
 {
@@ -24,6 +26,8 @@ namespace ProofOfConcept.Selenium.Behaviors
         {
             NativeElement.Clear();
             NativeElement.SendKeys(textValue);
+//            //TODO: replace with flexible wait until field is populated
+//            Thread.Sleep(500);
         }
 
         public string GetText()
@@ -36,6 +40,8 @@ namespace ProofOfConcept.Selenium.Behaviors
             NativeElement.Click();
             NativeElement.SendKeys(Keys.End);
             NativeElement.SendKeys(textValue);
+//            //TODO: replace with flexible wait until field is populated
+//            Thread.Sleep(500);
         }
 
         public void Clear()

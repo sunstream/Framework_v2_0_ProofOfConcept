@@ -8,8 +8,9 @@ namespace ProofOfConcept.Configuration
     {
         private readonly DependencyElement _element;
         public bool IsSingleton;
+        public bool IsThreadLocal;
         public bool IsSelfBound;
-        public bool HasautomationTool;
+        public bool HasAutomationTool;
 
         public readonly Type BaseType;
         public readonly Type ResolvingType;
@@ -20,7 +21,8 @@ namespace ProofOfConcept.Configuration
 
             IsSingleton = element.IsSingleton;
             IsSelfBound = element.InterfaceName == element.ClassName;
-            HasautomationTool = element.HasautomationToolParameter;
+            HasAutomationTool = element.HasAutomationToolParameter;
+            IsThreadLocal = element.IsThreadLocal;
 
             BaseType = GetType(element.InterfaceName);
             ResolvingType = GetType(element.ClassName);
@@ -30,13 +32,17 @@ namespace ProofOfConcept.Configuration
         {
             var initialState = kernel.Bind(BaseType);
             var boundState = IsSelfBound ? initialState.ToSelf() : initialState.To(ResolvingType);
-            if (HasautomationTool)
+            if (HasAutomationTool)
             {
                 boundState.Named(_element.automationTool);
             }
             if (IsSingleton)
             {
                 boundState.InSingletonScope();
+            }
+            else if (_element.IsThreadLocal)
+            {
+                boundState.InThreadScope();
             }
         }
 

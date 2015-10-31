@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
-using ProofOfConcept.ComponentTests.TestObjects.Contexts;
-using ProofOfConcept.ComponentTests.TestObjects.Pages;
-using ProofOfConcept.ComponentTests.TestTemplates;
 using ProofOfConcept.Configuration;
+using ProofOfConcept.Tests.Component.TestObjects.Contexts;
+using ProofOfConcept.Tests.Component.TestObjects.Pages;
+using ProofOfConcept.Tests.Component.TestTemplates;
 
-namespace ProofOfConcept.Samples.Behaviors
+namespace ProofOfConcept.Tests.Samples.Behaviors
 {
     [TestClass]
     public class HtmlButtonTests : UiTestDriverClosedBetweenTests

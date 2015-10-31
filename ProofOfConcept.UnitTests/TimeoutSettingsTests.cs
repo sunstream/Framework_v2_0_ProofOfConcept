@@ -3,7 +3,7 @@ using System.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProofOfConcept.Configuration;
 
-namespace ProofOfConcept.UnitTests
+namespace ProofOfConcept.Tests.Unit
 {
     [TestClass]
     public class TimeoutConfigurationTests
@@ -11,23 +11,23 @@ namespace ProofOfConcept.UnitTests
         [TestCleanup]
         public void RestoreDefaultTimeouts()
         {
-            Settings.TimeoutSettings.ElementTimeout = ((TimeoutSettings) ConfigurationManager.GetSection(TimeoutSettings.SectionName)).ElementTimeout;
-            Settings.TimeoutSettings.PageTimeout = ((TimeoutSettings)ConfigurationManager.GetSection(TimeoutSettings.SectionName)).PageTimeout;
+            SettingsService.TimeoutSettings.ElementTimeout = ((TimeoutSettings) ConfigurationManager.GetSection(TimeoutSettings.SectionName)).ElementTimeout;
+            SettingsService.TimeoutSettings.PageTimeout = ((TimeoutSettings)ConfigurationManager.GetSection(TimeoutSettings.SectionName)).PageTimeout;
         }
 
         [TestMethod]
         public void TestChangesElementTimeout()
         {
             var value = new TimeSpan(0, 0, 1);
-            Settings.TimeoutSettings.ElementTimeout = value;
-            Assert.AreEqual(value, Settings.TimeoutSettings.ElementTimeout);
+            SettingsService.TimeoutSettings.ElementTimeout = value;
+            Assert.AreEqual(value, SettingsService.TimeoutSettings.ElementTimeout);
         }
 
         public void TestChangesPageTimeout()
         {
             var value = new TimeSpan(0, 0, 1);
-            Settings.TimeoutSettings.PageTimeout = value;
-            Assert.AreEqual(value, Settings.TimeoutSettings.PageTimeout);
+            SettingsService.TimeoutSettings.PageTimeout = value;
+            Assert.AreEqual(value, SettingsService.TimeoutSettings.PageTimeout);
         }
 
         [TestMethod]
@@ -47,21 +47,21 @@ namespace ProofOfConcept.UnitTests
         [TestMethod]
         public void TestVerifiesThatElementSearchConfigurationExists()
         {
-            Assert.IsNotNull(Settings.TimeoutSettings);
+            Assert.IsNotNull(SettingsService.TimeoutSettings);
         }
 
         [TestMethod]
         public void TestValidatesElementTimeoutProperty()
         {
             var elementSearchConfigurationSettings = (TimeoutSettings)ConfigurationManager.GetSection(TimeoutSettings.SectionName);
-            Assert.AreEqual(elementSearchConfigurationSettings.ElementTimeout, Settings.TimeoutSettings.ElementTimeout);
+            Assert.AreEqual(elementSearchConfigurationSettings.ElementTimeout, SettingsService.TimeoutSettings.ElementTimeout);
         }
 
         [TestMethod]
         public void TestValidatesPageTimeoutProperty()
         {
             var elementSearchConfigurationSettings = (TimeoutSettings)ConfigurationManager.GetSection(TimeoutSettings.SectionName);
-            Assert.AreEqual(elementSearchConfigurationSettings.PageTimeout, Settings.TimeoutSettings.PageTimeout);
+            Assert.AreEqual(elementSearchConfigurationSettings.PageTimeout, SettingsService.TimeoutSettings.PageTimeout);
         }
 
 

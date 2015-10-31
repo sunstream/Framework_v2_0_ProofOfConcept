@@ -31,14 +31,20 @@ namespace ProofOfConcept.Configuration
             get { return (bool)this["isSingleton"]; }
         }
 
-        public bool HasautomationToolParameter
+        [ConfigurationProperty("isThreadLocal", IsRequired = false)]
+        public bool IsThreadLocal
+        {
+            get { return (bool)this["isThreadLocal"]; }
+        }
+
+        public bool HasAutomationToolParameter
         {
             get { return !string.IsNullOrEmpty(automationTool); }
         }
 
         public string Describe()
         {
-            string description = HasautomationToolParameter ? 
+            string description = HasAutomationToolParameter ? 
                 string.Format("Interface [{0}] is resolved by [{1}] for {2} test objects.", InterfaceName, ClassName, automationTool) : 
                 string.Format("Interface [{0}] is always resolved by [{1}].", InterfaceName, ClassName);
             return description;

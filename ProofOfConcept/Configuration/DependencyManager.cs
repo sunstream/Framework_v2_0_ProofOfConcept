@@ -79,7 +79,7 @@ namespace ProofOfConcept.Configuration
 //                    else
 //                    {
 //                        Type resolvedByType = Type.GetType(dependency.ClassName);
-//                        if (dependency.HasautomationToolParameter)
+//                        if (dependency.HasAutomationToolParameter)
 //                        {
 //                            if (dependency.IsSingleton)
 //                            {

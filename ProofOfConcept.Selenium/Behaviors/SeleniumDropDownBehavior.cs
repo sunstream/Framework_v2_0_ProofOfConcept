@@ -34,5 +34,12 @@ namespace ProofOfConcept.Selenium.Behaviors
             return false;
 
         }
+
+        public string GetSelected()
+        {
+            SelectElement s = new SelectElement(NativeElement);
+            IWebElement selectedOption = s.AllSelectedOptions.FirstOrDefault();
+            return selectedOption == null ? null : selectedOption.Text;
+        }
     }
 }

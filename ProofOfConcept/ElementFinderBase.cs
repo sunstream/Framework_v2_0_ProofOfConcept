@@ -34,7 +34,7 @@ namespace ProofOfConcept
                     }
                     if (_timeout == null)
                     {
-                        _timeout = Settings.TimeoutSettings.ElementTimeout;
+                        _timeout = SettingsService.TimeoutSettings.ElementTimeout;
                     }
                 }
                 return _timeout;

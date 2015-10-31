@@ -1,15 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using OpenQA.Selenium;
-using ProofOfConcept.ComponentTests.TestObjects.Contexts;
-using ProofOfConcept.ComponentTests.TestObjects.Pages;
-using ProofOfConcept.ComponentTests.TestTemplates;
 using ProofOfConcept.Configuration;
+using ProofOfConcept.Tests.Component.TestObjects.Contexts;
+using ProofOfConcept.Tests.Component.TestObjects.Pages;
+using ProofOfConcept.Tests.Component.TestTemplates;
 
-namespace ProofOfConcept.ComponentTests.ElementBehaviorTests
+namespace ProofOfConcept.Tests.Component.ElementBehaviorTests
 {
     [TestClass]
-    public class HtmlTextFieldTest : UiTestDriverSharedBetweenTests
+    public class HtmlTextFieldTest : UiTest
     {
         private static LoginContext _loginContext;
         private static InvestorDashboardPage _dashboard;
@@ -17,11 +17,19 @@ namespace ProofOfConcept.ComponentTests.ElementBehaviorTests
         [ClassInitialize]
         public static void Init(TestContext context)
         {
+            ShareDriverBetweenSessions();
+
             _loginContext = new LoginContext();
             _loginContext.OpenApplication();
             _loginContext.LoginToApplication();
 
             _dashboard = DependencyManager.Kernel.Get<IPageFactory>().Create<InvestorDashboardPage>();
+        }
+
+        [ClassCleanup]
+        public static void Teardown()
+        {
+            KillDriverIfLaunched();
         }
 
         [TestMethod]
@@ -36,7 +44,7 @@ namespace ProofOfConcept.ComponentTests.ElementBehaviorTests
         [TestMethod]
         public void GetTextTest()
         {
-            Assert.AreEqual(_dashboard.DealAccessCode.GetText(), ((IWebElement)_dashboard.DealAccessCode.NativeElement).Text);
+            Assert.AreEqual(_dashboard.DealAccessCode.GetText(), ((IWebElement)_dashboard.DealAccessCode.NativeElement).GetAttribute("value"));
         }
 
         [TestMethod]
@@ -46,7 +54,7 @@ namespace ProofOfConcept.ComponentTests.ElementBehaviorTests
             const string textValue2 = ", World!";
 
             _dashboard.DealAccessCode.AppendText(textValue1);
-            StringAssert.EndsWith(textValue1, _dashboard.DealAccessCode.GetText());
+            StringAssert.EndsWith(_dashboard.DealAccessCode.GetText(), textValue1);
 
             _dashboard.DealAccessCode.AppendText(textValue2);
             StringAssert.EndsWith(_dashboard.DealAccessCode.GetText(), string.Format("{0}{1}", textValue1, textValue2));

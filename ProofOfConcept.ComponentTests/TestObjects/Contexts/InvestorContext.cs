@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProofOfConcept.ComponentTests.TestObjects.Pages;
+using ProofOfConcept.Tests.Component.TestObjects.Pages;
 
-namespace ProofOfConcept.ComponentTests.TestObjects.Contexts
+namespace ProofOfConcept.Tests.Component.TestObjects.Contexts
 {
     public class InvestorContext : ContextBase
     {
-        private InvestorDashboardPage _investorDashboardPage;
+        public InvestorDashboardPage InvestorDashboardPage;
 
         public void VerifyLandingPageUrl()
         {
@@ -17,8 +17,8 @@ namespace ProofOfConcept.ComponentTests.TestObjects.Contexts
 
         public void SelectDealTypeOnInvestorDashboardPage(string dealType)
         {
-            _investorDashboardPage = PageFactory.Create<InvestorDashboardPage>();
-            _investorDashboardPage.DealTypeFilter.Select(dealType);
+            InvestorDashboardPage = PageFactory.Create<InvestorDashboardPage>();
+            InvestorDashboardPage.DealTypeFilter.Select(dealType);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProofOfConcept.ComponentTests.TestObjects.Contexts;
-using ProofOfConcept.ComponentTests.TestTemplates;
+using ProofOfConcept.Tests.Component.TestObjects.Contexts;
+using ProofOfConcept.Tests.Component.TestTemplates;
 
-namespace ProofOfConcept.Samples
+namespace ProofOfConcept.Tests.Samples
 {
     [TestClass]
     public class SampleRoadshowAccessTest : UiTestDriverClosedBetweenTests
@@ -10,6 +10,12 @@ namespace ProofOfConcept.Samples
         private LoginContext _loginContext;
         private InvestorContext _investorContext;
         
+        [ClassInitialize]
+        public static void SetupDriver(TestContext context)
+        {
+            CloseDriverBetweenSessions();
+        }
+
         [TestInitialize]
         public void InitContext()
         {
@@ -32,12 +38,5 @@ namespace ProofOfConcept.Samples
             _investorContext.VerifyLandingPageUrl();
         }
 
-        [TestMethod]
-        public void TestSelectsDealTypeOnInvestorDashboard()
-        {
-            _loginContext.OpenApplication();
-            _loginContext.LoginToApplication();
-            _investorContext.SelectDealTypeOnInvestorDashboardPage("All Deals");
-        }
     }
 }

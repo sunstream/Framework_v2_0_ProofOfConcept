@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProofOfConcept.ComponentTests.TestObjects.Pages;
+using ProofOfConcept.Tests.Component.TestObjects.Pages;
 
-namespace ProofOfConcept.ComponentTests.TestObjects.Contexts
+namespace ProofOfConcept.Tests.Component.TestObjects.Contexts
 {
     public class LoginContext : ContextBase
     {

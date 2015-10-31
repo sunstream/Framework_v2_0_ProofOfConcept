@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept", "ProofOfConcept\ProofOfConcept.csproj", "{DD19B448-FEB7-40A8-A235-7E23B8D04BBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.Samples", "ProofOfConcept.Tests\ProofOfConcept.Samples.csproj", "{61E85667-E783-481E-8F6A-3C9A3BE5B671}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.Tests.Samples", "ProofOfConcept.Tests\ProofOfConcept.Tests.Samples.csproj", "{61E85667-E783-481E-8F6A-3C9A3BE5B671}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.Selenium", "ProofOfConcept.Selenium\ProofOfConcept.Selenium.csproj", "{E241D265-27A0-4D3D-AEF7-B6B5DD639164}"
 EndProject
@@ -13,9 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.Utils", "Pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.Services", "ProofOfConcept.Services\ProofOfConcept.Services.csproj", "{16256FA4-36C1-41A0-A69B-CAFD7D4C6499}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.UnitTests", "ProofOfConcept.UnitTests\ProofOfConcept.UnitTests.csproj", "{7DC92F62-6E78-4853-980F-7AD0EF3F6BE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.Tests.Unit", "ProofOfConcept.UnitTests\ProofOfConcept.Tests.Unit.csproj", "{7DC92F62-6E78-4853-980F-7AD0EF3F6BE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.ComponentTests", "ProofOfConcept.ComponentTests\ProofOfConcept.ComponentTests.csproj", "{290EBD1C-629E-432C-B943-D8E32DBDC30E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.Tests.Component", "ProofOfConcept.ComponentTests\ProofOfConcept.Tests.Component.csproj", "{290EBD1C-629E-432C-B943-D8E32DBDC30E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -29,7 +29,7 @@ namespace ProofOfConcept.Services
             while (!urlValid)
             {
                 urlValid = String.Compare(Driver.GetCurrentUrl(), expectedUrl, StringComparison.InvariantCultureIgnoreCase) == 0;
-                if (stopwatch.Elapsed >= Settings.TimeoutSettings.PageTimeout) break;
+                if (stopwatch.Elapsed >= SettingsService.TimeoutSettings.PageTimeout) break;
 
             }
             return urlValid;

@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProofOfConcept.ComponentTests.TestTemplates;
+using ProofOfConcept.Tests.Component.TestTemplates;
 
-namespace ProofOfConcept.ComponentTests.ElementBehaviorTests
+namespace ProofOfConcept.Tests.Component.ElementBehaviorTests
 {
     [TestClass]
-    public class HtmlRadioButtonTests : UiTestDriverSharedBetweenTests
+    public class HtmlRadioButtonTests : UiTest
     {
     }
 }

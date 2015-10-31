@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Configuration;
 using System.Threading;
+using Ninject;
 
 namespace ProofOfConcept.Configuration
 {
-    public static class Settings
+    public static class SettingsService
     {
         private static readonly ThreadLocal<TimeoutSettings> _timeoutSettings 
             = new ThreadLocal<TimeoutSettings>();
@@ -21,6 +22,7 @@ namespace ProofOfConcept.Configuration
             }
         }
 
+        //public static NavigationService 
 
         private static T GetConfiguration<T>()
         {

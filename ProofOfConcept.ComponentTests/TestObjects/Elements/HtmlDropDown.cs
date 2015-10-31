@@ -1,6 +1,6 @@
 ﻿using ProofOfConcept.Behaviors;
 
-namespace ProofOfConcept.ComponentTests.TestObjects.Elements
+namespace ProofOfConcept.Tests.Component.TestObjects.Elements
 {
     public class HtmlDropDown : ElementBase, IDropDownBehavior
     {
@@ -17,6 +17,11 @@ namespace ProofOfConcept.ComponentTests.TestObjects.Elements
         public bool IsSelected(string value)
         {
             return _dropDownBehavior.IsSelected(value);
+        }
+
+        public string GetSelected()
+        {
+            return _dropDownBehavior.GetSelected();
         }
     }
 }

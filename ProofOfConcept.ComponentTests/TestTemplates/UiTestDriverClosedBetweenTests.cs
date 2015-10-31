@@ -3,19 +3,19 @@ using Ninject;
 using ProofOfConcept.Configuration;
 using ProofOfConcept.Services;
 
-namespace ProofOfConcept.ComponentTests.TestTemplates
+namespace ProofOfConcept.Tests.Component.TestTemplates
 {
     [TestClass]
     [DeploymentItem("chromedriver.exe")]
     [DeploymentItem("ProofOfConcept.Selenium.dll")]
-    public class UiTestDriverClosedBetweenTests
+    public class UiTestDriverClosedBetweenTests : UiTest
     {
-        [ClassInitialize]
-        public void ShareDriverBetweenSessions()
-        {
-            NavigationService navigationService = DependencyManager.Kernel.Get<NavigationService>();
-            navigationService.CloseDriverBetweenTests();
-        }
+//        [ClassInitialize]
+//        public void ShareDriverBetweenSessions()
+//        {
+//            NavigationService navigationService = DependencyManager.Kernel.Get<NavigationService>();
+//            navigationService.CloseDriverBetweenTests();
+//        }
 
         [TestCleanup]
         public void KillDriverIfLaunched()

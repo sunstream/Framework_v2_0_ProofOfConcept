@@ -2,7 +2,7 @@
 using ProofOfConcept.Configuration;
 using ProofOfConcept.Services;
 
-namespace ProofOfConcept.ComponentTests.TestObjects.Contexts
+namespace ProofOfConcept.Tests.Component.TestObjects.Contexts
 {
     public class ContextBase
     {

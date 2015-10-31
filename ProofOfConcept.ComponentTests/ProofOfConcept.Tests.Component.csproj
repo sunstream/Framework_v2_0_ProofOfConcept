@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7DC92F62-6E78-4853-980F-7AD0EF3F6BE2}</ProjectGuid>
+    <ProjectGuid>{290EBD1C-629E-432C-B943-D8E32DBDC30E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProofOfConcept.UnitTests</RootNamespace>
-    <AssemblyName>ProofOfConcept.UnitTests</AssemblyName>
+    <RootNamespace>ProofOfConcept.Tests.Component</RootNamespace>
+    <AssemblyName>ProofOfConcept.Tests.Component</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,8 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="WebDriver, Version=2.48.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.2.48.0\lib\net40\WebDriver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -51,18 +59,37 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="TimeoutSettingsTests.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="ElementBehaviorTests\HtmlButtonTests.cs" />
+    <Compile Include="ElementBehaviorTests\HtmlCheckBoxTests.cs" />
+    <Compile Include="ElementBehaviorTests\HtmlDropDownTests.cs" />
+    <Compile Include="ElementBehaviorTests\HtmlRadioButtonTests.cs" />
+    <Compile Include="ElementBehaviorTests\HtmlTextFieldTest.cs" />
+    <Compile Include="TestObjects\Contexts\ContextBase.cs" />
+    <Compile Include="TestObjects\Contexts\InvestorContext.cs" />
+    <Compile Include="TestObjects\Contexts\LoginContext.cs" />
+    <Compile Include="TestObjects\Elements\HtmlButton.cs" />
+    <Compile Include="TestObjects\Elements\HtmlCheckBox.cs" />
+    <Compile Include="TestObjects\Elements\HtmlDropDown.cs" />
+    <Compile Include="TestObjects\Elements\HtmlRadioButton.cs" />
+    <Compile Include="TestObjects\Elements\HtmlTextField.cs" />
+    <Compile Include="TestObjects\Pages\InvestorDashboardPage.cs" />
+    <Compile Include="TestObjects\Pages\LoginPage.cs" />
+    <Compile Include="TestTemplates\UiTest.cs" />
+    <Compile Include="TestTemplates\UiTestDriverClosedBetweenTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProofOfConcept.Selenium\ProofOfConcept.Selenium.csproj">
+      <Project>{e241d265-27a0-4d3d-aef7-b6b5dd639164}</Project>
+      <Name>ProofOfConcept.Selenium</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProofOfConcept.Services\ProofOfConcept.Services.csproj">
       <Project>{16256fa4-36c1-41a0-a69b-cafd7d4c6499}</Project>
       <Name>ProofOfConcept.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProofOfConcept.Utils\ProofOfConcept.Utils.csproj">
-      <Project>{665accbe-1b9a-4c42-a11f-97e6ee4583ee}</Project>
-      <Name>ProofOfConcept.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProofOfConcept\ProofOfConcept.csproj">
       <Project>{dd19b448-feb7-40a8-a235-7e23b8d04bbc}</Project>
@@ -70,7 +97,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

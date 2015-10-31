@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ProofOfConcept.Samples
+namespace ProofOfConcept.Tests.Samples
 {
     [TestClass]
     public class DependencyManagerTests

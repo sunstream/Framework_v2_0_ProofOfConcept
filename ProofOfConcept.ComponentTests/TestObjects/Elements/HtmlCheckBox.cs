@@ -1,7 +1,7 @@
 ﻿using ProofOfConcept.Behaviors;
 using ProofOfConcept.Behaviors.Traits;
 
-namespace ProofOfConcept.ComponentTests.TestObjects.Elements
+namespace ProofOfConcept.Tests.Component.TestObjects.Elements
 {
     public class HtmlCheckBox : ElementBase, ICheckable, ITextReadable
     {

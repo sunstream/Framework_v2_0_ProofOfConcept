@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProofOfConcept.ComponentTests.TestObjects.Contexts;
-using ProofOfConcept.ComponentTests.TestObjects.Elements;
+using ProofOfConcept.Tests.Component.TestObjects.Contexts;
+using ProofOfConcept.Tests.Component.TestObjects.Elements;
 
-namespace ProofOfConcept.Samples.Behaviors
+namespace ProofOfConcept.Tests.Samples.Behaviors
 {
     [TestClass]
     public class HtmlCheckBoxTests

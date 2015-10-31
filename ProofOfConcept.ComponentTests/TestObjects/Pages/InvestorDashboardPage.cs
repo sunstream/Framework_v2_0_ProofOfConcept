@@ -1,7 +1,7 @@
-﻿using ProofOfConcept.ComponentTests.TestObjects.Elements;
-using ProofOfConcept.Selenium;
+﻿using ProofOfConcept.Selenium;
+using ProofOfConcept.Tests.Component.TestObjects.Elements;
 
-namespace ProofOfConcept.ComponentTests.TestObjects.Pages
+namespace ProofOfConcept.Tests.Component.TestObjects.Pages
 {
     public class InvestorDashboardPage : IPage
     {
