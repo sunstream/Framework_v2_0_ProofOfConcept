@@ -20,7 +20,7 @@ namespace ProofOfConcept.Services
         public void ShareDriverBetweenTests()
         {
             const bool driverIsSingleton = true;
-            Driver.Stop();
+            if (Driver.DriverCreated && Driver.ApplicationStarted) Driver.Stop();
             SwitchDriverMode(driverIsSingleton);
         }
 

@@ -4,6 +4,10 @@ namespace ProofOfConcept
 {
     public interface IDriverDecorator
     {
+        bool DriverCreated { get; set; }
+
+        bool ApplicationStarted { get; set; }
+
         void NavigateTo(string url);
 
         string GetCurrentUrl();

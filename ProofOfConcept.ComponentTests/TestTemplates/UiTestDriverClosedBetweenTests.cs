@@ -10,17 +10,10 @@ namespace ProofOfConcept.Tests.Component.TestTemplates
     [DeploymentItem("ProofOfConcept.Selenium.dll")]
     public class UiTestDriverClosedBetweenTests : UiTest
     {
-//        [ClassInitialize]
-//        public void ShareDriverBetweenSessions()
-//        {
-//            NavigationService navigationService = DependencyManager.Kernel.Get<NavigationService>();
-//            navigationService.CloseDriverBetweenTests();
-//        }
-
         [TestCleanup]
-        public void KillDriverIfLaunched()
+        public void CloseDriver()
         {
-            DependencyManager.Kernel.Get<NavigationService>().Stop();
+            KillDriverIfLaunched();
         }
     }
 }

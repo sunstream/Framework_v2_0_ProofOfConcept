@@ -15,12 +15,29 @@ namespace ProofOfConcept.Selenium
         {
             get
             {
-                if (_driver == null || IsDisposed())
+                if (!DriverCreated)
                 {
                     _driver = DependencyManager.Kernel.Get<IWebDriver>();
                 }
                 return _driver;
             }
+        }
+
+        public bool DriverCreated
+        {
+            get { return !(_driver == null || IsDisposed()); }
+            set { }
+        }
+
+        public bool ApplicationStarted
+        {
+            get
+            {
+                if (DriverCreated)
+                    return _driver.Url != "data:,";
+                return false;
+            }
+            set { }
         }
 
         private bool IsDisposed()
