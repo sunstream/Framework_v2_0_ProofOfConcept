@@ -1,10 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProofOfConcept.Samples.TestObjects.Contexts;
+using ProofOfConcept.ComponentTests.TestObjects.Contexts;
+using ProofOfConcept.ComponentTests.TestTemplates;
 
 namespace ProofOfConcept.Samples
 {
     [TestClass]
-    public class SampleRoadshowAccessTest : BaseMsTest
+    public class SampleRoadshowAccessTest : UiTestDriverClosedBetweenTests
     {
         private LoginContext _loginContext;
         private InvestorContext _investorContext;

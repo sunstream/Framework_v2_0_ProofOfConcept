@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProofOfConcept.Samples.TestObjects.Contexts;
-using ProofOfConcept.Samples.TestObjects.Elements;
+using ProofOfConcept.ComponentTests.TestObjects.Contexts;
+using ProofOfConcept.ComponentTests.TestObjects.Elements;
 
 namespace ProofOfConcept.Samples.Behaviors
 {

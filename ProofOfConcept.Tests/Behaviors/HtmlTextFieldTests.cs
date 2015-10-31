@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using OpenQA.Selenium;
-using ProofOfConcept.Samples.TestObjects.Contexts;
-using ProofOfConcept.Samples.TestObjects.Pages;
+using ProofOfConcept.ComponentTests.TestObjects.Contexts;
+using ProofOfConcept.ComponentTests.TestObjects.Pages;
 
 namespace ProofOfConcept.Samples.Behaviors
 {

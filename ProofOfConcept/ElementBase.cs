@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Ninject;
-using ProofOfConcept;
 using ProofOfConcept.Behaviors;
 
 namespace ProofOfConcept
@@ -100,12 +99,12 @@ namespace ProofOfConcept
             set { }
         }
     }
-}
 
-public static class IElementExtensions
-{
-    public static void InitFromBase(this IElement element, IElement baseElement)
+    public static class IElementExtensions
     {
-        element.SearchConfiguration = baseElement.SearchConfiguration;
+        public static void InitFromBase(this IElement element, IElement baseElement)
+        {
+            element.SearchConfiguration = baseElement.SearchConfiguration;
+        }
     }
 }

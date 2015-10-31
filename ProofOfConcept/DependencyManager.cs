@@ -52,16 +52,20 @@ namespace ProofOfConcept
                         }
                         throw;
                     }
-                    //_activeTool.Value = defaultToolName;
                 }
                 return ActiveTool.Value;
             }
             set { ActiveTool.Value = value; }
         }
 
+        public static DependencyConfiguration GetDependencyConfiguration()
+        {
+            return (DependencyConfiguration)ConfigurationManager.GetSection(DependencyConfiguration.SectionName);
+        }
+
         private static IKernel InitKernel()
         {
-            DependencyConfiguration configuration = (DependencyConfiguration) ConfigurationManager.GetSection(DependencyConfiguration.SectionName);
+            DependencyConfiguration configuration = GetDependencyConfiguration();
             IKernel kernel = new StandardKernel();
             foreach (DependencyElement dependency in configuration.Dependencies)
             {
@@ -142,45 +146,44 @@ namespace ProofOfConcept
 //                }
                 #endregion
 
-                new DependencyBuilder(dependency).Build(kernel);
+                new DependencyParser(dependency).ParseBinding(kernel);
             }
             return kernel;
         }
-        
 
     }
 
-    public class DependencyBuilder
+    public class DependencyParser
     {
-        private DependencyElement element;
-        private bool isSingleton;
-        private bool isSelfBound;
-        private bool hasToolFamily;
+        private readonly DependencyElement _element;
+        public bool IsSingleton;
+        public bool IsSelfBound;
+        public bool HasToolFamily;
 
-        private Type baseType;
-        private Type resolvingType;
+        public readonly Type BaseType;
+        public readonly Type ResolvingType;
 
-        public DependencyBuilder(DependencyElement element)
+        public DependencyParser(DependencyElement element)
         {
-            this.element = element;
+            this._element = element;
 
-            isSingleton = element.IsSingleton;
-            isSelfBound = element.InterfaceName == element.ClassName;
-            hasToolFamily = element.HasToolFamilyParameter;
+            IsSingleton = element.IsSingleton;
+            IsSelfBound = element.InterfaceName == element.ClassName;
+            HasToolFamily = element.HasToolFamilyParameter;
 
-            baseType = GetType(element.InterfaceName);
-            resolvingType = GetType(element.ClassName);
+            BaseType = GetType(element.InterfaceName);
+            ResolvingType = GetType(element.ClassName);
         }
 
-        public void Build(IKernel kernel)
+        public void ParseBinding(IKernel kernel)
         {
-            var initialState = kernel.Bind(baseType);
-            var boundState = isSelfBound ? initialState.ToSelf() : initialState.To(resolvingType);
-            if (hasToolFamily)
+            var initialState = kernel.Bind(BaseType);
+            var boundState = IsSelfBound ? initialState.ToSelf() : initialState.To(ResolvingType);
+            if (HasToolFamily)
             {
-                boundState.Named(element.ToolFamily);
+                boundState.Named(_element.ToolFamily);
             }
-            if (isSingleton)
+            if (IsSingleton)
             {
                 boundState.InSingletonScope();
             }
@@ -198,7 +201,7 @@ namespace ProofOfConcept
                 throw new DependencyConfigurationException(
                     string.Format(
                         "No proper type name provided in dependency configuration node. Node description:{0}{1}{2}",
-                        element.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+                        _element.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
                     e);
             }
             catch (FileLoadException e)
@@ -206,7 +209,7 @@ namespace ProofOfConcept
                 throw new DependencyConfigurationException(
                     string.Format(
                         "Failed to load the assembly described in the node (or one of its dependencies). Node description:{0}{1}{2}",
-                        element.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+                        _element.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
                     e);
             }
             catch (BadImageFormatException e)
@@ -214,7 +217,7 @@ namespace ProofOfConcept
                 throw new DependencyConfigurationException(
                     string.Format(
                         "The assembly described in the node (or one of its dependencies) is invalid. Node description:{0}{1}{2}",
-                        element.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
+                        _element.Describe(), Environment.NewLine, DependencyElement.ProperNodeFormat),
                     e);
             }
             return result;

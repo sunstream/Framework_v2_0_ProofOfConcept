@@ -1,12 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
-using ProofOfConcept.Samples.TestObjects.Contexts;
-using ProofOfConcept.Samples.TestObjects.Pages;
+using ProofOfConcept.ComponentTests.TestObjects.Contexts;
+using ProofOfConcept.ComponentTests.TestObjects.Pages;
+using ProofOfConcept.ComponentTests.TestTemplates;
 
 namespace ProofOfConcept.Samples.Behaviors
 {
     [TestClass]
-    public class HtmlButtonTests : BaseMsTest
+    public class HtmlButtonTests : UiTestDriverClosedBetweenTests
     {
         private LoginContext _loginContext;
 

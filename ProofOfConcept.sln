@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.Utils", "Pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.Services", "ProofOfConcept.Services\ProofOfConcept.Services.csproj", "{16256FA4-36C1-41A0-A69B-CAFD7D4C6499}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.UnitTests", "ProofOfConcept.UnitTests\ProofOfConcept.UnitTests.csproj", "{7DC92F62-6E78-4853-980F-7AD0EF3F6BE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProofOfConcept.ComponentTests", "ProofOfConcept.ComponentTests\ProofOfConcept.ComponentTests.csproj", "{290EBD1C-629E-432C-B943-D8E32DBDC30E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{16256FA4-36C1-41A0-A69B-CAFD7D4C6499}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16256FA4-36C1-41A0-A69B-CAFD7D4C6499}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16256FA4-36C1-41A0-A69B-CAFD7D4C6499}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC92F62-6E78-4853-980F-7AD0EF3F6BE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC92F62-6E78-4853-980F-7AD0EF3F6BE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC92F62-6E78-4853-980F-7AD0EF3F6BE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC92F62-6E78-4853-980F-7AD0EF3F6BE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{290EBD1C-629E-432C-B943-D8E32DBDC30E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{290EBD1C-629E-432C-B943-D8E32DBDC30E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{290EBD1C-629E-432C-B943-D8E32DBDC30E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{290EBD1C-629E-432C-B943-D8E32DBDC30E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

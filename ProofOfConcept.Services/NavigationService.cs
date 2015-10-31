@@ -11,11 +11,6 @@ namespace ProofOfConcept.Services
         {
         }
 
-        public TDriverType GetDriver<TDriverType>() where TDriverType : class
-        {
-            return Driver.GetDriver<TDriverType>();
-        }
-
         public void NavigateTo(string url)
         {
             Driver.NavigateTo(url);
